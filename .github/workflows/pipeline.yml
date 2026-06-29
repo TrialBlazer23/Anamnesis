@@ -6,6 +6,10 @@ on:
     branches: [ main ]
     paths:
       - 'pipeline/**'
+  pull_request:
+    paths:
+      - 'pipeline/**'
+      - '.github/workflows/pipeline.yml'
 
 jobs:
   content:
