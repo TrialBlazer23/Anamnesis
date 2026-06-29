@@ -63,8 +63,10 @@ Goal: a debug APK that builds green in CI **before any features are added**.
       (root `plugins { kotlin-jvm … apply false }` already declared — confirm it
       takes effect; fall back to a `buildscript` classpath entry if not).
 - [ ] `./gradlew assembleDebug` is green in GitHub Actions; artifact uploads.
-- [ ] Add a release job: `assembleRelease` + `r0adkll/sign-android-release@v1`
-      with a base64 keystore + secrets. (Keep keystores out of git.)
+- [x] Release job: `release.yml` runs `assembleRelease` +
+      `r0adkll/sign-android-release@v1` on version tags. Needs the four signing
+      secrets (see `release.yml`); keystores stay out of git.
+- [x] CI runs `./gradlew test` (JVM unit tests) on every push/PR.
 - [ ] Minimal navigation graph (Compose Navigation) with placeholder routes for
       reader and SRS.
 
@@ -82,10 +84,12 @@ Goal: encrypted on-device DB, working scheduler, polytonic rendering.
       `sqlcipher-android` 4.16.0 via `SupportOpenHelperFactory`.
 - [ ] **Content import:** open the Phase 0 content pack read-only, or import it
       into the encrypted DB. Confirm FTS works through Room (`@Fts4`).
-- [ ] **FSRS-6:** vendor `open-spaced-repetition/FSRS-Kotlin` source into
-      `:feature:srs` (no Maven coord), retaining its MIT LICENSE and recording it
-      in `THIRD_PARTY_LICENSES.md`. Validate against `py-fsrs`/`fsrs-rs`.
-      Replace the placeholder in `feature/srs/Fsrs.kt`.
+- [x] **FSRS-6:** clean-room Kotlin port in `:feature:srs` (`Fsrs.kt` +
+      `Models.kt`), no Android deps, validated against py-fsrs/fsrs-rs reference
+      values with a JUnit suite (`FsrsTest.kt`, runs under `./gradlew test`).
+      Fixed the upstream FSRS-Kotlin exponential-forgetting-curve bug.
+  - [ ] Wire the scheduler to the review UI + persist memory state in the
+        encrypted DB (card table, due-card queries).
 - [ ] **Fonts:** bundle Gentium Plus 7.000 + `OFL.txt`; load as a Compose
       `FontFamily`; render NFC text. Add New Athena Unicode as fallback only if a
       glyph is missing.

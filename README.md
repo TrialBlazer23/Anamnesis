@@ -54,6 +54,29 @@ cd pipeline && pip install -r requirements-ci.txt
 python build_database.py --work tlg0562.tlg001 --out out/meditations.db
 ```
 
+## Continuous integration
+
+Everything builds and tests in **GitHub Actions** — no local Android Studio needed:
+
+| Workflow | Trigger | Does |
+|---|---|---|
+| `build.yml` | every push / PR | JVM unit tests (`./gradlew test`, incl. FSRS-6) + debug APK; uploads APK & test reports |
+| `pipeline.yml` | PRs touching `pipeline/`, pushes to `main`, manual | pytest + builds the Meditations content pack; uploads DB + manifest |
+| `release.yml` | version tag `v*` / manual | signed **release** APK |
+
+**What's automated:** debug builds, all unit tests, content-pack builds. Nothing
+is needed from you for those.
+
+**What needs you (one-time / when relevant):**
+- **Release signing** — add four repo secrets before tagging a release:
+  `SIGNING_KEY_BASE64`, `SIGNING_KEY_ALIAS`, `SIGNING_STORE_PASSWORD`,
+  `SIGNING_KEY_PASSWORD` (see the header of `release.yml` for how to make a keystore).
+- **Full content data** — the Greek text is fetched automatically; the **DCC
+  vocabulary CSV** and **Haines 1916 translation** sources are network-blocked
+  from the build sandbox, so drop those files in (or add a fetch step) when ready.
+  The pipeline already accepts them via `--vocab-csv` / `--translation`.
+- **Fonts** — bundle Gentium Plus 7.000 + `OFL.txt` (Phase 2 task).
+
 ## License
 
 **GPLv3** — see [`LICENSE`](LICENSE). Bundled third-party works retain their own

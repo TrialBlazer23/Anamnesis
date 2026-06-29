@@ -17,7 +17,7 @@ dependencies and data sources are added, and ship it inside the app.
 ## Libraries
 | Work | License | Notes |
 |---|---|---|
-| FSRS-Kotlin (vendored source, FSRS-6) | MIT | Retain LICENSE in `:feature:srs`; from open-spaced-repetition/FSRS-Kotlin |
+| FSRS-6 scheduler (clean-room Kotlin port in `:feature:srs`) | MIT | Ported from open-spaced-repetition/FSRS-Kotlin (MIT) and validated against py-fsrs/fsrs-rs; attribution in `Fsrs.kt` header |
 | SQLCipher (`net.zetetic:sqlcipher-android`) | BSD-style (Zetetic LLC) | Ship Zetetic notice |
 
 ## Texts & data
