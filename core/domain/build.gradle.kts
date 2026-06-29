@@ -23,6 +23,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.kotlinx.coroutines.android)
+    // Pure-domain module: no Android/coroutines deps until a use-case needs them.
     testImplementation(libs.junit)
 }

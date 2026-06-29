@@ -32,7 +32,7 @@ gradle/libs.versions.toml   Version catalog — single source of truth for versi
 
 The app builds in **GitHub Actions** with JDK 17 + the checked-in Gradle wrapper
 (9.6.1) + `android-actions/setup-android`. There is no expectation of a local
-Android Studio. The CI runner provisions the Android SDK so `compileSdk 36`
+Android Studio. The CI runner provisions the Android SDK so `compileSdk 37`
 resolves.
 
 ```bash
