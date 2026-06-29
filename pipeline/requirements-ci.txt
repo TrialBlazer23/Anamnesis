@@ -2,3 +2,4 @@
 # and must NOT run on-device — build the content databases here and ship them.
 -r requirements.txt
 cltk==1.5.0
+pytest

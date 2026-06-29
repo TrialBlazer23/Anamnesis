@@ -8,9 +8,14 @@ checklists. Check items off as they land.
 
 ## Status
 
-- [x] **Phase 1a — repo scaffold** (this commit): multi-module Gradle layout,
-  version catalog, wrapper (9.6.1), `.gitignore`, CI workflows, license/notice
-  files, Python pipeline skeleton, `CLAUDE.md`.
+- [x] **Phase 1a — repo scaffold**: multi-module Gradle layout, version catalog,
+  wrapper (9.6.1), `.gitignore`, CI workflows, license/notice files, `CLAUDE.md`.
+  Debug APK builds green in CI.
+- [x] **Phase 0 (core)** — pipeline builds the real *Meditations* content pack
+  from live Perseus TEI: generic CTS parser, NFC + diacritic-stripped keys,
+  FTS5 (accent-insensitive), versioned SHA-256 manifest, pytest suite in CI.
+  Remaining: real DCC vocab CSV + Haines translation (sources blocked from the
+  build sandbox — wire in CI).
 - [ ] Everything below.
 
 Phases 0 and 1 can proceed in parallel (pipeline is independent of the app).
@@ -22,17 +27,21 @@ Phases 0 and 1 can proceed in parallel (pipeline is independent of the app).
 Goal: produce the first **content pack** (SQLite + FTS5) and publish it as a CI
 artifact. No app code required.
 
-- [ ] Implement `pipeline/build_database.py` stages:
-  - [ ] `fetch_tei()` — pull canonical-greekLit TEI for `tlg0562.tlg001`
-        (Marcus Aurelius, *Meditations*) via Scaife/ATLAS or the raw GitHub TEI.
-  - [ ] `parse_passages()` — `lxml` TEI parse (CTS URN per passage), Beta Code →
-        Unicode via `betacode`, NFC-normalize via `unicodedata`.
-  - [ ] Populate `search_key` with `strip_diacritics()` (already implemented).
-  - [ ] Attach Haines 1916 facing English (public domain).
-  - [ ] Load DCC Greek Core Vocabulary (CC BY-SA 3.0) into `vocabulary`.
-  - [ ] Load an openly-licensed LSJ gloss (lsj9 CC BY 4.0, or LSJLogeion).
-- [ ] Verify FTS5 accent-insensitive search returns expected passages.
-- [ ] `pipeline.yml` publishes `out/meditations.db`. (Workflow already wired.)
+- [x] `fetch_tei()` — pull canonical-greekLit TEI for `tlg0562.tlg001` from the
+      raw GitHub TEI (cached).
+- [x] `parse_passages()` — generic `lxml` CTS textpart walker (URN per passage),
+      NFC-normalize via `unicodedata`. (Beta Code via `betacode` reserved for
+      Beta Code editions; `perseus-grc2` is already Unicode.)
+- [x] Populate `search_key` with `strip_diacritics()`.
+- [x] Verify FTS5 accent-insensitive search returns expected passages (test +
+      live run).
+- [x] `pipeline.yml` runs pytest then publishes `out/*.db` + `*.manifest.json`.
+- [ ] Attach Haines 1916 facing English (public domain) via `--translation`
+      JSON. Source (Wikisource/archive.org) is blocked from the build sandbox —
+      fetch/commit in CI.
+- [ ] Load real DCC Greek Core Vocabulary (CC BY-SA 3.0) via `--vocab-csv`
+      (loader done; `dcc.dickinson.edu` blocked from the sandbox).
+- [ ] Load an openly-licensed LSJ gloss (lsj9 CC BY 4.0, or LSJLogeion).
 - [ ] Ship content packs per the **hybrid delivery** decision (see below):
   - [ ] Bundle the starter pack (Meditations + DCC core vocab) in the APK as a
         plain read-only SQLite asset — **not** inside the encrypted user DB.
