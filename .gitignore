@@ -1,0 +1,35 @@
+# --- Gradle / Android ---
+.gradle/
+build/
+local.properties
+captures/
+*.apk
+*.aab
+
+# Signing keys — NEVER commit
+*.keystore
+*.jks
+keystore.properties
+
+# IDE
+.idea/
+*.iml
+.kotlin/
+
+# --- Python pipeline ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Generated content databases (build artifacts shipped as content packs)
+pipeline/out/
+pipeline/cache/
+*.db
+*.db-journal
+*.db-wal
+
+# OS
+.DS_Store
