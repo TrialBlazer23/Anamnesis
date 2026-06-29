@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.anamnesis.core.data"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 24

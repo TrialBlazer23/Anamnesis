@@ -25,7 +25,7 @@ in place; feature work has not started. See **[IMPLEMENTATION_PLAN.md](IMPLEMENT
 Kotlin 2.4.0 · AGP 9.1.1 · Gradle 9.6.1 · JDK 17 · Compose BOM 2026.06.00
 (Material3 1.4.0) · KSP 2.3.9 · Room 2.8.4 · `net.zetetic:sqlcipher-android`
 4.16.0 · FSRS-6 (vendored FSRS-Kotlin) · Gentium Plus 7.000 (SIL OFL).
-compileSdk 36 / targetSdk 35 / minSdk 24. Exact versions live in
+compileSdk 37 / targetSdk 35 / minSdk 24. Exact versions live in
 [`gradle/libs.versions.toml`](gradle/libs.versions.toml).
 
 ## Modules

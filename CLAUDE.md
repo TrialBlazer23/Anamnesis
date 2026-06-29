@@ -68,7 +68,9 @@ These are easy to get wrong; they break the build or violate a license.
 - **SQLCipher = `net.zetetic:sqlcipher-android` 4.16.0.** The legacy
   `android-database-sqlcipher` is EOL and lacks 16KB-page support (now required
   by Google Play). Passphrase goes via the constructor / `SupportOpenHelperFactory`.
-- **SDK levels:** compileSdk 36, targetSdk 35, minSdk 24.
+- **SDK levels:** compileSdk 37, targetSdk 35, minSdk 24. (The design doc says
+  compileSdk 36, but `androidx.lifecycle` 2.11.0 requires an API-37 floor and
+  AGP 9.1 supports up to 37; compileSdk may run ahead of targetSdk.)
 - **Fonts:** bundle **Gentium Plus 7.000** (SIL OFL). New Athena Unicode is the
   secondary fallback. **Never bundle Brill** (EULA forbids it).
 - **Greek text is NFC-normalized** for display; keep a separate diacritic-stripped
