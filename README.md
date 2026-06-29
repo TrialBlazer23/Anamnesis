@@ -56,5 +56,5 @@ python build_database.py --work tlg0562.tlg001 --out out/meditations.db
 
 ## License
 
-Intended: **GPLv3** (per the design doc) — to be confirmed. Bundled third-party
-works retain their own licenses; see `THIRD_PARTY_LICENSES.md` and `NOTICE`.
+**GPLv3** — see [`LICENSE`](LICENSE). Bundled third-party works retain their own
+licenses; see `THIRD_PARTY_LICENSES.md` and `NOTICE`.

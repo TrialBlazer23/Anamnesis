@@ -82,9 +82,8 @@ These are easy to get wrong; they break the build or violate a license.
 
 ## Licensing
 
-Project license is **GPLv3** per the design doc's recommendation (compatible
-with the GPLv3 Alpheios/Diogenes lineage and CC BY-SA data) — confirm before
-publishing. Every bundled font/library/text has attribution or ShareAlike
+Project license is **GPLv3** (see `LICENSE`) — compatible with the GPLv3
+Alpheios/Diogenes lineage and CC BY-SA data. Every bundled font/library/text has attribution or ShareAlike
 obligations tracked in `THIRD_PARTY_LICENSES.md`; keep it current and ship it in
 the app. Bundle only Morpheus/Diogenes *generated data*, never the GPL C
 binaries, to keep GPL code out of the APK.

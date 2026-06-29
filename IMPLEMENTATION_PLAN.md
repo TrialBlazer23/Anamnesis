@@ -33,8 +33,11 @@ artifact. No app code required.
   - [ ] Load an openly-licensed LSJ gloss (lsj9 CC BY 4.0, or LSJLogeion).
 - [ ] Verify FTS5 accent-insensitive search returns expected passages.
 - [ ] `pipeline.yml` publishes `out/meditations.db`. (Workflow already wired.)
-- [ ] Decide content-pack delivery: bundled asset vs. downloadable pack imported
-      into the encrypted user DB.
+- [ ] Ship content packs per the **hybrid delivery** decision (see below):
+  - [ ] Bundle the starter pack (Meditations + DCC core vocab) in the APK as a
+        plain read-only SQLite asset — **not** inside the encrypted user DB.
+  - [ ] Serve larger/optional packs (full LSJ, additional works) as downloads
+        behind a versioned manifest with per-pack SHA-256 checksums.
 
 **Done when:** CI produces a queryable `meditations.db` with passages + vocab and
 working diacritic-insensitive FTS.
@@ -110,8 +113,14 @@ Revisit these decisions if the ecosystem moves:
 - **Kotlin 2.4.20 reaches stable with KSP/Room/AGP caught up** → bump the catalog
   together (Kotlin == Compose Compiler must stay equal).
 
-## Open decisions to confirm with the maintainer
+## Resolved decisions
 
-- **Project license:** design doc recommends **GPLv3**; confirm given any
-  commercial intent (CC BY-SA data bundling is permitted commercially).
-- **Content-pack delivery:** bundled in the APK vs. downloaded post-install.
+- **Project license: GPLv3** (`LICENSE`). Compatible with the GPLv3
+  Alpheios/Diogenes lineage and the CC BY-SA data sources.
+- **Content-pack delivery: hybrid.** Bundle a small starter pack (first text +
+  DCC core vocab) so the app works offline on first launch; deliver larger /
+  optional content (full LSJ, more works) as downloads behind a versioned
+  manifest (per-pack SHA-256). Content packs are plain read-only SQLite opened
+  separately — the SQLCipher-encrypted DB is reserved for private SRS state, not
+  public open data. Download transport: Play Asset Delivery if shipping via Play,
+  otherwise HTTPS + checksum (e.g. GitHub Releases).
