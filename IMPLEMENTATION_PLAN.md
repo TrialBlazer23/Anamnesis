@@ -134,6 +134,9 @@ backed by the encrypted DB.
         bottom-nav tab; roadmap, alphabet browser (24 letters by batch) with
         per-letter detail, and a recognition drill (name/sound → letter). Quiz
         logic + data unit-tested. Audio ids are optional (see `audio_sources.md`).
+  - [x] Confusion-set distractors (visual look-alikes + same-batch weighted) and
+        batch-scoped practice (drill All or a single batch).
+  - [ ] Per-unit gating/progress (persisted) so units unlock on the advance criteria.
   - [ ] Wire letter/vocab drills through FSRS-6 (extend the card model with
         deck/source + card-type); S-Pen tracing (valued, not gating).
   - [ ] **Record restored-Attic audio** (critical path — see `audio_script.md`).

@@ -2,6 +2,7 @@ package com.anamnesis.feature.learn
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -201,13 +202,19 @@ private fun LetterDetailScreen(letter: LetterLesson, modifier: Modifier, onBack:
 @Composable
 private fun PracticeScreen(modifier: Modifier, onBack: () -> Unit) {
     val random = remember { Random(System.currentTimeMillis()) }
-    var deck by remember { mutableStateOf(AlphabetQuiz.deck(ALPHABET, random)) }
-    var index by remember { mutableIntStateOf(0) }
-    var score by remember { mutableIntStateOf(0) }
-    var answered by remember { mutableStateOf<LetterLesson?>(null) }
+    var scopeBatch by remember { mutableStateOf<Int?>(null) } // null = all letters
+    val pool = remember(scopeBatch) {
+        scopeBatch?.let { b -> ALPHABET.filter { it.batch == b } } ?: ALPHABET
+    }
+    var deck by remember(scopeBatch) { mutableStateOf(AlphabetQuiz.deck(pool, random)) }
+    var index by remember(scopeBatch) { mutableIntStateOf(0) }
+    var score by remember(scopeBatch) { mutableIntStateOf(0) }
+    var answered by remember(scopeBatch) { mutableStateOf<LetterLesson?>(null) }
 
     Column(modifier = modifier.fillMaxSize()) {
         BackRow(onBack, "Practice")
+        ScopeSelector(scopeBatch) { scopeBatch = it }
+
         val current = deck.getOrNull(index)
         if (current == null) {
             Column(
@@ -217,7 +224,7 @@ private fun PracticeScreen(modifier: Modifier, onBack: () -> Unit) {
                 Text("Score: $score / ${deck.size}", style = MaterialTheme.typography.headlineSmall)
                 Spacer(Modifier.height(16.dp))
                 Button(onClick = {
-                    deck = AlphabetQuiz.deck(ALPHABET, random)
+                    deck = AlphabetQuiz.deck(pool, random)
                     index = 0; score = 0; answered = null
                 }) { Text("Practice again") }
             }
@@ -280,6 +287,29 @@ private fun PracticeScreen(modifier: Modifier, onBack: () -> Unit) {
                 ) { Text(if (index + 1 < deck.size) "Next" else "Finish") }
             }
         }
+    }
+}
+
+@Composable
+private fun ScopeSelector(selected: Int?, onSelect: (Int?) -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        ScopeChip("All", selected == null) { onSelect(null) }
+        (1..4).forEach { batch ->
+            ScopeChip(batch.toString(), selected == batch) { onSelect(batch) }
+        }
+    }
+}
+
+@Composable
+private fun ScopeChip(label: String, selected: Boolean, onClick: () -> Unit) {
+    val padding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
+    if (selected) {
+        Button(onClick = onClick, contentPadding = padding) { Text(label) }
+    } else {
+        OutlinedButton(onClick = onClick, contentPadding = padding) { Text(label) }
     }
 }
 
