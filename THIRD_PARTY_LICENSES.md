@@ -37,6 +37,17 @@ derivative combining the Perseus Greek (CC BY-SA 4.0), the Haines 1916
 translation (public domain), and the DCC Greek Core Vocabulary (CC BY-SA 3.0);
 the ShareAlike + attribution obligations above apply to it.
 
+## Audio (Phase 3 "Learn" tab)
+Restored-Attic pronunciation audio is **recorded for this project** (see
+`pipeline/data/lessons/audio_script.md`); ship it under a bundle-compatible
+license (CC-BY-SA or CC-BY recommended). Sourcing rules:
+- **Bundleable scaffold:** Wikimedia/Wiktionary "Grc-" files (CC-BY-SA 4.0, some
+  CC0) — attribution + ShareAlike; thin coverage, stopgap only.
+- **Do NOT bundle without written permission:** SORGLL/Daitz, Ranieri/Polymathy,
+  Mastronarde/atticgreek.org (audio is ©UC Regents), Hagel — all all-rights-reserved.
+- **Avoid:** eSpeak-NG "grc" TTS is **GPL-v3** (copyleft) and robotic; commercial
+  "Ancient Greek TTS" is Modern-Greek voices, not restored Attic.
+
 ## Per-text audit required
 - Perseus UD conversion (`UD_Ancient_Greek-Perseus`): **CC BY-NC-SA 2.5** (non-commercial).
 - GLAUx trees declare CC0, but the source GLAUx corpus is mostly CC BY-SA with

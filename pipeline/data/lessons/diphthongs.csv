@@ -1,0 +1,12 @@
+order,glyph,ipa,kind,audio_id,note
+1,αι,[ai̯],proper,snd_dip_ai,"Like English ""eye"""
+2,ει,[eː],proper,snd_dip_ei,"Long close-e MONOPHTHONG in Classical Attic (genuine+spurious identical), NOT a glide"
+3,οι,[oi̯],proper,snd_dip_oi,"Like ""boy"""
+4,υι,[yi̯],proper,snd_dip_ui,"Rare; monophthongized to [yː] in Attic"
+5,αυ,[au̯],proper,snd_dip_au,"Like ""ow"""
+6,ευ,[eu̯],proper,snd_dip_eu,"""eh-oo"" glide"
+7,ηυ,[ɛːu̯],proper,snd_dip_eu_long,"Long-first-element diphthong"
+8,ου,[uː],proper,snd_dip_ou,"Long close-u MONOPHTHONG, NOT a glide"
+9,ᾳ,[aː],improper,snd_dip_a_sub,"Long alpha with iota subscript; subscript iota NOT pronounced (dative cue)"
+10,ῃ,[ɛː],improper,snd_dip_e_sub,"Eta with iota subscript; subscript iota NOT pronounced (dative cue)"
+11,ῳ,[ɔː],improper,snd_dip_o_sub,"Omega with iota subscript; subscript iota NOT pronounced (dative cue)"

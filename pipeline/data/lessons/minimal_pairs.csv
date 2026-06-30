@@ -1,0 +1,8 @@
+id,a,b,contrast,type,audio_a_id,audio_b_id,note
+mp_e_eta,ε,η,short [e] vs long [ɛː],vowel-length,snd_epsilon,snd_eta,"Length + quality pair"
+mp_o_omega,ο,ω,short [o] vs long [ɔː],vowel-length,snd_omicron,snd_omega,"Length + quality pair"
+mp_pi_phi,π,φ,plain [p] vs aspirate [pʰ],aspiration,snd_pi,snd_phi,"The defining restored-Attic contrast"
+mp_tau_theta,τ,θ,plain [t] vs aspirate [tʰ],aspiration,snd_tau,snd_theta,"Aspirate is a puff of air, not [θ]"
+mp_kappa_chi,κ,χ,plain [k] vs aspirate [kʰ],aspiration,snd_kappa,snd_chi,"Aspirate is a puff of air, not [x]"
+mp_alpha_quantity,ᾰ,ᾱ,short [a] vs long [aː],hidden-quantity,snd_alpha_short,snd_alpha_long,"Same letter α hides a length difference"
+mp_iota_quantity,ῐ,ῑ,short [i] vs long [iː],hidden-quantity,snd_iota_short,snd_iota_long,"Same letter ι hides a length difference"
