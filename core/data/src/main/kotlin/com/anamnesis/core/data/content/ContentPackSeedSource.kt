@@ -10,8 +10,8 @@ class ContentPackSeedSource(private val context: Context) {
 
     suspend fun seedCards(): List<Card> = withContext(Dispatchers.IO) {
         val path = ContentPackProvisioner.ensure(context)
-        ContentPackDataSource(path).loadVocabulary().map { row ->
-            Card(lemma = row.lemma, gloss = row.gloss, partOfSpeech = row.partOfSpeech)
+        ContentPackDataSource(path).loadVocabularyEntries().map { entry ->
+            Card(lemma = entry.lemma, gloss = entry.gloss, partOfSpeech = entry.partOfSpeech)
         }
     }
 }

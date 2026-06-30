@@ -3,19 +3,42 @@ package com.anamnesis.feature.reader
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.anamnesis.core.domain.model.Passage
+import com.anamnesis.core.domain.model.VocabularyEntry
 import com.anamnesis.core.domain.repository.ReaderRepository
+import com.anamnesis.core.domain.repository.VocabularyRepository
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-/** Loads passages from a [ReaderRepository] and exposes [ReaderUiState]. */
+/** Result of tapping a word: the tapped form plus its dictionary entry (if any). */
+data class WordLookup(val word: String, val entry: VocabularyEntry?)
+
+/** Loads passages and drives navigation, word lookup, and full-text search. */
 class ReaderViewModel(
-    private val repository: ReaderRepository,
+    private val readerRepository: ReaderRepository,
+    private val vocabularyRepository: VocabularyRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<ReaderUiState>(ReaderUiState.Loading)
-    val state: StateFlow<ReaderUiState> = _state.asStateFlow()
+    private val _content = MutableStateFlow<ReaderUiState>(ReaderUiState.Loading)
+    val content: StateFlow<ReaderUiState> = _content.asStateFlow()
+
+    private val _index = MutableStateFlow(0)
+    val index: StateFlow<Int> = _index.asStateFlow()
+
+    private val _query = MutableStateFlow("")
+    val query: StateFlow<String> = _query.asStateFlow()
+
+    private val _results = MutableStateFlow<List<Passage>>(emptyList())
+    val results: StateFlow<List<Passage>> = _results.asStateFlow()
+
+    private val _lookup = MutableStateFlow<WordLookup?>(null)
+    val lookup: StateFlow<WordLookup?> = _lookup.asStateFlow()
+
+    private var passages: List<Passage> = emptyList()
+    private var searchJob: Job? = null
 
     init {
         load()
@@ -23,17 +46,63 @@ class ReaderViewModel(
 
     fun load() {
         viewModelScope.launch {
-            _state.value = ReaderUiState.Loading
-            val passages = runCatching { repository.loadPassages() }.getOrDefault(emptyList())
-            _state.value =
+            _content.value = ReaderUiState.Loading
+            passages = runCatching { readerRepository.loadPassages() }.getOrDefault(emptyList())
+            _index.value = 0
+            _content.value =
                 if (passages.isEmpty()) ReaderUiState.Empty else ReaderUiState.Content(passages)
         }
     }
 
-    /** Factory so the screen can build the VM with its repository (no DI framework yet). */
-    class Factory(private val repository: ReaderRepository) : ViewModelProvider.Factory {
+    fun next() {
+        if (_index.value < passages.lastIndex) _index.value += 1
+    }
+
+    fun previous() {
+        if (_index.value > 0) _index.value -= 1
+    }
+
+    fun onWordTap(token: String) {
+        viewModelScope.launch {
+            val entry = runCatching { vocabularyRepository.lookup(token) }.getOrNull()
+            _lookup.value = WordLookup(token, entry)
+        }
+    }
+
+    fun dismissLookup() {
+        _lookup.value = null
+    }
+
+    fun onQueryChange(query: String) {
+        _query.value = query
+        searchJob?.cancel()
+        if (query.isBlank()) {
+            _results.value = emptyList()
+            return
+        }
+        searchJob = viewModelScope.launch {
+            _results.value = runCatching { readerRepository.search(query) }.getOrDefault(emptyList())
+        }
+    }
+
+    fun clearSearch() {
+        searchJob?.cancel()
+        _query.value = ""
+        _results.value = emptyList()
+    }
+
+    fun openResult(passage: Passage) {
+        val target = passages.indexOfFirst { it.ctsUrn == passage.ctsUrn }
+        if (target >= 0) _index.value = target
+        clearSearch()
+    }
+
+    class Factory(
+        private val readerRepository: ReaderRepository,
+        private val vocabularyRepository: VocabularyRepository,
+    ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            ReaderViewModel(repository) as T
+            ReaderViewModel(readerRepository, vocabularyRepository) as T
     }
 }

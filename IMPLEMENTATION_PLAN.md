@@ -122,6 +122,12 @@ backed by the encrypted DB.
 
 ## Phase 3 — Polish & expansion
 
+- [ ] **Beginner "Learn" tab** — a guided, progressive curriculum for newcomers,
+      separate from the reader/SRS: start with the **alphabet** (letter names,
+      sounds, recognition), then build up through the most common words, then by
+      part of speech (nouns → adjectives → verbs …), gated/sequenced rather than
+      free-review. Can reuse the FSRS engine for drills but with a fixed teaching
+      order (e.g. DCC frequency rank + a hand-authored letters/lessons dataset).
 - [ ] More texts/content packs beyond *Meditations*.
 - [ ] DataStore-backed settings (font size, retention target, theme).
 - [ ] Morphology lookup from Morpheus/Diogenes **generated data** (no GPL binaries).
