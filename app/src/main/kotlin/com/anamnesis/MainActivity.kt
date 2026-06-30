@@ -56,7 +56,8 @@ class MainActivity : ComponentActivity() {
                 ) { padding ->
                     when (tab) {
                         0 -> ReaderRoute(
-                            repository = container.readerRepository,
+                            readerRepository = container.readerRepository,
+                            vocabularyRepository = container.vocabularyRepository,
                             modifier = Modifier.padding(padding),
                         )
                         1 -> ReviewRoute(

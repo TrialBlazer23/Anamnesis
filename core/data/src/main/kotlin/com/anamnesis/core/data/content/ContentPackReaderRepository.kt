@@ -12,7 +12,14 @@ class ContentPackReaderRepository(
 ) : ReaderRepository {
 
     override suspend fun loadPassages(): List<Passage> = withContext(Dispatchers.IO) {
-        val path = ContentPackProvisioner.ensure(context)
-        ContentPackDataSource(path).loadPassages()
+        ContentPackDataSource(ContentPackProvisioner.ensure(context)).loadPassages()
+    }
+
+    override suspend fun search(query: String): List<Passage> = withContext(Dispatchers.IO) {
+        if (query.isBlank()) {
+            emptyList()
+        } else {
+            ContentPackDataSource(ContentPackProvisioner.ensure(context)).search(query)
+        }
     }
 }
