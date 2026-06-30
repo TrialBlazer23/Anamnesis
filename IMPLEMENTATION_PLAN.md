@@ -122,12 +122,22 @@ backed by the encrypted DB.
 
 ## Phase 3 — Polish & expansion
 
-- [ ] **Beginner "Learn" tab** — a guided, progressive curriculum for newcomers,
-      separate from the reader/SRS: start with the **alphabet** (letter names,
-      sounds, recognition), then build up through the most common words, then by
-      part of speech (nouns → adjectives → verbs …), gated/sequenced rather than
-      free-review. Can reuse the FSRS engine for drills but with a fixed teaching
-      order (e.g. DCC frequency rank + a hand-authored letters/lessons dataset).
+- [ ] **Beginner "Learn" tab (Ancient Greek On-Ramp)** — a guided 9-unit
+      curriculum (alphabet → most-common words → by part of speech → reading
+      Plato's *Euthyphro* with training wheels), per the root spec
+      `Anamnesis Phase 3 - Ancient Greek On-Ramp Pedagogical Specification.md`
+      and the build plan in `docs/PHASE3_LEARN_TAB_PLAN.md`.
+  - [x] Authored source data: `pipeline/data/lessons/` (letters, diphthongs,
+        minimal-pairs, 9-unit `units.json`) + restored-Attic `audio_script.md`.
+  - [ ] `build_lessons.py` → bundled lessons pack + audio manifest (+ pytest).
+  - [x] **Visual path (audio-optional):** `:feature:learn` module + 🎓 Learn
+        bottom-nav tab; roadmap, alphabet browser (24 letters by batch) with
+        per-letter detail, and a recognition drill (name/sound → letter). Quiz
+        logic + data unit-tested. Audio ids are optional (see `audio_sources.md`).
+  - [ ] Wire letter/vocab drills through FSRS-6 (extend the card model with
+        deck/source + card-type); S-Pen tracing (valued, not gating).
+  - [ ] **Record restored-Attic audio** (critical path — see `audio_script.md`).
+  - [ ] *Euthyphro* content pack (Plato `tlg0059.tlg001`) for the handoff.
 - [ ] More texts/content packs beyond *Meditations*.
 - [ ] DataStore-backed settings (font size, retention target, theme).
 - [ ] Morphology lookup from Morpheus/Diogenes **generated data** (no GPL binaries).

@@ -1,0 +1,95 @@
+{
+  "scheme": "Restored Classical Attic (Allen, Vox Graeca)",
+  "aspirate_default": "aspirate",
+  "aspirate_fallback_toggle": true,
+  "pitch_accent": "recognition-only",
+  "units": [
+    {
+      "number": 0,
+      "title": "Orientation",
+      "objective": "Set expectations for restored Attic and the on-ramp.",
+      "taught": "What restored Attic is and why this app teaches it; the 'ancient texts were ALL CAPS with no spaces' reveal; the promise that the reader + tap-to-parse will carry you.",
+      "drills": [],
+      "srs_feed": "none",
+      "advance": "Acknowledge."
+    },
+    {
+      "number": 1,
+      "title": "Familiar letters",
+      "objective": "Read/sound 7 letters; read first real syllables.",
+      "batch": 1,
+      "letters": ["α", "β", "ε", "ι", "κ", "ο", "τ"],
+      "taught": "Letterform + name + restored sound + lowercase handwriting.",
+      "drills": ["letter-to-sound", "sound-to-letter", "letter-name-recall", "spen-tracing"],
+      "srs_feed": "Each letter becomes a 3-card family (letter→sound, sound→letter, name).",
+      "advance": "≥90% recognition across a session; all 7 cards reach first successful review."
+    },
+    {
+      "number": 2,
+      "title": "Distinctive Greek letters",
+      "objective": "Add 10 letters incl. aspirates φ/θ and double ψ.",
+      "batch": 2,
+      "letters": ["δ", "λ", "μ", "π", "σ", "φ", "ψ", "ω", "θ", "γ"],
+      "taught": "Forms, restored sounds, aspirate contrast (audio minimal pairs), the two sigmas, multi-stroke ψ/θ handwriting.",
+      "drills": ["letter-to-sound", "sound-to-letter", "letter-name-recall", "two-sigma-placement", "aspirate-minimal-pair"],
+      "srs_feed": "New letter cards interleave with Unit 1.",
+      "advance": "≥90% recognition; sigma-placement drill passed."
+    },
+    {
+      "number": 3,
+      "title": "False friends",
+      "objective": "Defeat the Latin-lookalike trap.",
+      "batch": 3,
+      "letters": ["η", "ν", "ρ", "χ", "υ", "ζ"],
+      "taught": "Each letter paired against its Latin twin (Η≠h/n, Ν≠v, Ρ≠p, Χ≠x, Υ≠u, Ζ); η=[ɛː], υ=[y], ζ=[zd].",
+      "drills": ["contrastive-discrimination", "mixed-review", "audio-to-letter"],
+      "srs_feed": "Cards flagged higher-difficulty; FSRS schedules them more often.",
+      "advance": "≥90% on a mixed full-alphabet recognition quiz."
+    },
+    {
+      "number": 4,
+      "title": "Vowel quantity & diphthongs",
+      "objective": "Hear/encode long vs short and the 8 diphthongs.",
+      "taught": "ε/η and ο/ω as length+quality pairs; hidden quantity of α/ι/υ (macron/breve); diphthong values; genuine vs spurious ει/ου = pure long vowels; iota subscript preview.",
+      "drills": ["length-minimal-pair", "diphthong-to-sound", "long-or-short"],
+      "srs_feed": "Diphthongs as cards; quantity contrasts as listening cards.",
+      "advance": "≥80% length discrimination (genuinely hard) + ≥90% diphthong recognition."
+    },
+    {
+      "number": 5,
+      "title": "Breathings & the sound system in words",
+      "objective": "Read whole short real words aloud.",
+      "taught": "Rough vs smooth breathing; initial ρ/υ rules; breathing on diphthongs/capitals; γ-nasal; ρ trill.",
+      "drills": ["read-the-word", "breathing-identification", "transliteration"],
+      "srs_feed": "Begin DCC core vocab as lemma cards (form + sound + gloss), highest-frequency ~50 first.",
+      "advance": "Read 10 core words with correct breathings/sounds."
+    },
+    {
+      "number": 6,
+      "title": "Accents (recognition)",
+      "objective": "Recognize the three marks; know they were musical — no production pressure.",
+      "taught": "Acute/grave/circumflex = pitch; circumflex only on long vowel/diphthong; acute→grave in context; one honest slide on reconstruction uncertainty.",
+      "drills": ["identify-the-accent", "same-word-or-different"],
+      "srs_feed": "Light; accent-recognition cards only.",
+      "advance": "Name the three accents; judge 8/10 'same word?' accent items."
+    },
+    {
+      "number": 7,
+      "title": "How Greek words work",
+      "objective": "Internalize inflection + lemma so tap-to-parse makes sense.",
+      "taught": "Inflection via the λόγος paradigm; the five cases conceptually; lemma vs form; word-order freedom.",
+      "drills": ["guided-reader-micropassage", "form-to-lemma"],
+      "srs_feed": "Core vocab continues as lemmas; add a few form→lemma cards.",
+      "advance": "Identify lemma vs inflected form for 8/10 tapped words; explain why endings matter."
+    },
+    {
+      "number": 8,
+      "title": "Variation, punctuation & handoff to Euthyphro",
+      "objective": "Not be confused by the three kinds of variation or Greek punctuation; begin reading.",
+      "taught": "The three variation types (inflection / accent-in-context / orthographic-dialectal); punctuation (; = question mark, · raised dot), scriptio continua, iota subscript — each with a Euthyphro example (ἐγᾦμαι, τί φῄς;, ὦ Σώκρατες).",
+      "drills": ["guided-reader-euthyphro-2a"],
+      "srs_feed": "Euthyphro opening vocabulary seeded into FSRS.",
+      "advance": "Read Euthyphro 2a with parse support and self-rate ≥'mostly understood'."
+    }
+  ]
+}
