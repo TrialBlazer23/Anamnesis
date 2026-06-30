@@ -1,0 +1,6 @@
+# On-device / lightweight pipeline dependencies (Termux-safe — no torch/stanza).
+lxml
+httpx
+betacode==1.0
+greek-accentuation==1.2.0
+# sqlite3 and unicodedata are in the Python standard library.

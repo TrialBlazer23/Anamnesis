@@ -1,0 +1,66 @@
+name: Release APK
+
+# Builds a signed release APK. Triggered by a version tag (e.g. v0.1.0) or
+# manually. Signing needs four repository secrets (Settings → Secrets and
+# variables → Actions); without them the "Sign APK" step fails, so add them
+# before tagging a release:
+#
+#   SIGNING_KEY_BASE64     base64 of your release keystore (.jks)
+#   SIGNING_KEY_ALIAS      key alias inside the keystore
+#   SIGNING_STORE_PASSWORD keystore password
+#   SIGNING_KEY_PASSWORD   key password
+#
+# Create a keystore with:
+#   keytool -genkeypair -v -keystore release.jks -keyalg RSA -keysize 2048 \
+#       -validity 10000 -alias anamnesis
+#   base64 -w0 release.jks   # paste into SIGNING_KEY_BASE64
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/libs.versions.toml') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - run: chmod +x ./gradlew
+
+      - name: Assemble release APK (unsigned)
+        run: ./gradlew assembleRelease
+
+      - name: Sign APK
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+          alias: ${{ secrets.SIGNING_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "35.0.0"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anamnesis-release-apk
+          path: ${{ steps.sign.outputs.signedReleaseFile }}

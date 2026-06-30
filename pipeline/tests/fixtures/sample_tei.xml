@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader xml:lang="eng">
+    <fileDesc><titleStmt><title>Sample</title></titleStmt></fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="edition" n="urn:cts:greekLit:tlg0562.tlg001.perseus-grc2" xml:lang="grc">
+        <div type="textpart" subtype="book" n="1">
+          <div type="textpart" subtype="chapter" n="1">
+            <div type="textpart" subtype="section" n="1">
+              <p rend="indent">Παρὰ τοῦ πάππου Οὐήρου τὸ καλόηθες καὶ ἀόργητον.</p>
+            </div>
+          </div>
+          <div type="textpart" subtype="chapter" n="2">
+            <div type="textpart" subtype="section" n="1">
+              <p>Παρὰ τῆς δόξης καὶ μνήμης τὸ αἰδῆμον καὶ ἀρρενικόν.</p>
+            </div>
+          </div>
+        </div>
+        <div type="textpart" subtype="book" n="2">
+          <div type="textpart" subtype="chapter" n="1">
+            <div type="textpart" subtype="section" n="1">
+              <p>Ἕωθεν προλέγειν ἑαυτῷ· συντεύξομαι περιέργῳ.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

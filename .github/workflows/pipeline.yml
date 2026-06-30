@@ -1,0 +1,46 @@
+name: Build content packs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'pipeline/**'
+  pull_request:
+    paths:
+      - 'pipeline/**'
+      - '.github/workflows/pipeline.yml'
+
+jobs:
+  content:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pipeline
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'   # CLTK 1.5.0 supports 3.12
+          cache: 'pip'
+
+      - name: Install dependencies (CI path includes CLTK)
+        run: pip install -r requirements-ci.txt
+
+      - name: Run pipeline tests
+        run: python -m pytest -q
+
+      - name: Build Meditations content pack
+        run: |
+          python build_database.py --work tlg0562.tlg001 --out out/meditations.db \
+            --title "Meditations" \
+            --vocab-csv data/dcc_greek_core.csv \
+            --haines-epub data/haines_1916.epub
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: anamnesis-content-packs
+          path: |
+            pipeline/out/*.db
+            pipeline/out/*.manifest.json

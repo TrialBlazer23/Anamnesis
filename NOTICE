@@ -1,0 +1,12 @@
+Anamnesis — Ancient Greek reader & spaced-repetition trainer
+
+This product bundles third-party fonts, software, and openly-licensed texts.
+See THIRD_PARTY_LICENSES.md for the full list of works, their licenses, and the
+attribution / ShareAlike obligations that apply.
+
+Key attributions:
+- Gentium / Gentium Plus and New Athena Unicode fonts © SIL International (OFL 1.1).
+- SQLCipher © Zetetic LLC.
+- FSRS-6 scheduler ported from open-spaced-repetition/FSRS-Kotlin (MIT).
+- Greek texts from the Perseus Digital Library / canonical-greekLit (CC BY-SA).
+- DCC Greek Core Vocabulary © Dickinson College Commentaries (CC BY-SA 3.0).
