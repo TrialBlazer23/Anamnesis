@@ -9,18 +9,17 @@ import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
  *
  * Uses `net.zetetic:sqlcipher-android` (the modern, 16KB-page-compatible
  * library — the legacy `android-database-sqlcipher` is EOL). The passphrase is
- * passed through [SupportOpenHelperFactory] into Room's `openHelperFactory`.
- *
- * The passphrase MUST come from a secure source (Android Keystore-backed key),
- * not a literal — wiring that in is part of Phase 2.
+ * obtained from [DatabaseKeyManager] (Android Keystore-backed) and passed
+ * through [SupportOpenHelperFactory] into Room's `openHelperFactory`.
  */
 object DatabaseFactory {
 
-    fun create(context: Context, passphrase: ByteArray): AnamnesisDatabase {
+    fun create(context: Context): AnamnesisDatabase {
         System.loadLibrary("sqlcipher")
+        val passphrase = DatabaseKeyManager.getOrCreatePassphrase(context)
         val factory = SupportOpenHelperFactory(passphrase)
         return Room.databaseBuilder(
-            context,
+            context.applicationContext,
             AnamnesisDatabase::class.java,
             "anamnesis.db",
         )

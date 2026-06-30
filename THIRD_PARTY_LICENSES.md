@@ -7,7 +7,7 @@ dependencies and data sources are added, and ship it inside the app.
 ## Fonts
 | Work | License | Obligation |
 |---|---|---|
-| Gentium Plus (SIL) — **6.101** bundled (doc targets 7.000) | SIL OFL 1.1 | `OFL.txt` shipped at `feature/reader/src/main/assets/licenses/gentium_ofl.txt`; from the SIL/Google Fonts mirror; embedding/redistribution permitted |
+| Gentium Plus (SIL) — **6.101** bundled (doc targets 7.000) | SIL OFL 1.1 | `OFL.txt` shipped at `core/ui/src/main/assets/licenses/gentium_ofl.txt`; from the SIL/Google Fonts mirror; embedding/redistribution permitted |
 | New Athena Unicode 5.x (secondary fallback) | SIL OFL 1.1 | Same OFL terms; reserved name "New Athena Unicode" |
 
 > **Brill is NOT bundled** — its EULA prohibits redistribution / commercial

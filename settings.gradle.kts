@@ -25,5 +25,6 @@ rootProject.name = "Anamnesis"
 include(":app")
 include(":core:data")
 include(":core:domain")
+include(":core:ui")
 include(":feature:reader")
 include(":feature:srs")

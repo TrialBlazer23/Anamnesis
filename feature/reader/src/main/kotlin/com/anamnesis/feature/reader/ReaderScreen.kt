@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anamnesis.core.domain.model.Passage
+import com.anamnesis.core.ui.GentiumPlus
 
 /**
  * The reading surface: a single passage of polytonic Greek rendered in Gentium

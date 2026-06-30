@@ -80,9 +80,11 @@ Goal: a debug APK that builds green in CI **before any features are added**.
 
 Goal: encrypted on-device DB, working scheduler, polytonic rendering.
 
-- [ ] **Encrypted user DB:** finish `core/data/DatabaseFactory` — derive the
-      passphrase from an Android Keystore-backed key (not a literal); wire
-      `sqlcipher-android` 4.16.0 via `SupportOpenHelperFactory`.
+- [x] **Encrypted user DB:** `DatabaseKeyManager` derives the SQLCipher
+      passphrase from an Android Keystore AES/GCM key (random passphrase, wrapped
+      ciphertext in prefs); `DatabaseFactory` wires it via `SupportOpenHelperFactory`.
+      The encrypted DB now holds private SRS cards only (content stays in the
+      read-only pack).
 - [x] **Content import:** the app opens the Phase 0 content pack read-only via
       `ContentPackDataSource` (plain SQLite), provisioned from the bundled asset
       into `filesDir`. (Encrypted-DB import path not needed — packs stay read-only.)
@@ -106,9 +108,11 @@ Goal: encrypted on-device DB, working scheduler, polytonic rendering.
         fallback). VM state logic unit-tested.
   - [ ] Tap-a-word → LSJ/vocab lookup.
   - [ ] FTS5 search UI over the content pack.
-- [ ] **Review flow:** present due cards, grade (Again/Hard/Good/Easy), persist
-      FSRS state. Mind the Compose **v2 test APIs** (StandardTestDispatcher) —
-      advance the virtual clock in tests.
+- [x] **Review flow:** `ReviewScheduler` (FSRS-6 + card), `ReviewViewModel`,
+      `ReviewScreen`/`ReviewRoute`; seeds cards from the content-pack vocab on
+      first run, serves the due queue, grades (Again/Hard/Good/Easy), persists to
+      the encrypted DB. Bottom-nav (Read/Train) in `MainActivity`. Scheduler +
+      VM unit-tested (StandardTestDispatcher).
 
 **Done when:** a user can read *Meditations* in polytonic Greek with facing
 translation, look up words, and review vocabulary on an FSRS-6 schedule, all

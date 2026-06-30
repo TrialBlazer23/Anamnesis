@@ -18,11 +18,12 @@ order lives in `IMPLEMENTATION_PLAN.md`.
 ## Layout
 
 ```
-app/            Compose UI, navigation, entry point (com.anamnesis)
-core/domain/    Pure-Kotlin models & use-cases (no Android/Room deps)
-core/data/      Room 2.8.4 + sqlcipher-android — KSP + room plugin applied HERE ONLY
+app/            Compose UI, bottom-nav (Read/Train), entry point (com.anamnesis)
+core/domain/    Pure-Kotlin models, repositories & use-cases (no Android/Room deps)
+core/data/      Room 2.8.4 + sqlcipher-android (encrypted SRS DB) + read-only content-pack reader — KSP + room plugin applied HERE ONLY
+core/ui/        Shared Compose design system (bundled Gentium Plus FontFamily)
 feature/reader/ Text reading & lookup (Compose)
-feature/srs/    Vendored FSRS-Kotlin (FSRS-6) scheduler
+feature/srs/    FSRS-6 scheduler + review flow (Compose)
 pipeline/       Python content-pack builder (CI/desktop only)
 gradle/libs.versions.toml   Version catalog — single source of truth for versions
 .github/workflows/          build.yml (APK), pipeline.yml (content packs)

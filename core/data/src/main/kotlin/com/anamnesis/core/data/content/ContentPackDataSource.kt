@@ -33,8 +33,33 @@ internal class ContentPackDataSource(private val dbPath: String) {
         }
     }
 
+    fun loadVocabulary(): List<VocabularyRow> {
+        SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY).use { db ->
+            db.rawQuery(
+                "SELECT lemma, gloss, part_of_speech FROM vocabulary ORDER BY frequency_rank",
+                null,
+            ).use { cursor ->
+                val rows = ArrayList<VocabularyRow>(cursor.count)
+                while (cursor.moveToNext()) {
+                    rows += VocabularyRow(
+                        lemma = cursor.getString(0),
+                        gloss = cursor.getString(1) ?: "",
+                        partOfSpeech = cursor.getString(2) ?: "",
+                    )
+                }
+                return rows
+            }
+        }
+    }
+
     private fun readTitle(db: SQLiteDatabase): String =
         db.rawQuery("SELECT value FROM meta WHERE key = 'title'", null).use { c ->
             if (c.moveToFirst()) c.getString(0) else ""
         }
 }
+
+internal data class VocabularyRow(
+    val lemma: String,
+    val gloss: String,
+    val partOfSpeech: String,
+)
