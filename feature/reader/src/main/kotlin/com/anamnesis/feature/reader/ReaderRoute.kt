@@ -11,22 +11,44 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.anamnesis.core.domain.repository.ReaderRepository
+import com.anamnesis.core.domain.repository.VocabularyRepository
 
-/**
- * Stateful entry point: builds a [ReaderViewModel] from [repository], observes
- * its state, and renders loading / empty / content.
- */
+/** Stateful entry point: builds a [ReaderViewModel] and renders the reader. */
 @Composable
-fun ReaderRoute(repository: ReaderRepository, modifier: Modifier = Modifier) {
-    val viewModel: ReaderViewModel = viewModel(factory = ReaderViewModel.Factory(repository))
-    val state by viewModel.state.collectAsStateWithLifecycle()
+fun ReaderRoute(
+    readerRepository: ReaderRepository,
+    vocabularyRepository: VocabularyRepository,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel: ReaderViewModel = viewModel(
+        factory = ReaderViewModel.Factory(readerRepository, vocabularyRepository),
+    )
+    val content by viewModel.content.collectAsStateWithLifecycle()
+    val index by viewModel.index.collectAsStateWithLifecycle()
+    val query by viewModel.query.collectAsStateWithLifecycle()
+    val results by viewModel.results.collectAsStateWithLifecycle()
+    val lookup by viewModel.lookup.collectAsStateWithLifecycle()
 
-    when (val current = state) {
+    when (val state = content) {
         is ReaderUiState.Loading ->
             Box(modifier.fillMaxSize(), Alignment.Center) { CircularProgressIndicator() }
         is ReaderUiState.Empty ->
             Box(modifier.fillMaxSize(), Alignment.Center) { Text("No passages available.") }
         is ReaderUiState.Content ->
-            ReaderScreen(passages = current.passages, modifier = modifier)
+            ReaderContent(
+                passages = state.passages,
+                index = index,
+                query = query,
+                results = results,
+                lookup = lookup,
+                onQueryChange = viewModel::onQueryChange,
+                onClearSearch = viewModel::clearSearch,
+                onWordTap = viewModel::onWordTap,
+                onDismissLookup = viewModel::dismissLookup,
+                onOpenResult = viewModel::openResult,
+                onPrevious = viewModel::previous,
+                onNext = viewModel::next,
+                modifier = modifier,
+            )
     }
 }

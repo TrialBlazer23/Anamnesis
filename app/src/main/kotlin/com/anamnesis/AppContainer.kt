@@ -4,22 +4,25 @@ import android.content.Context
 import com.anamnesis.core.data.content.ContentPackProvisioner
 import com.anamnesis.core.data.content.ContentPackReaderRepository
 import com.anamnesis.core.data.content.ContentPackSeedSource
+import com.anamnesis.core.data.content.ContentPackVocabularyRepository
 import com.anamnesis.core.data.srs.SrsRepositoryFactory
 import com.anamnesis.core.domain.model.Card
 import com.anamnesis.core.domain.repository.ReaderRepository
 import com.anamnesis.core.domain.repository.SrsRepository
+import com.anamnesis.core.domain.repository.VocabularyRepository
+import com.anamnesis.feature.reader.EmptyVocabularyRepository
 import com.anamnesis.feature.reader.SampleReaderRepository
 
 /** Minimal manual dependency wiring (no DI framework yet). */
 class AppContainer(context: Context) {
     private val appContext = context.applicationContext
+    private val hasContentPack = ContentPackProvisioner.isBundled(appContext)
 
     val readerRepository: ReaderRepository =
-        if (ContentPackProvisioner.isBundled(appContext)) {
-            ContentPackReaderRepository(appContext)
-        } else {
-            SampleReaderRepository()
-        }
+        if (hasContentPack) ContentPackReaderRepository(appContext) else SampleReaderRepository()
+
+    val vocabularyRepository: VocabularyRepository =
+        if (hasContentPack) ContentPackVocabularyRepository(appContext) else EmptyVocabularyRepository
 
     val srsRepository: SrsRepository by lazy { SrsRepositoryFactory.create(appContext) }
 
