@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import com.anamnesis.feature.learn.LearnRoute
 import com.anamnesis.feature.reader.ReaderRoute
 import com.anamnesis.feature.srs.ReviewRoute
 
@@ -44,6 +45,12 @@ class MainActivity : ComponentActivity() {
                                 icon = { Text("🧠") },
                                 label = { Text("Train") },
                             )
+                            NavigationBarItem(
+                                selected = tab == 2,
+                                onClick = { tab = 2 },
+                                icon = { Text("🎓") },
+                                label = { Text("Learn") },
+                            )
                         }
                     },
                 ) { padding ->
@@ -52,9 +59,12 @@ class MainActivity : ComponentActivity() {
                             repository = container.readerRepository,
                             modifier = Modifier.padding(padding),
                         )
-                        else -> ReviewRoute(
+                        1 -> ReviewRoute(
                             repository = container.srsRepository,
                             seeds = container.srsSeeds,
+                            modifier = Modifier.padding(padding),
+                        )
+                        else -> LearnRoute(
                             modifier = Modifier.padding(padding),
                         )
                     }

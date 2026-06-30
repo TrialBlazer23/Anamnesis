@@ -48,6 +48,7 @@ kotlin {
 dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
+    implementation(project(":feature:learn"))
     implementation(project(":feature:reader"))
     implementation(project(":feature:srs"))
 

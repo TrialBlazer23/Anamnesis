@@ -130,8 +130,10 @@ backed by the encrypted DB.
   - [x] Authored source data: `pipeline/data/lessons/` (letters, diphthongs,
         minimal-pairs, 9-unit `units.json`) + restored-Attic `audio_script.md`.
   - [ ] `build_lessons.py` → bundled lessons pack + audio manifest (+ pytest).
-  - [ ] `:feature:learn` module: data-driven unit list + drill screens; 🎓 Learn
-        bottom-nav destination.
+  - [x] **Visual path (audio-optional):** `:feature:learn` module + 🎓 Learn
+        bottom-nav tab; roadmap, alphabet browser (24 letters by batch) with
+        per-letter detail, and a recognition drill (name/sound → letter). Quiz
+        logic + data unit-tested. Audio ids are optional (see `audio_sources.md`).
   - [ ] Wire letter/vocab drills through FSRS-6 (extend the card model with
         deck/source + card-type); S-Pen tracing (valued, not gating).
   - [ ] **Record restored-Attic audio** (critical path — see `audio_script.md`).
