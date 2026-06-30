@@ -90,10 +90,15 @@ Goal: encrypted on-device DB, working scheduler, polytonic rendering.
       Fixed the upstream FSRS-Kotlin exponential-forgetting-curve bug.
   - [ ] Wire the scheduler to the review UI + persist memory state in the
         encrypted DB (card table, due-card queries).
-- [ ] **Fonts:** bundle Gentium Plus 7.000 + `OFL.txt`; load as a Compose
-      `FontFamily`; render NFC text. Add New Athena Unicode as fallback only if a
-      glyph is missing.
-- [ ] **Reader:** wire `ReaderScreen` to the DB; tap-a-word → LSJ/vocab lookup.
+- [x] **Fonts:** bundled Gentium Plus (6.101) Regular/Bold/Italic/BoldItalic +
+      `OFL.txt`; exposed as the `GentiumPlus` Compose `FontFamily`; renders NFC
+      Greek in the reader. (Upgrade to 7.000 when SIL's site is reachable; add
+      New Athena Unicode fallback only if a glyph is missing.)
+- [x] **Reader (UI):** `ReaderScreen` renders a passage in Gentium Plus with a
+      facing-translation slot and prev/next navigation; hosted in `MainActivity`
+      over real sample passages; pure navigation logic unit-tested.
+  - [ ] Wire `ReaderScreen` to the content-pack DB (replace `SAMPLE_PASSAGES`).
+  - [ ] Tap-a-word → LSJ/vocab lookup.
 - [ ] **Review flow:** present due cards, grade (Again/Hard/Good/Easy), persist
       FSRS state. Mind the Compose **v2 test APIs** (StandardTestDispatcher) —
       advance the virtual clock in tests.
