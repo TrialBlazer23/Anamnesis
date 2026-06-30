@@ -32,10 +32,9 @@ class ReaderNavigationTest {
     }
 
     @Test
-    fun sampleDataIsPresentAndNfc() {
+    fun sampleDataHasGreekAndFacingTranslation() {
         assertEquals(3, SAMPLE_PASSAGES.size)
-        // Greek present, translation pending (null) for now.
         assertTrue(SAMPLE_PASSAGES.all { it.greek.isNotBlank() })
-        assertTrue(SAMPLE_PASSAGES.all { it.translation == null })
+        assertTrue(SAMPLE_PASSAGES.all { !it.translation.isNullOrBlank() })
     }
 }

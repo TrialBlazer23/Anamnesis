@@ -11,11 +11,11 @@ checklists. Check items off as they land.
 - [x] **Phase 1a — repo scaffold**: multi-module Gradle layout, version catalog,
   wrapper (9.6.1), `.gitignore`, CI workflows, license/notice files, `CLAUDE.md`.
   Debug APK builds green in CI.
-- [x] **Phase 0 (core)** — pipeline builds the real *Meditations* content pack
-  from live Perseus TEI: generic CTS parser, NFC + diacritic-stripped keys,
-  FTS5 (accent-insensitive), versioned SHA-256 manifest, pytest suite in CI.
-  Remaining: real DCC vocab CSV + Haines translation (sources blocked from the
-  build sandbox — wire in CI).
+- [x] **Phase 0** — pipeline builds the full *Meditations* content pack from
+  live Perseus TEI: generic CTS parser, NFC + diacritic-stripped keys, FTS5
+  (accent-insensitive), DCC Greek core vocab (524), Haines 1916 facing
+  translation (485/577, ~84%), versioned SHA-256 manifest, pytest suite in CI.
+  Remaining (optional): LSJ gloss; translate grc2 sub-sections beyond `.1`.
 - [ ] Everything below.
 
 Phases 0 and 1 can proceed in parallel (pipeline is independent of the app).
@@ -36,11 +36,12 @@ artifact. No app code required.
 - [x] Verify FTS5 accent-insensitive search returns expected passages (test +
       live run).
 - [x] `pipeline.yml` runs pytest then publishes `out/*.db` + `*.manifest.json`.
-- [ ] Attach Haines 1916 facing English (public domain) via `--translation`
-      JSON. Source (Wikisource/archive.org) is blocked from the build sandbox —
-      fetch/commit in CI.
-- [ ] Load real DCC Greek Core Vocabulary (CC BY-SA 3.0) via `--vocab-csv`
-      (loader done; `dcc.dickinson.edu` blocked from the sandbox).
+- [x] Attach Haines 1916 facing English (public domain) from the Wikisource
+      EPUB (`data/haines_1916.epub`) via `--haines-epub`; `translation.py` parses
+      book/chapter and attaches each to its chapter's first section. 485/577
+      passages translated (~84%).
+- [x] Load the real DCC Greek Core Vocabulary (CC BY-SA 3.0,
+      `data/dcc_greek_core.csv`, 524 lemmas) via `--vocab-csv`.
 - [ ] Load an openly-licensed LSJ gloss (lsj9 CC BY 4.0, or LSJLogeion).
 - [ ] Ship content packs per the **hybrid delivery** decision (see below):
   - [ ] Bundle the starter pack (Meditations + DCC core vocab) in the APK as a

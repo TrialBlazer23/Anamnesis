@@ -39,17 +39,24 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements-ci.txt          # or requirements.txt for the light path
 python -m pytest                            # run the suite
 python build_database.py --work tlg0562.tlg001 --out out/meditations.db \
-    [--vocab-csv path/to/dcc.csv] [--translation path/to/haines.json]
+    --vocab-csv data/dcc_greek_core.csv \
+    --haines-epub data/haines_1916.epub
 ```
-This fetches the Perseus `perseus-grc2` (Leopold 1908) edition — CC BY-SA 4.0 —
-and builds all 12 books of the *Meditations* (~577 passages).
+This fetches the Perseus `perseus-grc2` (Leopold 1908) Greek — CC BY-SA 4.0 —
+builds all 12 books of the *Meditations* (577 passages), attaches the DCC Greek
+Core Vocabulary and the Haines 1916 facing translation, and writes the pack +
+manifest. Current coverage: **485/577 passages translated (~84%)**.
 
-## Data still to wire (Phase 0 remainder)
-- **DCC Greek Core Vocabulary** (CC BY-SA 3.0): the loader is column-tolerant;
-  supply the real CSV via `--vocab-csv`. `dcc.dickinson.edu` is not reachable
-  from the build sandbox, so fetch it in CI or commit a vetted copy.
-- **Haines 1916 facing translation** (public domain): supply a `ref -> English`
-  JSON via `--translation`. **Use Haines 1916, not Farquharson 1944.**
+## Bundled inputs (`data/`)
+- `data/dcc_greek_core.csv` — DCC Greek Core Vocabulary (CC BY-SA 3.0, ~500 lemmas).
+- `data/haines_1916.epub` — Haines 1916 facing translation, from Wikisource
+  (public domain; **Haines 1916, not Farquharson 1944**). One XHTML per book;
+  `translation.py` keys chapters `book.chapter` and the build attaches each to
+  its chapter's first section.
+
+Translation gaps (~16%) are grc2 sub-sections beyond `.1` (Haines divides only
+by book.chapter) plus one Book-12 chapter whose markup lacks a leading number.
+Alternative ref→English JSON can still be supplied via `--translation`.
 
 ## Licensing
 Every bundled source carries an attribution/ShareAlike obligation — see the

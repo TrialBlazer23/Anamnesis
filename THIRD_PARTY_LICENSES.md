@@ -24,8 +24,8 @@ dependencies and data sources are added, and ship it inside the app.
 | Work | License | Obligation |
 |---|---|---|
 | Perseus / canonical-greekLit TEI | CC BY-SA (per text) | Attribution + ShareAlike |
-| Marcus Aurelius *Meditations*, Haines 1916 (Loeb) | Public domain (US, pre-1929) | Use Haines — **NOT** Farquharson 1944 |
-| DCC Greek Core Vocabulary | CC BY-SA 3.0 | Attribution + ShareAlike (commercial bundling OK) |
+| Marcus Aurelius *Meditations*, Haines 1916 (Loeb) — from Wikisource (`pipeline/data/haines_1916.epub`) | Public domain (US, pre-1929) | Use Haines — **NOT** Farquharson 1944 |
+| DCC Greek Core Vocabulary (`pipeline/data/dcc_greek_core.csv`) | CC BY-SA 3.0 | Attribution + ShareAlike (commercial bundling OK) |
 | LSJ — lsj9 (ciscoriordan) | CC BY 4.0 | Attribution |
 | LSJ — LSJLogeion (helmadik) | Credit Perseus Tufts + Helma Dik/Logeion | Attribution |
 | Perseus treebank_data | CC BY-SA 3.0 US | Attribution + ShareAlike |

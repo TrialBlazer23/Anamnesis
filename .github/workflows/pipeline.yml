@@ -32,7 +32,10 @@ jobs:
         run: python -m pytest -q
 
       - name: Build Meditations content pack
-        run: python build_database.py --work tlg0562.tlg001 --out out/meditations.db
+        run: |
+          python build_database.py --work tlg0562.tlg001 --out out/meditations.db \
+            --vocab-csv data/dcc_greek_core.csv \
+            --haines-epub data/haines_1916.epub
 
       - uses: actions/upload-artifact@v4
         with:
