@@ -83,8 +83,9 @@ Goal: encrypted on-device DB, working scheduler, polytonic rendering.
 - [ ] **Encrypted user DB:** finish `core/data/DatabaseFactory` — derive the
       passphrase from an Android Keystore-backed key (not a literal); wire
       `sqlcipher-android` 4.16.0 via `SupportOpenHelperFactory`.
-- [ ] **Content import:** open the Phase 0 content pack read-only, or import it
-      into the encrypted DB. Confirm FTS works through Room (`@Fts4`).
+- [x] **Content import:** the app opens the Phase 0 content pack read-only via
+      `ContentPackDataSource` (plain SQLite), provisioned from the bundled asset
+      into `filesDir`. (Encrypted-DB import path not needed — packs stay read-only.)
 - [x] **FSRS-6:** clean-room Kotlin port in `:feature:srs` (`Fsrs.kt` +
       `Models.kt`), no Android deps, validated against py-fsrs/fsrs-rs reference
       values with a JUnit suite (`FsrsTest.kt`, runs under `./gradlew test`).
@@ -98,8 +99,13 @@ Goal: encrypted on-device DB, working scheduler, polytonic rendering.
 - [x] **Reader (UI):** `ReaderScreen` renders a passage in Gentium Plus with a
       facing-translation slot and prev/next navigation; hosted in `MainActivity`
       over real sample passages; pure navigation logic unit-tested.
-  - [ ] Wire `ReaderScreen` to the content-pack DB (replace `SAMPLE_PASSAGES`).
+  - [x] Wire `ReaderScreen` to the content-pack DB: `ReaderRepository` +
+        `ContentPackReaderRepository` (read-only SQLite in `:core:data`) +
+        `ReaderViewModel`/`ReaderRoute`; the starter pack is bundled in
+        `app/src/main/assets/content/meditations.db` (sample data is the
+        fallback). VM state logic unit-tested.
   - [ ] Tap-a-word → LSJ/vocab lookup.
+  - [ ] FTS5 search UI over the content pack.
 - [ ] **Review flow:** present due cards, grade (Again/Hard/Good/Easy), persist
       FSRS state. Mind the Compose **v2 test APIs** (StandardTestDispatcher) —
       advance the virtual clock in tests.

@@ -30,6 +30,8 @@ pipeline/cache/
 *.db
 *.db-journal
 *.db-wal
+# ...except the bundled starter content pack the app ships
+!app/src/main/assets/content/*.db
 
 # OS
 .DS_Store

@@ -64,6 +64,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Build an Anamnesis content pack.")
     parser.add_argument("--work", required=True, help="CTS work id, e.g. tlg0562.tlg001")
     parser.add_argument("--edition", default="perseus-grc2", help="Edition suffix")
+    parser.add_argument("--title", help="Display title for the work (default: work id)")
     parser.add_argument("--out", required=True, help="Output .db path")
     parser.add_argument("--vocab-csv", help="DCC core vocab CSV (CC BY-SA 3.0)")
     parser.add_argument("--translation", help="ref->English JSON (public domain)")
@@ -88,6 +89,7 @@ def main() -> None:
 
     meta = {
         "work": args.work,
+        "title": args.title or args.work,
         "edition": args.edition,
         "source_url": source_url(args.work, args.edition),
         "license": SOURCE_LICENSE,

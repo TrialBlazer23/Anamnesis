@@ -31,6 +31,12 @@ dependencies and data sources are added, and ship it inside the app.
 | Perseus treebank_data | CC BY-SA 3.0 US | Attribution + ShareAlike |
 | Morpheus / Diogenes generated morphology | data CC BY-SA; **code GPL-3.0** | Bundle generated DATA only — do NOT link the GPL C binaries |
 
+## Bundled content pack
+The shipped starter pack `app/src/main/assets/content/meditations.db` is a
+derivative combining the Perseus Greek (CC BY-SA 4.0), the Haines 1916
+translation (public domain), and the DCC Greek Core Vocabulary (CC BY-SA 3.0);
+the ShareAlike + attribution obligations above apply to it.
+
 ## Per-text audit required
 - Perseus UD conversion (`UD_Ancient_Greek-Perseus`): **CC BY-NC-SA 2.5** (non-commercial).
 - GLAUx trees declare CC0, but the source GLAUx corpus is mostly CC BY-SA with
