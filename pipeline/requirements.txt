@@ -2,5 +2,6 @@
 lxml
 httpx
 betacode==1.0
+pygtrie  # betacode 1.0 imports this but doesn't declare it
 greek-accentuation==1.2.0
 # sqlite3 and unicodedata are in the Python standard library.
