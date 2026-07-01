@@ -19,6 +19,7 @@ parsed corpora/aligned translations.
 | Diorisis corpus | 🟡 manual download (figshare blocked) | N2, N5 | CC BY 4.0 claimed — **verify on figshare page** |
 | Middle Liddell via blinskey/greek-reference | ❌ **do not bundle this copy** | (N1) | Embedded Perseus notice: "non-commercial purposes only" |
 | Strong's / Abbott-Smith | 🟢 optional later (Koine) | N1 | CC0 (README) / PD (README; 1922) |
+| Classics Viewer (threedlite) | 🟢 **prior-art goldmine** — MIT code, borrow freely | N1, N2, N4 patterns | MIT (LICENSE.txt verified); its data manifest is CC BY-SA per source |
 | SM-2 SRS, DB bootstrapper, font/audio code samples | ➖ skip — we ship better (FSRS-6, ContentPackProvisioner, `:core:ui`) | — | — |
 | SpeechGen "Ancient Greek TTS" | ❌ rejected (Modern-Greek voices; see `audio_sources.md`) | N4 | — |
 | Hell-Char / Ithaca (ML) | ➖ out of scope (research) | — | — |
@@ -80,6 +81,32 @@ Drop the `.db` files in `pipeline/data/lyceum/` and I'll build the extraction
 | Lyceum `lsj.db`, `morph.db` (+ optionally `editions.db`) | github.com/lyceum-quest/archeion → Releases → latest | note release version for attribution |
 | Diorisis corpus (only if we want broader N2 than Lyceum) | figshare **DOI 10.6084/m9.figshare.6187256** (annotated XML) or the JSON variant (article 12251468) | license badge must say **CC BY** (the Zenodo DuckDB variant is CC BY-NC-ND — skip it) |
 | hypotactic.com license evidence | https://hypotactic.com/my-reading-of-homer-work-in-progress/ | screenshot/save the CC-BY statement for our records before we ship audio |
+
+## Classics Viewer (threedlite) — verified prior art worth borrowing
+
+Code is **MIT** (verified in its `LICENSE.txt`, which doubles as a per-source data
+manifest — a good template for ours). Their build deliberately avoids
+Morpheus/CLTK on-device and instead merges these morphology/lexicon sources:
+
+- **Full LSJ TEI** at `PerseusDL/canonical-pdlrefwk` →
+  `data/viaf66541464/001/viaf66541464.001.perseus-eng1.xml` — **verified
+  fetchable from this sandbox** (CC BY-SA 3.0 US per their manifest). Their MIT
+  `extract_lsj_fixed.py` parses it to ~116K headwords: removes the guesswork
+  from our LSJ milestone.
+- **OGA (Opera Graeca Adnotata) v0.2.0** — 268,065 treebank-derived form→lemma
+  mappings (their "essential" lemma layer), Zenodo record 14206061 (blocked from
+  sandbox → manual/CI fetch; CC BY-SA family per their manifest).
+- **GLAUx treebank** (~250 MB, 20M tokens, ~98.8% lemma accuracy) — raw fetch
+  works from the sandbox; used to disambiguate homographs.
+- **Accent-variant generation** we should copy into our search/lookup keys:
+  grave variants (καί→καὶ), unaccented enclitics, movable-nu variants (~29K).
+- **Audio delivery pattern** (matches our hybrid decision): tiny bundled teaser
+  zip + full pack via **Play Asset Delivery on-demand** (doesn't count against
+  the 200 MB base limit); zip layout `Author/Work/book_N/line_X.mp4` where the
+  path itself is the manifest; imported by a foreground service into a metadata DB.
+- Their `lemma_map` schema — `(word_form, word_normalized, lemma, confidence,
+  source, morph_info)` with multiple confidence-scored lemmas per form — is the
+  shape our tap-to-parse table should take.
 
 ## Design ideas adopted from the document (no download needed)
 
