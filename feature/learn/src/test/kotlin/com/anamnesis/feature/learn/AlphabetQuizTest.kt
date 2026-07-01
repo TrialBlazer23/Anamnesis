@@ -45,4 +45,23 @@ class AlphabetQuizTest {
         assertEquals(ALPHABET.size, deck.size)
         assertEquals(ALPHABET.map { it.lower }.toSet(), deck.map { it.lower }.toSet())
     }
+
+    @Test
+    fun distractorsPreferVisualLookAlikes() {
+        // ν↔υ and ζ↔ξ are curated confusables: a 4-option question must include them.
+        val nuOptions = AlphabetQuiz.question(letter("ν"), ALPHABET, 4, Random(1)).options.map { it.lower }
+        assertTrue("nu options should include upsilon", "υ" in nuOptions)
+
+        val zetaOptions = AlphabetQuiz.question(letter("ζ"), ALPHABET, 4, Random(2)).options.map { it.lower }
+        assertTrue("zeta options should include xi", "ξ" in zetaOptions)
+    }
+
+    @Test
+    fun smallOptionCountStillIncludesTheAnswer() {
+        val q = AlphabetQuiz.question(letter("α"), ALPHABET, optionCount = 2, random = Random(3))
+        assertEquals(2, q.options.size)
+        assertTrue(q.options.any { it.lower == "α" })
+    }
+
+    private fun letter(lower: String) = ALPHABET.first { it.lower == lower }
 }

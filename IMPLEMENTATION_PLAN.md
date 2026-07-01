@@ -134,10 +134,33 @@ backed by the encrypted DB.
         bottom-nav tab; roadmap, alphabet browser (24 letters by batch) with
         per-letter detail, and a recognition drill (name/sound → letter). Quiz
         logic + data unit-tested. Audio ids are optional (see `audio_sources.md`).
+  - [x] Confusion-set distractors (visual look-alikes + same-batch weighted) and
+        batch-scoped practice (drill All or a single batch).
+  - [ ] Per-unit gating/progress (persisted) so units unlock on the advance criteria.
   - [ ] Wire letter/vocab drills through FSRS-6 (extend the card model with
         deck/source + card-type); S-Pen tracing (valued, not gating).
   - [ ] **Record restored-Attic audio** (critical path — see `audio_script.md`).
   - [ ] *Euthyphro* content pack (Plato `tlg0059.tlg001`) for the handoff.
+- [ ] **Resource-registry incorporation** (see `docs/RESOURCE_ANALYSIS.md` for
+      verified licenses/paths):
+  - [x] Rouse *A Greek Boy at Home* (CC BY-SA 4.0) fetched to
+        `pipeline/data/rouse/` + parser `rouse.py` (tested) — Learn-tab reading.
+  - [x] Dodson Koine lexicon (CC0, verified) fetched to `pipeline/data/koine/` +
+        loader `koine_lexicon.py` (tested) — Koine glosses for the *Meditations*.
+  - [x] Chamberlain Iliad audio manifest (CC BY 4.0) — per-line audio confirmed
+        fetchable from the public GCS mirror; audio packs to build later.
+  - [ ] Lyceum `lsj.db` + `morph.db` (CC BY-SA 4.0) — **maintainer downloads from
+        github.com/lyceum-quest/archeion Releases** → `pipeline/data/lyceum/`;
+        then build trimmed short-gloss + form→lemma packs (N1/N2, tap-to-parse).
+  - [ ] Lyceum Aesop fables (52, difficulty-tiered CoNLL-U, in-git) — ingest as
+        graded-reading pack for the Learn tab.
+  - [ ] Add `dialect` (EPIC/ATTIC/KOINE) tagging to content-pack meta + passages.
+  - [x] **Middle Liddell bundled** (PerseusDL/canonical-pdlrefwk, CC BY-SA 4.0,
+        sandbox/CI-fetchable): `middle_liddell.py` parses 34,348 headword →
+        short-gloss entries into a new content-pack `lexicon` table (schema v2);
+        reader tap-to-lookup now falls back DCC → lexicon. Pack grew 2 → 6.1 MB.
+  - [ ] Wire Dodson (Koine) into the lookup chain between DCC and the lexicon;
+        LSJLogeion full definitions as a downloadable pack later.
 - [ ] More texts/content packs beyond *Meditations*.
 - [ ] DataStore-backed settings (font size, retention target, theme).
 - [ ] Morphology lookup from Morpheus/Diogenes **generated data** (no GPL binaries).

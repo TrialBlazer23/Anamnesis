@@ -26,10 +26,22 @@ dependencies and data sources are added, and ship it inside the app.
 | Perseus / canonical-greekLit TEI | CC BY-SA (per text) | Attribution + ShareAlike |
 | Marcus Aurelius *Meditations*, Haines 1916 (Loeb) — from Wikisource (`pipeline/data/haines_1916.epub`) | Public domain (US, pre-1929) | Use Haines — **NOT** Farquharson 1944 |
 | DCC Greek Core Vocabulary (`pipeline/data/dcc_greek_core.csv`) | CC BY-SA 3.0 | Attribution + ShareAlike (commercial bundling OK) |
-| LSJ — lsj9 (ciscoriordan) | CC BY 4.0 | Attribution |
-| LSJ — LSJLogeion (helmadik) | Credit Perseus Tufts + Helma Dik/Logeion | Attribution |
+| **Middle Liddell** (Intermediate Greek-English Lexicon, Liddell & Scott) — from PerseusDL/canonical-pdlrefwk; **bundled** in the content pack's `lexicon` table (34,348 entries) | CC BY-SA 4.0 (repo README; file verified free of embedded restrictions) | Credit Perseus (Tufts); keep the availability statement intact; **offer Perseus any modifications**; ShareAlike |
+| LSJ — LSJLogeion (helmadik), planned downloadable full-definition pack | CC BY-SA 4.0 (LICENSE.md verified) | Credit Perseus Tufts **and** Helma Dik/Logeion; ShareAlike |
+| LSJ — lsj9 (ciscoriordan), possible v2 coverage extension | CC BY 4.0 (LICENSE verified) | Attribution; note upstream base-text provenance is self-described as unverified |
 | Perseus treebank_data | CC BY-SA 3.0 US | Attribution + ShareAlike |
 | Morpheus / Diogenes generated morphology | data CC BY-SA; **code GPL-3.0** | Bundle generated DATA only — do NOT link the GPL C binaries |
+| Rouse, *A Greek Boy at Home* (1909) — digitization by Maddock/Jasinski/Hardison/Binns (`pipeline/data/rouse/`) | Base text: US public domain; digitization: CC BY-SA 4.0 (declared in upstream README, snapshotted as `UPSTREAM_README.md`) | Attribution to Rouse + the digitizers; ShareAlike on the correction layer |
+| Dodson Greek Lexicon (`pipeline/data/koine/dodson.csv`) | CC0 1.0 (LICENSE file verified, kept as `DODSON_LICENSE`) | None (public-domain dedication); credit courteous |
+| Lyceum / archeion datasets (lsj.db, morph.db, CoNLL-U texts) — planned | CC BY-SA 4.0 (repo LICENSE verified) | Attribution to Lyceum + upstream Perseus/Morpheus/LSJ; ShareAlike; audit per-edition provenance before shipping `texts.db` wholesale (GLAUx upstream has some CC BY-NC texts) |
+| David Chamberlain, Iliad recitations (hypotactic.com) — planned audio packs; manifest at `pipeline/data/audio/` | CC BY 4.0 (per Perseus/Scaife production attribution; **confirm on hypotactic.com before shipping**) | Attribution: "© 2016–2017 David Chamberlain, hypotactic.com, CC BY 4.0" |
+
+> **Do NOT bundle** the blinskey/greek-reference Middle Liddell copies
+> (`lexicon.zip` / `Perseus_text_1999.04.0058.xml`): their embedded Perseus
+> availability statement carries a **"non-commercial purposes only"** clause.
+> Source Middle Liddell/LSJ from PerseusDL/lexica or Lyceum instead.
+> Likewise do NOT use the Zenodo **DuckDB** conversion of Diorisis (CC BY-NC-ND);
+> only the original figshare XML/JSON (CC BY, verify on download).
 
 ## Bundled content pack
 The shipped starter pack `app/src/main/assets/content/meditations.db` is a

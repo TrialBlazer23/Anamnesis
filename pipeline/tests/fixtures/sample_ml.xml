@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE TEI.2 PUBLIC "-//TEI P4//DTD Main DTD Driver File//EN" "http://www.tei-c.org/Vault/P4/xml/schema/dtd/tei2.dtd" [
+<!ENTITY % TEI.XML "INCLUDE">
+]>
+<TEI.2>
+<text><body>
+<entry id="n1" type="main" key="a)agh/s">
+<form><orth lang="greek" extent="full">ἀαγής</orth></form>
+<sense id="n1.0" n="0" level="0"><trans><tr>unbroken, not to be broken, hard, strong</tr></trans>, <usg>Od.</usg></sense>
+</entry>
+<entry id="n2" type="main" key="a)/aptos">
+<form><orth lang="greek" extent="full">ἄαπτος</orth></form>
+<sense id="n2.0" n="0" level="0"><trans><tr>not to be touched</tr></trans> &lpar;also&rpar; <trans><tr>resistless, invincible</tr></trans></sense>
+</entry>
+<entry id="n3" type="main" key="xref-only">
+<form><orth lang="greek" extent="full">ἀάω</orth></form>
+<sense id="n3.0" n="0" level="0">see <foreign lang="greek">ἄτη</foreign></sense>
+</entry>
+</body></text>
+</TEI.2>

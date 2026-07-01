@@ -5,6 +5,7 @@ Schema (content pack — opened read-only by the app, NOT the encrypted user DB)
     passages(id, cts_urn, ref, greek, search_key, translation)
     passage_fts  -- FTS5 external-content index over passages
     vocabulary(lemma, part_of_speech, gloss, semantic_group, frequency_rank)
+    lexicon(lemma, normalized_lemma, gloss)  -- broad short-gloss dictionary (Middle Liddell)
     meta(key, value)  -- schema_version, work, edition, source, license
 
 The FTS5 index uses unicode61 with remove_diacritics=2, so a query is
@@ -18,10 +19,11 @@ import sqlite3
 from pathlib import Path
 from typing import Iterable
 
+from .middle_liddell import LexiconEntry
 from .tei import Passage
 from .vocab import VocabEntry
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 _SCHEMA = """
 CREATE TABLE passages (
@@ -47,6 +49,14 @@ CREATE TABLE vocabulary (
     frequency_rank INTEGER
 );
 
+CREATE TABLE lexicon (
+    id              INTEGER PRIMARY KEY,
+    lemma           TEXT NOT NULL,
+    normalized_lemma TEXT NOT NULL,
+    gloss           TEXT NOT NULL
+);
+CREATE INDEX idx_lexicon_normalized ON lexicon(normalized_lemma);
+
 CREATE TABLE meta (
     key   TEXT PRIMARY KEY,
     value TEXT
@@ -59,6 +69,7 @@ def build_content_pack(
     passages: Iterable[Passage],
     vocab: Iterable[VocabEntry] = (),
     meta: dict[str, str] | None = None,
+    lexicon: Iterable[LexiconEntry] = (),
 ) -> dict[str, int]:
     """Create the content pack at ``out_path``. Returns row counts."""
     out = Path(out_path)
@@ -92,12 +103,22 @@ def build_content_pack(
             vocab_rows,
         )
 
+        lexicon_rows = [(e.lemma, e.search_key, e.gloss) for e in lexicon]
+        conn.executemany(
+            "INSERT INTO lexicon(lemma, normalized_lemma, gloss) VALUES (?, ?, ?)",
+            lexicon_rows,
+        )
+
         meta_rows = {"schema_version": str(SCHEMA_VERSION), **(meta or {})}
         conn.executemany(
             "INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)",
             list(meta_rows.items()),
         )
         conn.commit()
-        return {"passages": len(passage_rows), "vocabulary": len(vocab_rows)}
+        return {
+            "passages": len(passage_rows),
+            "vocabulary": len(vocab_rows),
+            "lexicon": len(lexicon_rows),
+        }
     finally:
         conn.close()
