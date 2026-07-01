@@ -22,12 +22,16 @@ requirements-ci.txt          adds CLTK + pytest for CI/desktop
 out/                         generated packs (git-ignored)
 ```
 
-## Content-pack schema (v1)
+## Content-pack schema (v2)
 - `passages(id, cts_urn, ref, greek, search_key, translation)` — `greek` is
   NFC; `search_key` is diacritic-stripped.
 - `passage_fts` — FTS5 external-content index over `passages`, tokenized
   `unicode61 remove_diacritics 2`, so search is accent-insensitive.
-- `vocabulary(lemma, part_of_speech, gloss, semantic_group, frequency_rank)`.
+- `vocabulary(lemma, part_of_speech, gloss, semantic_group, frequency_rank)` —
+  the DCC core (frequency-ranked teaching glosses).
+- `lexicon(id, lemma, normalized_lemma, gloss)` — broad short-gloss dictionary
+  (Middle Liddell, 34,348 entries; built with `--middle-liddell`, which fetches
+  the CC BY-SA 4.0 TEI from PerseusDL/canonical-pdlrefwk into the cache).
 - `meta(key, value)` — `schema_version`, `work`, `edition`, `source_url`, `license`.
 
 Each build also emits `<out>.manifest.json` with the pack's SHA-256, size, and

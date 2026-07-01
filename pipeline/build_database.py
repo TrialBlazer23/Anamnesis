@@ -21,6 +21,7 @@ from collections import defaultdict
 
 from anamnesis_pipeline.database import SCHEMA_VERSION, build_content_pack
 from anamnesis_pipeline.manifest import build_manifest, write_manifest
+from anamnesis_pipeline.middle_liddell import fetch_middle_liddell, parse_middle_liddell
 from anamnesis_pipeline.tei import Passage, fetch_tei, parse_passages, source_url
 from anamnesis_pipeline.translation import parse_haines_epub
 from anamnesis_pipeline.vocab import load_dcc_vocab
@@ -69,6 +70,11 @@ def main() -> None:
     parser.add_argument("--vocab-csv", help="DCC core vocab CSV (CC BY-SA 3.0)")
     parser.add_argument("--translation", help="ref->English JSON (public domain)")
     parser.add_argument("--haines-epub", help="Wikisource Haines 1916 EPUB (public domain)")
+    parser.add_argument(
+        "--middle-liddell",
+        action="store_true",
+        help="Fetch + include the Middle Liddell short-gloss lexicon (CC BY-SA 4.0)",
+    )
     parser.add_argument("--cache", default="cache", help="TEI cache dir")
     parser.add_argument("--pack-id", help="Manifest pack id (default: out file stem)")
     args = parser.parse_args()
@@ -87,6 +93,10 @@ def main() -> None:
 
     vocab = load_dcc_vocab(args.vocab_csv) if args.vocab_csv else []
 
+    lexicon = []
+    if args.middle_liddell:
+        lexicon = parse_middle_liddell(fetch_middle_liddell(args.cache))
+
     meta = {
         "work": args.work,
         "title": args.title or args.work,
@@ -94,7 +104,7 @@ def main() -> None:
         "source_url": source_url(args.work, args.edition),
         "license": SOURCE_LICENSE,
     }
-    counts = build_content_pack(args.out, passages, vocab, meta)
+    counts = build_content_pack(args.out, passages, vocab, meta, lexicon=lexicon)
 
     pack_id = args.pack_id or Path(args.out).stem
     manifest = build_manifest(
@@ -111,7 +121,8 @@ def main() -> None:
 
     print(
         f"Built {args.out}: {counts['passages']} passages "
-        f"({translated} translated), {counts['vocabulary']} vocab entries\n"
+        f"({translated} translated), {counts['vocabulary']} vocab entries, "
+        f"{counts['lexicon']} lexicon entries\n"
         f"Manifest: {manifest_path} (sha256 {manifest['sha256'][:12]}…)"
     )
 

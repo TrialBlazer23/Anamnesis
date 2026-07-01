@@ -13,7 +13,7 @@ def _build(tmp_path) -> Path:
     vocab = load_dcc_vocab(FIXTURES / "sample_vocab.csv")
     out = tmp_path / "pack.db"
     counts = build_content_pack(out, passages, vocab, {"work": "tlg0562.tlg001"})
-    assert counts == {"passages": 3, "vocabulary": 3}
+    assert counts == {"passages": 3, "vocabulary": 3, "lexicon": 0}
     return out
 
 
@@ -25,8 +25,31 @@ def test_build_content_pack_populates_tables(tmp_path):
         assert conn.execute("SELECT COUNT(*) FROM vocabulary").fetchone()[0] == 3
         assert (
             conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0]
-            == "1"
+            == "2"
         )
+    finally:
+        conn.close()
+
+
+def test_lexicon_table_populates_and_queries_by_normalized_lemma(tmp_path):
+    from anamnesis_pipeline.middle_liddell import LexiconEntry
+
+    passages = parse_passages((FIXTURES / "sample_tei.xml").read_text(encoding="utf-8"))
+    out = tmp_path / "pack.db"
+    counts = build_content_pack(
+        out,
+        passages,
+        [],
+        {},
+        lexicon=[LexiconEntry(lemma="λόγος", gloss="word; account")],
+    )
+    assert counts["lexicon"] == 1
+    conn = sqlite3.connect(out)
+    try:
+        row = conn.execute(
+            "SELECT lemma, gloss FROM lexicon WHERE normalized_lemma = ?", ("λογοσ",)
+        ).fetchone()
+        assert row == ("λόγος", "word; account")
     finally:
         conn.close()
 

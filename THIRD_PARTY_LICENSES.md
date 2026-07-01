@@ -26,8 +26,9 @@ dependencies and data sources are added, and ship it inside the app.
 | Perseus / canonical-greekLit TEI | CC BY-SA (per text) | Attribution + ShareAlike |
 | Marcus Aurelius *Meditations*, Haines 1916 (Loeb) — from Wikisource (`pipeline/data/haines_1916.epub`) | Public domain (US, pre-1929) | Use Haines — **NOT** Farquharson 1944 |
 | DCC Greek Core Vocabulary (`pipeline/data/dcc_greek_core.csv`) | CC BY-SA 3.0 | Attribution + ShareAlike (commercial bundling OK) |
-| LSJ — lsj9 (ciscoriordan) | CC BY 4.0 | Attribution |
-| LSJ — LSJLogeion (helmadik) | Credit Perseus Tufts + Helma Dik/Logeion | Attribution |
+| **Middle Liddell** (Intermediate Greek-English Lexicon, Liddell & Scott) — from PerseusDL/canonical-pdlrefwk; **bundled** in the content pack's `lexicon` table (34,348 entries) | CC BY-SA 4.0 (repo README; file verified free of embedded restrictions) | Credit Perseus (Tufts); keep the availability statement intact; **offer Perseus any modifications**; ShareAlike |
+| LSJ — LSJLogeion (helmadik), planned downloadable full-definition pack | CC BY-SA 4.0 (LICENSE.md verified) | Credit Perseus Tufts **and** Helma Dik/Logeion; ShareAlike |
+| LSJ — lsj9 (ciscoriordan), possible v2 coverage extension | CC BY 4.0 (LICENSE verified) | Attribution; note upstream base-text provenance is self-described as unverified |
 | Perseus treebank_data | CC BY-SA 3.0 US | Attribution + ShareAlike |
 | Morpheus / Diogenes generated morphology | data CC BY-SA; **code GPL-3.0** | Bundle generated DATA only — do NOT link the GPL C binaries |
 | Rouse, *A Greek Boy at Home* (1909) — digitization by Maddock/Jasinski/Hardison/Binns (`pipeline/data/rouse/`) | Base text: US public domain; digitization: CC BY-SA 4.0 (declared in upstream README, snapshotted as `UPSTREAM_README.md`) | Attribution to Rouse + the digitizers; ShareAlike on the correction layer |

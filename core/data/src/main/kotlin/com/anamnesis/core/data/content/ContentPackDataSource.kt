@@ -83,6 +83,31 @@ internal class ContentPackDataSource(private val dbPath: String) {
         }
     }
 
+    /**
+     * Broad short-gloss dictionary lookup (Middle Liddell) by accent-insensitive
+     * key. Returns null on packs predating the `lexicon` table (schema v1).
+     */
+    fun lookupLexicon(normalizedKey: String): VocabularyEntry? = runCatching {
+        SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY).use { db ->
+            db.rawQuery(
+                "SELECT lemma, gloss FROM lexicon WHERE normalized_lemma = ? LIMIT 1",
+                arrayOf(normalizedKey),
+            ).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    VocabularyEntry(
+                        lemma = cursor.getString(0),
+                        partOfSpeech = "",
+                        gloss = cursor.getString(1),
+                        semanticGroup = null,
+                        frequencyRank = null,
+                    )
+                } else {
+                    null
+                }
+            }
+        }
+    }.getOrNull()
+
     /** Diacritic-strip the query and turn each word into an FTS5 prefix token. */
     private fun buildMatchExpression(query: String): String =
         GreekText.stripDiacritics(query)

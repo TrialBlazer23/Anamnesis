@@ -82,6 +82,25 @@ Drop the `.db` files in `pipeline/data/lyceum/` and I'll build the extraction
 | Diorisis corpus (only if we want broader N2 than Lyceum) | figshare **DOI 10.6084/m9.figshare.6187256** (annotated XML) or the JSON variant (article 12251468) | license badge must say **CC BY** (the Zenodo DuckDB variant is CC BY-NC-ND — skip it) |
 | hypotactic.com license evidence | https://hypotactic.com/my-reading-of-homer-work-in-progress/ | screenshot/save the CC-BY statement for our records before we ship audio |
 
+## Lexicon decision (N1) — verified recommendation
+
+All four open-LSJ candidates probed (licenses read from files; encodings and
+entry counts verified from fetched bytes):
+
+| Source | License | Format | Verdict |
+|---|---|---|---|
+| **Middle Liddell** @ `PerseusDL/canonical-pdlrefwk` | CC BY-SA 4.0 (README; **entire 20 MB file grepped — zero NC/availability statement**) | Unicode headwords, machine-readable `<tr>` gloss tags; 36,494 entries, 94% glossed | ✅ **bundle — incorporated** |
+| LSJLogeion (helmadik) | CC BY-SA 4.0 (LICENSE.md) | Unicode, best-corrected full LSJ; 86 files, ~115 MB, each sandbox-fetchable | 🟢 later: downloadable full-definition pack (~30–40 MB compressed) |
+| lsj9 (ciscoriordan) | CC BY 4.0 (LICENSE) | 111,506 short defs, 7.4 MB JSON — but visible OCR artifacts, murky base-text provenance | hold for v2 coverage extension |
+| PerseusDL/lexica LSJ · lsj-js | CC BY-SA / MIT-labeled | Beta Code / 70 MB HTML-in-JSON | avoid (superseded by the two above) |
+
+The Middle Liddell's glosses are pedagogically curated one-liners (it *is* the
+student's lexicon) — exactly the tap-to-lookup popup shape. Single-file CI
+fetch, ~5–8 MB as a SQLite table (~2–3 MB compressed in the APK). Perseus terms
+(credit, keep availability statement, offer modifications back) recorded in
+`THIRD_PARTY_LICENSES.md`. The DCC 524 stay as the preferred overlay
+(frequency-ranked, Greek-teaching definitions), ML as the broad fallback.
+
 ## Classics Viewer (threedlite) — verified prior art worth borrowing
 
 Code is **MIT** (verified in its `LICENSE.txt`, which doubles as a per-source data

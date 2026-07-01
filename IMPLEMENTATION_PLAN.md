@@ -155,8 +155,12 @@ backed by the encrypted DB.
   - [ ] Lyceum Aesop fables (52, difficulty-tiered CoNLL-U, in-git) — ingest as
         graded-reading pack for the Learn tab.
   - [ ] Add `dialect` (EPIC/ATTIC/KOINE) tagging to content-pack meta + passages.
-  - [ ] Wire Dodson + (once available) LSJ short-defs into the reader's
-        tap-to-lookup fallback chain: DCC → Dodson (Koine) → LSJ.
+  - [x] **Middle Liddell bundled** (PerseusDL/canonical-pdlrefwk, CC BY-SA 4.0,
+        sandbox/CI-fetchable): `middle_liddell.py` parses 34,348 headword →
+        short-gloss entries into a new content-pack `lexicon` table (schema v2);
+        reader tap-to-lookup now falls back DCC → lexicon. Pack grew 2 → 6.1 MB.
+  - [ ] Wire Dodson (Koine) into the lookup chain between DCC and the lexicon;
+        LSJLogeion full definitions as a downloadable pack later.
 - [ ] More texts/content packs beyond *Meditations*.
 - [ ] DataStore-backed settings (font size, retention target, theme).
 - [ ] Morphology lookup from Morpheus/Diogenes **generated data** (no GPL binaries).
