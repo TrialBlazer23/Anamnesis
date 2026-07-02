@@ -108,6 +108,31 @@ internal class ContentPackDataSource(private val dbPath: String) {
         }
     }.getOrNull()
 
+    /**
+     * Morphological analysis of a surface form by accent-insensitive key
+     * (form → lemma + parse, filtered to this pack's tokens at build time).
+     * Returns null on packs predating the `morphology` table (schema < 3).
+     */
+    fun lookupMorphology(normalizedKey: String): MorphAnalysis? = runCatching {
+        SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY).use { db ->
+            db.rawQuery(
+                "SELECT form, lemma, parse, gloss FROM morphology WHERE form_key = ? LIMIT 1",
+                arrayOf(normalizedKey),
+            ).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    MorphAnalysis(
+                        form = cursor.getString(0),
+                        lemma = cursor.getString(1),
+                        parse = cursor.getString(2) ?: "",
+                        gloss = cursor.getString(3) ?: "",
+                    )
+                } else {
+                    null
+                }
+            }
+        }
+    }.getOrNull()
+
     /** Diacritic-strip the query and turn each word into an FTS5 prefix token. */
     private fun buildMatchExpression(query: String): String =
         GreekText.stripDiacritics(query)
@@ -121,3 +146,11 @@ internal class ContentPackDataSource(private val dbPath: String) {
             if (c.moveToFirst()) c.getString(0) else ""
         }
 }
+
+/** One morphological analysis: the surface form, its lemma, and the parse. */
+internal data class MorphAnalysis(
+    val form: String,
+    val lemma: String,
+    val parse: String,
+    val gloss: String,
+)

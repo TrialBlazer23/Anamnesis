@@ -13,7 +13,7 @@ def _build(tmp_path) -> Path:
     vocab = load_dcc_vocab(FIXTURES / "sample_vocab.csv")
     out = tmp_path / "pack.db"
     counts = build_content_pack(out, passages, vocab, {"work": "tlg0562.tlg001"})
-    assert counts == {"passages": 3, "vocabulary": 3, "lexicon": 0}
+    assert counts == {"passages": 3, "vocabulary": 3, "lexicon": 0, "morphology": 0}
     return out
 
 
@@ -23,9 +23,11 @@ def test_build_content_pack_populates_tables(tmp_path):
     try:
         assert conn.execute("SELECT COUNT(*) FROM passages").fetchone()[0] == 3
         assert conn.execute("SELECT COUNT(*) FROM vocabulary").fetchone()[0] == 3
+        from anamnesis_pipeline.database import SCHEMA_VERSION
+
         assert (
             conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0]
-            == "2"
+            == str(SCHEMA_VERSION)
         )
     finally:
         conn.close()

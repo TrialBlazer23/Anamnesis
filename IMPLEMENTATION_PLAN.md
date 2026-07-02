@@ -149,9 +149,17 @@ backed by the encrypted DB.
         loader `koine_lexicon.py` (tested) — Koine glosses for the *Meditations*.
   - [x] Chamberlain Iliad audio manifest (CC BY 4.0) — per-line audio confirmed
         fetchable from the public GCS mirror; audio packs to build later.
-  - [ ] Lyceum `lsj.db` + `morph.db` (CC BY-SA 4.0) — **maintainer downloads from
-        github.com/lyceum-quest/archeion Releases** → `pipeline/data/lyceum/`;
-        then build trimmed short-gloss + form→lemma packs (N1/N2, tap-to-parse).
+  - [x] **Lyceum `morph.db` → tap-to-parse**: maintainer mirrored morph.db as
+        the `lyceum-data-v2026.04.09` release; `lyceum_morph.py` extracts
+        form→lemma+parse rows filtered to the pack's tokens into a `morphology`
+        table (schema v3); CI downloads + SHA-256-verifies the asset; app lookup
+        chain is now DCC → lexicon → morphology (inflected form resolves to its
+        lemma with parse + gloss). Note: the committed bundled asset gains
+        morphology on the next CI pack build (release-asset host is blocked from
+        the dev sandbox) — replace `app/src/main/assets/content/meditations.db`
+        with the CI artifact.
+  - [ ] Lyceum `lsj.db` (optional) — full-definition downloadable pack later
+        (LSJLogeion is the CI-fetchable alternative).
   - [ ] Lyceum Aesop fables (52, difficulty-tiered CoNLL-U, in-git) — ingest as
         graded-reading pack for the Learn tab.
   - [ ] Add `dialect` (EPIC/ATTIC/KOINE) tagging to content-pack meta + passages.
