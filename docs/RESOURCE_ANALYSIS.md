@@ -81,7 +81,7 @@ Drop the `.db` files in `pipeline/data/lyceum/` and I'll build the extraction
 | ~~Lyceum `morph.db`~~ ✅ **done** — mirrored as this repo's `lyceum-data-v2026.04.09` release; CI fetches it | — | — |
 | Lyceum `lsj.db` (+ optionally `editions.db`) — optional | github.com/lyceum-quest/archeion → Releases → latest | note release version for attribution |
 | Diorisis corpus (only if we want broader N2 than Lyceum) | figshare **DOI 10.6084/m9.figshare.6187256** (annotated XML) or the JSON variant (article 12251468) | license badge must say **CC BY** (the Zenodo DuckDB variant is CC BY-NC-ND — skip it) |
-| hypotactic.com license evidence | https://hypotactic.com/my-reading-of-homer-work-in-progress/ | screenshot/save the CC-BY statement for our records before we ship audio |
+| ~~hypotactic.com license evidence~~ ✅ **done** — primary-source statement captured ("Audio and text annotations licensed as CC-BY"); see `docs/licensing-evidence/` | — | — |
 
 ## Lexicon decision (N1) — verified recommendation
 
