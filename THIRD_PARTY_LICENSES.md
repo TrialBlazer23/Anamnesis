@@ -33,7 +33,8 @@ dependencies and data sources are added, and ship it inside the app.
 | Morpheus / Diogenes generated morphology | data CC BY-SA; **code GPL-3.0** | Bundle generated DATA only — do NOT link the GPL C binaries |
 | Rouse, *A Greek Boy at Home* (1909) — digitization by Maddock/Jasinski/Hardison/Binns (`pipeline/data/rouse/`) | Base text: US public domain; digitization: CC BY-SA 4.0 (declared in upstream README, snapshotted as `UPSTREAM_README.md`) | Attribution to Rouse + the digitizers; ShareAlike on the correction layer |
 | Dodson Greek Lexicon (`pipeline/data/koine/dodson.csv`) | CC0 1.0 (LICENSE file verified, kept as `DODSON_LICENSE`) | None (public-domain dedication); credit courteous |
-| Lyceum / archeion datasets (lsj.db, morph.db, CoNLL-U texts) — planned | CC BY-SA 4.0 (repo LICENSE verified) | Attribution to Lyceum + upstream Perseus/Morpheus/LSJ; ShareAlike; audit per-edition provenance before shipping `texts.db` wholesale (GLAUx upstream has some CC BY-NC texts) |
+| Lyceum / archeion `morph.db` (v2026.04.09) — per-text extractions **bundled** in the content pack's `morphology` table; mirrored as the `lyceum-data-v2026.04.09` release on this repo | CC BY-SA 4.0 (repo LICENSE verified) | Attribution to Lyceum + upstream Perseus/Morpheus lineage; ShareAlike |
+| Lyceum / archeion other datasets (lsj.db, CoNLL-U texts) — planned | CC BY-SA 4.0 (repo LICENSE verified) | Attribution + ShareAlike; audit per-edition provenance before shipping `texts.db` wholesale (GLAUx upstream has some CC BY-NC texts) |
 | David Chamberlain, Iliad recitations (hypotactic.com) — planned audio packs; manifest at `pipeline/data/audio/` | CC BY 4.0 (per Perseus/Scaife production attribution; **confirm on hypotactic.com before shipping**) | Attribution: "© 2016–2017 David Chamberlain, hypotactic.com, CC BY 4.0" |
 
 > **Do NOT bundle** the blinskey/greek-reference Middle Liddell copies

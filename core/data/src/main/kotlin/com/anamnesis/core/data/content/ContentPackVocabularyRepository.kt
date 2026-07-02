@@ -13,7 +13,9 @@ import kotlinx.coroutines.withContext
  *    space-separated part of a headword (e.g. "ὁ ἡ τό" indexes ο/η/το);
  *    frequency-ranked, teaching-oriented glosses.
  * 2. The pack's broad `lexicon` table (Middle Liddell, ~34k headwords) queried
- *    by normalized lemma — the fallback for everything the DCC lacks.
+ *    by normalized lemma — for words that ARE headwords.
+ * 3. The pack's `morphology` table (form → lemma + parse): resolves inflected
+ *    forms to their lemma, then glosses the lemma via 1/2 — tap-to-parse.
  */
 class ContentPackVocabularyRepository(
     private val context: Context,
@@ -23,12 +25,22 @@ class ContentPackVocabularyRepository(
 
     override suspend fun lookup(token: String): VocabularyEntry? = withContext(Dispatchers.IO) {
         val key = GreekText.wordKey(token)
-        if (key.isEmpty()) {
-            null
-        } else {
-            ensureIndex()[key]
-                ?: ContentPackDataSource(ContentPackProvisioner.ensure(context)).lookupLexicon(key)
-        }
+        if (key.isEmpty()) return@withContext null
+
+        ensureIndex()[key]?.let { return@withContext it }
+        val source = ContentPackDataSource(ContentPackProvisioner.ensure(context))
+        source.lookupLexicon(key)?.let { return@withContext it }
+
+        val analysis = source.lookupMorphology(key) ?: return@withContext null
+        val lemmaKey = GreekText.wordKey(analysis.lemma)
+        val lemmaEntry = ensureIndex()[lemmaKey] ?: source.lookupLexicon(lemmaKey)
+        VocabularyEntry(
+            lemma = analysis.lemma,
+            partOfSpeech = analysis.parse,
+            gloss = lemmaEntry?.gloss?.takeIf { it.isNotBlank() } ?: analysis.gloss,
+            semanticGroup = lemmaEntry?.semanticGroup,
+            frequencyRank = lemmaEntry?.frequencyRank,
+        )
     }
 
     private fun ensureIndex(): Map<String, VocabularyEntry> {

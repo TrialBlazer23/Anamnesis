@@ -6,6 +6,7 @@ Schema (content pack — opened read-only by the app, NOT the encrypted user DB)
     passage_fts  -- FTS5 external-content index over passages
     vocabulary(lemma, part_of_speech, gloss, semantic_group, frequency_rank)
     lexicon(lemma, normalized_lemma, gloss)  -- broad short-gloss dictionary (Middle Liddell)
+    morphology(form, form_key, lemma, parse, gloss)  -- form->lemma for the pack's tokens (Lyceum)
     meta(key, value)  -- schema_version, work, edition, source, license
 
 The FTS5 index uses unicode61 with remove_diacritics=2, so a query is
@@ -19,11 +20,12 @@ import sqlite3
 from pathlib import Path
 from typing import Iterable
 
+from .lyceum_morph import MorphRow
 from .middle_liddell import LexiconEntry
 from .tei import Passage
 from .vocab import VocabEntry
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 _SCHEMA = """
 CREATE TABLE passages (
@@ -57,6 +59,16 @@ CREATE TABLE lexicon (
 );
 CREATE INDEX idx_lexicon_normalized ON lexicon(normalized_lemma);
 
+CREATE TABLE morphology (
+    id       INTEGER PRIMARY KEY,
+    form     TEXT NOT NULL,
+    form_key TEXT NOT NULL,
+    lemma    TEXT NOT NULL,
+    parse    TEXT,
+    gloss    TEXT
+);
+CREATE INDEX idx_morphology_form_key ON morphology(form_key);
+
 CREATE TABLE meta (
     key   TEXT PRIMARY KEY,
     value TEXT
@@ -70,6 +82,7 @@ def build_content_pack(
     vocab: Iterable[VocabEntry] = (),
     meta: dict[str, str] | None = None,
     lexicon: Iterable[LexiconEntry] = (),
+    morphology: Iterable[MorphRow] = (),
 ) -> dict[str, int]:
     """Create the content pack at ``out_path``. Returns row counts."""
     out = Path(out_path)
@@ -109,6 +122,12 @@ def build_content_pack(
             lexicon_rows,
         )
 
+        morph_rows = [(m.form, m.form_key, m.lemma, m.parse, m.gloss) for m in morphology]
+        conn.executemany(
+            "INSERT INTO morphology(form, form_key, lemma, parse, gloss) VALUES (?, ?, ?, ?, ?)",
+            morph_rows,
+        )
+
         meta_rows = {"schema_version": str(SCHEMA_VERSION), **(meta or {})}
         conn.executemany(
             "INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)",
@@ -119,6 +138,7 @@ def build_content_pack(
             "passages": len(passage_rows),
             "vocabulary": len(vocab_rows),
             "lexicon": len(lexicon_rows),
+            "morphology": len(morph_rows),
         }
     finally:
         conn.close()

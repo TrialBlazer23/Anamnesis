@@ -32,6 +32,11 @@ out/                         generated packs (git-ignored)
 - `lexicon(id, lemma, normalized_lemma, gloss)` — broad short-gloss dictionary
   (Middle Liddell, 34,348 entries; built with `--middle-liddell`, which fetches
   the CC BY-SA 4.0 TEI from PerseusDL/canonical-pdlrefwk into the cache).
+- `morphology(id, form, form_key, lemma, parse, gloss)` — form→lemma analyses
+  **filtered to this pack's attested tokens** (tap-to-parse). Built with
+  `--lyceum-morph path/to/morph.db`; the source is Lyceum's 1.55M-row morph.db
+  (CC BY-SA 4.0), mirrored as the `lyceum-data-v2026.04.09` release on this
+  repo — CI downloads and SHA-256-verifies it automatically.
 - `meta(key, value)` — `schema_version`, `work`, `edition`, `source_url`, `license`.
 
 Each build also emits `<out>.manifest.json` with the pack's SHA-256, size, and

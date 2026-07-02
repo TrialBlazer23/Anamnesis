@@ -31,13 +31,22 @@ jobs:
       - name: Run pipeline tests
         run: python -m pytest -q
 
+      - name: Fetch Lyceum morph.db (release asset mirror)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download lyceum-data-v2026.04.09 \
+            --repo "$GITHUB_REPOSITORY" --pattern morph.db --dir data/lyceum
+          echo "6ce7c237b3fd9d5edd6639cfb3ab066227d0aa734dca25640151aefda27029a5  data/lyceum/morph.db" | sha256sum -c -
+
       - name: Build Meditations content pack
         run: |
           python build_database.py --work tlg0562.tlg001 --out out/meditations.db \
             --title "Meditations" \
             --vocab-csv data/dcc_greek_core.csv \
             --haines-epub data/haines_1916.epub \
-            --middle-liddell
+            --middle-liddell \
+            --lyceum-morph data/lyceum/morph.db
 
       - uses: actions/upload-artifact@v4
         with:
