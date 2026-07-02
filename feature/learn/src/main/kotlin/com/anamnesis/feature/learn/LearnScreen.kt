@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,6 +38,8 @@ import com.anamnesis.feature.learn.data.ALPHABET
 import com.anamnesis.feature.learn.data.ALPHABET_BATCHES
 import com.anamnesis.feature.learn.data.CURRICULUM
 import com.anamnesis.feature.learn.model.LetterLesson
+import com.anamnesis.feature.learn.progress.LearnProgressStore
+import com.anamnesis.feature.learn.progress.UnitGating
 import kotlin.random.Random
 
 private sealed interface LearnNav {
@@ -49,8 +53,13 @@ private sealed interface LearnNav {
 @Composable
 fun LearnRoute(modifier: Modifier = Modifier) {
     var nav by remember { mutableStateOf<LearnNav>(LearnNav.Home) }
+    val context = LocalContext.current
+    val store = remember { LearnProgressStore(context) }
+    var completed by remember { mutableStateOf(store.completedUnits()) }
+
     when (val current = nav) {
         LearnNav.Home -> LearnHome(
+            completed = completed,
             modifier = modifier,
             onBrowse = { nav = LearnNav.Alphabet },
             onPractice = { nav = LearnNav.Practice },
@@ -68,12 +77,23 @@ fun LearnRoute(modifier: Modifier = Modifier) {
         LearnNav.Practice -> PracticeScreen(
             modifier = modifier,
             onBack = { nav = LearnNav.Home },
+            onSessionComplete = { batch, score, total ->
+                UnitGating.unitForSession(batch, score, total)?.let { unit ->
+                    store.markCompleted(unit)
+                    completed = store.completedUnits()
+                }
+            },
         )
     }
 }
 
 @Composable
-private fun LearnHome(modifier: Modifier, onBrowse: () -> Unit, onPractice: () -> Unit) {
+private fun LearnHome(
+    completed: Set<Int>,
+    modifier: Modifier,
+    onBrowse: () -> Unit,
+    onPractice: () -> Unit,
+) {
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
     ) {
@@ -92,20 +112,28 @@ private fun LearnHome(modifier: Modifier, onBrowse: () -> Unit, onPractice: () -
         Text("Roadmap", style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))
         CURRICULUM.forEach { unit ->
-            val live = unit.number in 1..3
+            val built = unit.number in 0..3
+            val done = unit.number in completed
+            val unlocked = UnitGating.isUnlocked(unit.number, completed)
+            val status = when {
+                done -> "  ·  ✓ complete"
+                !built -> "  ·  soon"
+                !unlocked -> "  ·  🔒 finish unit ${unit.number - 1} first"
+                else -> ""
+            }
             Card(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = if (live) {
-                        MaterialTheme.colorScheme.secondaryContainer
-                    } else {
-                        MaterialTheme.colorScheme.surfaceVariant
+                    containerColor = when {
+                        done -> MaterialTheme.colorScheme.primaryContainer
+                        built && unlocked -> MaterialTheme.colorScheme.secondaryContainer
+                        else -> MaterialTheme.colorScheme.surfaceVariant
                     },
                 ),
             ) {
                 Column(Modifier.padding(12.dp)) {
                     Text(
-                        "${unit.number}. ${unit.title}${if (live) "" else "  ·  soon"}",
+                        "${unit.number}. ${unit.title}$status",
                         style = MaterialTheme.typography.titleSmall,
                     )
                     Text(
@@ -200,7 +228,11 @@ private fun LetterDetailScreen(letter: LetterLesson, modifier: Modifier, onBack:
 }
 
 @Composable
-private fun PracticeScreen(modifier: Modifier, onBack: () -> Unit) {
+private fun PracticeScreen(
+    modifier: Modifier,
+    onBack: () -> Unit,
+    onSessionComplete: (scopeBatch: Int?, score: Int, total: Int) -> Unit = { _, _, _ -> },
+) {
     val random = remember { Random(System.currentTimeMillis()) }
     var scopeBatch by remember { mutableStateOf<Int?>(null) } // null = all letters
     val pool = remember(scopeBatch) {
@@ -217,11 +249,24 @@ private fun PracticeScreen(modifier: Modifier, onBack: () -> Unit) {
 
         val current = deck.getOrNull(index)
         if (current == null) {
+            LaunchedEffect(scopeBatch, deck) {
+                onSessionComplete(scopeBatch, score, deck.size)
+            }
+            val passed = deck.isNotEmpty() &&
+                score.toDouble() / deck.size >= UnitGating.PASS_THRESHOLD
             Column(
                 Modifier.fillMaxSize().padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text("Score: $score / ${deck.size}", style = MaterialTheme.typography.headlineSmall)
+                if (passed) {
+                    Spacer(Modifier.height(6.dp))
+                    Text(
+                        "Passed! (≥90%)",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
                 Spacer(Modifier.height(16.dp))
                 Button(onClick = {
                     deck = AlphabetQuiz.deck(pool, random)

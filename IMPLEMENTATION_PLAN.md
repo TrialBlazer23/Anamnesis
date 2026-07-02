@@ -136,9 +136,15 @@ backed by the encrypted DB.
         logic + data unit-tested. Audio ids are optional (see `audio_sources.md`).
   - [x] Confusion-set distractors (visual look-alikes + same-batch weighted) and
         batch-scoped practice (drill All or a single batch).
-  - [ ] Per-unit gating/progress (persisted) so units unlock on the advance criteria.
-  - [ ] Wire letter/vocab drills through FSRS-6 (extend the card model with
-        deck/source + card-type); S-Pen tracing (valued, not gating).
+  - [x] Per-unit gating/progress: `UnitGating` (pure, tested) + SharedPreferences
+        `LearnProgressStore`; roadmap shows ✓/🔒; unit 1 ← batch-1 ≥90%, unit 2 ←
+        batch-2 ≥90%, unit 3 ← mixed full-alphabet ≥90% (per spec).
+  - [x] Letters deck in FSRS: `Card.deck` (Room v2 migration, additive — no
+        progress lost); 24 letter cards (glyph → name · IPA, false-friend note)
+        seeded alongside vocab and interleaved in the Train due queue; seeding is
+        now idempotent-on-every-launch so existing installs gain new decks.
+  - [ ] S-Pen tracing (valued, not gating); sound→letter audio cards when
+        letter audio exists.
   - [ ] **Record restored-Attic audio** (critical path — see `audio_script.md`).
   - [ ] *Euthyphro* content pack (Plato `tlg0059.tlg001`) for the handoff.
 - [ ] **Resource-registry incorporation** (see `docs/RESOURCE_ANALYSIS.md` for
