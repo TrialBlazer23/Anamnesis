@@ -12,8 +12,10 @@ sealed interface ReviewUiState {
         val completed: Int = 0,
         /** Grades of Again this session (retries within the session). */
         val again: Int = 0,
-        /** Whether unseen words remain beyond today's new-card budget. */
+        /** Whether unseen cards remain beyond today's new-card budget. */
         val hasMoreNew: Boolean = false,
+        /** Vocabulary is gated until the Learn tab's alphabet units are complete. */
+        val vocabLocked: Boolean = false,
     ) : ReviewUiState
 
     data class Reviewing(

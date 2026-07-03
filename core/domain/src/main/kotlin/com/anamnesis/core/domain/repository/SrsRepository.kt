@@ -16,8 +16,12 @@ interface SrsRepository {
     /** Previously studied cards due on or before [todayEpochDay], soonest first. */
     suspend fun dueReviewCards(todayEpochDay: Long, limit: Int = 200): List<Card>
 
-    /** Never-studied cards in introduction order (letters, then vocab by frequency). */
-    suspend fun newCards(limit: Int): List<Card>
+    /**
+     * Never-studied cards in introduction order (letters, then vocab by
+     * frequency). [decks] restricts which decks may introduce cards
+     * (null = all) — e.g. letters-only until the Learn alphabet is complete.
+     */
+    suspend fun newCards(limit: Int, decks: Set<String>? = null): List<Card>
 
     /** How many cards were introduced (first reviewed) on [epochDay]. */
     suspend fun countIntroducedOn(epochDay: Long): Int

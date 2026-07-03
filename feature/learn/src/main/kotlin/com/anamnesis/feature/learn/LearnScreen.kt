@@ -108,6 +108,30 @@ private fun LearnHome(
         Spacer(Modifier.height(10.dp))
         OutlinedButton(onClick = onPractice, modifier = Modifier.fillMaxWidth()) { Text("Practice letters") }
 
+        Spacer(Modifier.height(16.dp))
+        val alphabetDone = UnitGating.alphabetComplete(completed)
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = if (alphabetDone) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
+                },
+            ),
+        ) {
+            Text(
+                if (alphabetDone) {
+                    "✓ Alphabet complete — vocabulary training is unlocked in the Train tab."
+                } else {
+                    "Finish units 1–3 to unlock vocabulary training in the Train tab. " +
+                        "Until then, Train drills the letters."
+                },
+                modifier = Modifier.padding(12.dp),
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+
         Spacer(Modifier.height(24.dp))
         Text("Roadmap", style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))

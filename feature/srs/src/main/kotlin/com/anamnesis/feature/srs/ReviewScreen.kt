@@ -32,6 +32,7 @@ fun ReviewScreen(
     onGrade: (Rating) -> Unit,
     onRestart: () -> Unit,
     onStudyMoreNew: () -> Unit,
+    onOpenLearn: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when (state) {
@@ -39,7 +40,7 @@ fun ReviewScreen(
             Box(modifier.fillMaxSize(), Alignment.Center) { CircularProgressIndicator() }
 
         is ReviewUiState.Done ->
-            DoneContent(state, onRestart, onStudyMoreNew, modifier)
+            DoneContent(state, onRestart, onStudyMoreNew, onOpenLearn, modifier)
 
         is ReviewUiState.Reviewing ->
             ReviewingContent(state, onReveal, onGrade, modifier)
@@ -51,6 +52,7 @@ private fun DoneContent(
     state: ReviewUiState.Done,
     onRestart: () -> Unit,
     onStudyMoreNew: () -> Unit,
+    onOpenLearn: () -> Unit,
     modifier: Modifier,
 ) {
     Box(modifier.fillMaxSize().padding(24.dp), Alignment.Center) {
@@ -75,9 +77,22 @@ private fun DoneContent(
                     textAlign = TextAlign.Center,
                 )
             }
+            if (state.vocabLocked) {
+                Spacer(Modifier.height(16.dp))
+                Text(
+                    "New vocabulary unlocks once you finish the alphabet units in Learn.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(Modifier.height(8.dp))
+                Button(onClick = onOpenLearn) { Text("Open Learn") }
+            }
             Spacer(Modifier.height(24.dp))
             if (state.hasMoreNew) {
-                Button(onClick = onStudyMoreNew) { Text("Learn more new words") }
+                Button(onClick = onStudyMoreNew) {
+                    Text(if (state.vocabLocked) "Learn more letters" else "Learn more new words")
+                }
                 Spacer(Modifier.height(8.dp))
             }
             OutlinedButton(onClick = onRestart) { Text("Check again") }

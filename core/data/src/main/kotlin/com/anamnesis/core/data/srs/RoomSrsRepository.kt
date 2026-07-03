@@ -15,8 +15,9 @@ class RoomSrsRepository(private val dao: CardDao) : SrsRepository {
     override suspend fun dueReviewCards(todayEpochDay: Long, limit: Int): List<Card> =
         dao.dueReviews(todayEpochDay, limit).map { it.toDomain() }
 
-    override suspend fun newCards(limit: Int): List<Card> =
-        dao.newCards(limit).map { it.toDomain() }
+    override suspend fun newCards(limit: Int, decks: Set<String>?): List<Card> =
+        (if (decks == null) dao.newCards(limit) else dao.newCardsInDecks(decks, limit))
+            .map { it.toDomain() }
 
     override suspend fun countIntroducedOn(epochDay: Long): Int =
         dao.countIntroducedOn(epochDay)

@@ -40,6 +40,14 @@ class UnitGatingTest {
     }
 
     @Test
+    fun alphabetCompleteRequiresAllThreeUnits() {
+        assertFalse(UnitGating.alphabetComplete(emptySet()))
+        assertFalse(UnitGating.alphabetComplete(setOf(1, 2)))
+        assertTrue(UnitGating.alphabetComplete(setOf(1, 2, 3)))
+        assertTrue(UnitGating.alphabetComplete(setOf(0, 1, 2, 3)))
+    }
+
+    @Test
     fun letterSeedsCoverTheAlphabetInTheLettersDeck() {
         val cards = letterSeedCards()
         assertEquals(24, cards.size)

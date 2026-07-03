@@ -20,6 +20,12 @@ object UnitGating {
     private val ALWAYS_OPEN = setOf(0, 1)
     private const val HIGHEST_BUILT_UNIT = 3
 
+    /** The alphabet on-ramp; completing it unlocks vocabulary cards in Train. */
+    val ALPHABET_UNITS = setOf(1, 2, 3)
+
+    fun alphabetComplete(completed: Set<Int>): Boolean =
+        ALPHABET_UNITS.all { it in completed }
+
     /** Which unit (if any) a finished practice session completes. */
     fun unitForSession(scopeBatch: Int?, score: Int, total: Int): Int? {
         if (total <= 0 || score.toDouble() / total < PASS_THRESHOLD) return null

@@ -78,6 +78,8 @@ class MainActivity : ComponentActivity() {
                             repository = container.srsRepository,
                             seeds = container.srsSeeds,
                             modifier = Modifier.padding(padding),
+                            vocabUnlocked = container.vocabUnlocked,
+                            onOpenLearn = { tab = 2 },
                         )
                         2 -> LearnRoute(
                             modifier = Modifier.padding(padding),

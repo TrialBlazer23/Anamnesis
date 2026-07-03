@@ -44,6 +44,13 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE stability <= 0 ORDER BY position, lemma LIMIT :limit")
     suspend fun newCards(limit: Int): List<CardEntity>
 
+    /** Like [newCards], restricted to the given decks. */
+    @Query(
+        "SELECT * FROM cards WHERE stability <= 0 AND deck IN (:decks) " +
+            "ORDER BY position, lemma LIMIT :limit"
+    )
+    suspend fun newCardsInDecks(decks: Set<String>, limit: Int): List<CardEntity>
+
     @Query("SELECT COUNT(*) FROM cards WHERE introducedEpochDay = :day")
     suspend fun countIntroducedOn(day: Long): Int
 }

@@ -23,6 +23,7 @@ class ReviewViewModel(
     private val scheduler: ReviewScheduler = ReviewScheduler(),
     private val today: () -> Long = { System.currentTimeMillis() / MILLIS_PER_DAY },
     private val maxNewPerDay: Int = DEFAULT_MAX_NEW_PER_DAY,
+    private val vocabUnlocked: () -> Boolean = { true },
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<ReviewUiState>(ReviewUiState.Loading)
@@ -32,6 +33,7 @@ class ReviewViewModel(
     private var sessionTotal = 0
     private var completed = 0
     private var againCount = 0
+    private var vocabIsUnlocked = true
 
     init {
         viewModelScope.launch {
@@ -46,11 +48,21 @@ class ReviewViewModel(
         viewModelScope.launch { startSession() }
     }
 
+    /**
+     * Re-check the queue when the tab is revisited between sessions — e.g. the
+     * user just finished the alphabet in Learn and vocabulary unlocked. Never
+     * interrupts a session in progress.
+     */
+    fun refreshIfDone() {
+        if (_state.value is ReviewUiState.Done) loadDue()
+    }
+
     /** Pull the next batch of unseen words even though today's budget is spent. */
     fun studyMoreNew() {
         viewModelScope.launch {
             _state.value = ReviewUiState.Loading
-            val extra = runCatching { repository.newCards(EXTRA_NEW_BATCH) }
+            vocabIsUnlocked = runCatching { vocabUnlocked() }.getOrDefault(true)
+            val extra = runCatching { repository.newCards(EXTRA_NEW_BATCH, allowedDecks()) }
                 .getOrDefault(emptyList())
             queue.clear()
             queue.addAll(extra)
@@ -84,11 +96,12 @@ class ReviewViewModel(
     private suspend fun startSession() {
         _state.value = ReviewUiState.Loading
         val now = today()
+        vocabIsUnlocked = runCatching { vocabUnlocked() }.getOrDefault(true)
         val reviews = runCatching { repository.dueReviewCards(now) }.getOrDefault(emptyList())
         val introducedToday = runCatching { repository.countIntroducedOn(now) }.getOrDefault(0)
         val newBudget = (maxNewPerDay - introducedToday).coerceAtLeast(0)
         val fresh = if (newBudget > 0) {
-            runCatching { repository.newCards(newBudget) }.getOrDefault(emptyList())
+            runCatching { repository.newCards(newBudget, allowedDecks()) }.getOrDefault(emptyList())
         } else {
             emptyList()
         }
@@ -101,13 +114,22 @@ class ReviewViewModel(
         showNext()
     }
 
+    /** null = every deck may introduce new cards; letters-only while vocab is locked. */
+    private fun allowedDecks(): Set<String>? =
+        if (vocabIsUnlocked) null else setOf(Card.DECK_LETTERS)
+
     private suspend fun showNext() {
         val card = queue.firstOrNull()
         if (card == null) {
-            val hasMoreNew = runCatching { repository.newCards(1) }
+            val hasMoreNew = runCatching { repository.newCards(1, allowedDecks()) }
                 .getOrDefault(emptyList())
                 .isNotEmpty()
-            _state.value = ReviewUiState.Done(completed, againCount, hasMoreNew)
+            _state.value = ReviewUiState.Done(
+                completed = completed,
+                again = againCount,
+                hasMoreNew = hasMoreNew,
+                vocabLocked = !vocabIsUnlocked,
+            )
             return
         }
         val now = today()
@@ -127,10 +149,11 @@ class ReviewViewModel(
     class Factory(
         private val repository: SrsRepository,
         private val seeds: suspend () -> List<Card>,
+        private val vocabUnlocked: () -> Boolean = { true },
     ) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            ReviewViewModel(repository, seeds) as T
+            ReviewViewModel(repository, seeds, vocabUnlocked = vocabUnlocked) as T
     }
 
     companion object {

@@ -41,8 +41,8 @@ class ReviewViewModelTest {
             cards.values.filter { !it.isNew && it.dueEpochDay <= todayEpochDay }
                 .sortedWith(compareBy({ it.dueEpochDay }, { it.position }))
                 .take(limit)
-        override suspend fun newCards(limit: Int) =
-            cards.values.filter { it.isNew }
+        override suspend fun newCards(limit: Int, decks: Set<String>?) =
+            cards.values.filter { it.isNew && (decks == null || it.deck in decks) }
                 .sortedWith(compareBy({ it.position }, { it.lemma }))
                 .take(limit)
         override suspend fun countIntroducedOn(epochDay: Long) =
@@ -54,7 +54,15 @@ class ReviewViewModelTest {
         repo: SrsRepository,
         seeds: List<Card>,
         maxNewPerDay: Int = ReviewViewModel.DEFAULT_MAX_NEW_PER_DAY,
-    ) = ReviewViewModel(repo, { seeds }, ReviewScheduler(), today = { 1000L }, maxNewPerDay = maxNewPerDay)
+        vocabUnlocked: () -> Boolean = { true },
+    ) = ReviewViewModel(
+        repo,
+        { seeds },
+        ReviewScheduler(),
+        today = { 1000L },
+        maxNewPerDay = maxNewPerDay,
+        vocabUnlocked = vocabUnlocked,
+    )
 
     @Test
     fun seedsWhenEmptyThenServesDueQueue() = runTest {
@@ -170,6 +178,63 @@ class ReviewViewModelTest {
     }
 
     @Test
+    fun lockedVocabIntroducesOnlyLetterCards() = runTest {
+        val seeds = listOf(
+            letter("α Α", 0),
+            letter("β Β", 1),
+            card("λόγος", position = 1000),
+        )
+        val vm = vmWith(FakeSrsRepository(), seeds, vocabUnlocked = { false })
+        advanceUntilIdle()
+
+        val state = vm.state.value as ReviewUiState.Reviewing
+        assertEquals(2, state.sessionTotal) // letters only, vocab held back
+        assertEquals("α Α", state.card.lemma)
+
+        vm.grade(Rating.Good)
+        advanceUntilIdle()
+        vm.grade(Rating.Good)
+        advanceUntilIdle()
+        val done = vm.state.value as ReviewUiState.Done
+        assertTrue(done.vocabLocked)
+        // No more letters, and locked vocab must not be offered as "more new".
+        assertTrue(!done.hasMoreNew)
+    }
+
+    @Test
+    fun completingTheAlphabetUnlocksVocabularyOnReload() = runTest {
+        var unlocked = false
+        val seeds = listOf(letter("α Α", 0), card("λόγος", position = 1000))
+        val vm = vmWith(FakeSrsRepository(), seeds, vocabUnlocked = { unlocked })
+        advanceUntilIdle()
+
+        vm.grade(Rating.Good) // the only letter
+        advanceUntilIdle()
+        assertTrue((vm.state.value as ReviewUiState.Done).vocabLocked)
+
+        unlocked = true
+        vm.refreshIfDone()
+        advanceUntilIdle()
+        val state = vm.state.value as ReviewUiState.Reviewing
+        assertEquals("λόγος", state.card.lemma)
+    }
+
+    @Test
+    fun refreshIfDoneNeverInterruptsASessionInProgress() = runTest {
+        val vm = vmWith(FakeSrsRepository(), listOf(card("α"), card("β", position = 1)))
+        advanceUntilIdle()
+
+        vm.grade(Rating.Good)
+        advanceUntilIdle()
+        vm.refreshIfDone()
+        advanceUntilIdle()
+        // Still mid-session on the same card with progress intact.
+        val state = vm.state.value as ReviewUiState.Reviewing
+        assertEquals(1, state.completed)
+        assertEquals("β", state.card.lemma)
+    }
+
+    @Test
     fun intervalHintsCoverEveryGrade() = runTest {
         val vm = vmWith(FakeSrsRepository(), listOf(card("α")))
         advanceUntilIdle()
@@ -183,4 +248,13 @@ class ReviewViewModelTest {
 
     private fun card(lemma: String, position: Int = 0) =
         Card(lemma = lemma, gloss = "gloss-$lemma", partOfSpeech = "noun", position = position)
+
+    private fun letter(lemma: String, position: Int) =
+        Card(
+            lemma = lemma,
+            gloss = "gloss-$lemma",
+            partOfSpeech = "letter",
+            deck = Card.DECK_LETTERS,
+            position = position,
+        )
 }

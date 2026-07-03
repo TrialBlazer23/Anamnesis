@@ -12,6 +12,8 @@ import com.anamnesis.core.domain.repository.ReaderRepository
 import com.anamnesis.core.domain.repository.SrsRepository
 import com.anamnesis.core.domain.repository.VocabularyRepository
 import com.anamnesis.feature.learn.data.letterSeedCards
+import com.anamnesis.feature.learn.progress.LearnProgressStore
+import com.anamnesis.feature.learn.progress.UnitGating
 import com.anamnesis.feature.reader.EmptyVocabularyRepository
 import com.anamnesis.feature.reader.SampleReaderRepository
 
@@ -41,4 +43,10 @@ class AppContainer(context: Context) {
 
     private val seedSource by lazy { ContentPackSeedSource(appContext) }
     val srsSeeds: suspend () -> List<Card> = { letterSeedCards() + seedSource.seedCards() }
+
+    private val learnProgress by lazy { LearnProgressStore(appContext) }
+
+    /** Train may introduce vocabulary once the Learn alphabet units are done. */
+    val vocabUnlocked: () -> Boolean =
+        { UnitGating.alphabetComplete(learnProgress.completedUnits()) }
 }
