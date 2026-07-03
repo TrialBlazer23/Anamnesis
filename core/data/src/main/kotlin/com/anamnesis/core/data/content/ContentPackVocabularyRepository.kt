@@ -38,13 +38,30 @@ class ContentPackVocabularyRepository(
         ensureIndex(path, source)[key]?.let { return@withContext it }
         source.lookupLexicon(key)?.let { return@withContext it }
 
-        val analysis = source.lookupMorphology(key) ?: return@withContext null
-        val lemmaKey = GreekText.wordKey(analysis.lemma)
-        val lemmaEntry = ensureIndex(path, source)[lemmaKey] ?: source.lookupLexicon(lemmaKey)
+        val analyses = source.lookupMorphology(key)
+        if (analyses.isEmpty()) return@withContext null
+        // Ambiguous forms (πᾶσι → πᾶς or πᾶσις): prefer the analysis whose
+        // lemma is core vocabulary, then one the lexicon can gloss, then first.
+        val index = ensureIndex(path, source)
+        val ranked = analyses.sortedBy { analysis ->
+            val lemmaKey = GreekText.wordKey(analysis.lemma)
+            when {
+                index.containsKey(lemmaKey) -> 0
+                source.lookupLexicon(lemmaKey) != null -> 1
+                else -> 2
+            }
+        }
+        val best = ranked.first()
+        val lemmaKey = GreekText.wordKey(best.lemma)
+        val lemmaEntry = index[lemmaKey] ?: source.lookupLexicon(lemmaKey)
+        val alternatives = ranked.drop(1)
+            .filter { it.lemma != best.lemma }
+            .distinctBy { it.lemma }
+            .joinToString("") { "\nAlso possible: ${it.lemma} — ${it.parse}" }
         VocabularyEntry(
-            lemma = analysis.lemma,
-            partOfSpeech = analysis.parse,
-            gloss = lemmaEntry?.gloss?.takeIf { it.isNotBlank() } ?: analysis.gloss,
+            lemma = best.lemma,
+            partOfSpeech = best.parse,
+            gloss = (lemmaEntry?.gloss?.takeIf { it.isNotBlank() } ?: best.gloss) + alternatives,
             semanticGroup = lemmaEntry?.semanticGroup,
             frequencyRank = lemmaEntry?.frequencyRank,
         )

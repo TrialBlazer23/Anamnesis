@@ -109,29 +109,31 @@ internal class ContentPackDataSource(private val dbPath: String) {
     }.getOrNull()
 
     /**
-     * Morphological analysis of a surface form by accent-insensitive key
-     * (form → lemma + parse, filtered to this pack's tokens at build time).
-     * Returns null on packs predating the `morphology` table (schema < 3).
+     * Morphological analyses of a surface form by accent-insensitive key
+     * (form → lemma + parse, filtered to this pack's tokens at build time; the
+     * pipeline stores at most 3 analyses per form). Ambiguous forms return all
+     * candidates — the caller ranks them. Returns empty on packs predating the
+     * `morphology` table (schema < 3).
      */
-    fun lookupMorphology(normalizedKey: String): MorphAnalysis? = runCatching {
+    fun lookupMorphology(normalizedKey: String): List<MorphAnalysis> = runCatching {
         SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY).use { db ->
             db.rawQuery(
-                "SELECT form, lemma, parse, gloss FROM morphology WHERE form_key = ? LIMIT 1",
+                "SELECT form, lemma, parse, gloss FROM morphology WHERE form_key = ?",
                 arrayOf(normalizedKey),
             ).use { cursor ->
-                if (cursor.moveToFirst()) {
-                    MorphAnalysis(
+                val analyses = ArrayList<MorphAnalysis>(cursor.count)
+                while (cursor.moveToNext()) {
+                    analyses += MorphAnalysis(
                         form = cursor.getString(0),
                         lemma = cursor.getString(1),
                         parse = cursor.getString(2) ?: "",
                         gloss = cursor.getString(3) ?: "",
                     )
-                } else {
-                    null
                 }
+                analyses
             }
         }
-    }.getOrNull()
+    }.getOrDefault(emptyList())
 
     /** Diacritic-strip the query and turn each word into an FTS5 prefix token. */
     private fun buildMatchExpression(query: String): String =
