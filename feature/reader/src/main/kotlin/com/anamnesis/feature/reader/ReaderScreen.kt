@@ -204,7 +204,7 @@ private fun LookupSheet(lookup: WordLookup, onDismiss: () -> Unit) {
             val entry = lookup.entry
             if (entry == null) {
                 Text(
-                    "No dictionary entry — full lemmatization comes later.",
+                    "No dictionary entry found for this form.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             } else {
