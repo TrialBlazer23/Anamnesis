@@ -10,6 +10,7 @@ import com.anamnesis.core.domain.model.Card
 import com.anamnesis.core.domain.repository.ReaderRepository
 import com.anamnesis.core.domain.repository.SrsRepository
 import com.anamnesis.core.domain.repository.VocabularyRepository
+import com.anamnesis.feature.learn.data.letterSeedCards
 import com.anamnesis.feature.reader.EmptyVocabularyRepository
 import com.anamnesis.feature.reader.SampleReaderRepository
 
@@ -27,5 +28,5 @@ class AppContainer(context: Context) {
     val srsRepository: SrsRepository by lazy { SrsRepositoryFactory.create(appContext) }
 
     private val seedSource by lazy { ContentPackSeedSource(appContext) }
-    val srsSeeds: suspend () -> List<Card> = { seedSource.seedCards() }
+    val srsSeeds: suspend () -> List<Card> = { letterSeedCards() + seedSource.seedCards() }
 }

@@ -28,9 +28,9 @@ class ReviewViewModel(
 
     init {
         viewModelScope.launch {
-            if (runCatching { repository.count() }.getOrDefault(0) == 0) {
-                runCatching { repository.seed(seeds()) }
-            }
+            // Seed every launch: the DAO inserts with IGNORE, so existing review
+            // progress is untouched while newly added decks/cards appear.
+            runCatching { repository.seed(seeds()) }
             loadDue()
         }
     }
