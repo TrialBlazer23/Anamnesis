@@ -13,12 +13,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import com.anamnesis.feature.learn.LearnRoute
 import com.anamnesis.feature.reader.ReaderRoute
 import com.anamnesis.feature.srs.ReviewRoute
+import com.anamnesis.library.LibraryRoute
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +31,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 var tab by rememberSaveable { mutableIntStateOf(0) }
+                // Recreates the reader when the Library switches the active
+                // pack, so the new text is loaded.
+                var activePackId by rememberSaveable {
+                    mutableStateOf(container.packLibrary.activePackId())
+                }
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
@@ -51,6 +58,12 @@ class MainActivity : ComponentActivity() {
                                 icon = { Text("🎓") },
                                 label = { Text("Learn") },
                             )
+                            NavigationBarItem(
+                                selected = tab == 3,
+                                onClick = { tab = 3 },
+                                icon = { Text("📚") },
+                                label = { Text("Library") },
+                            )
                         }
                     },
                 ) { padding ->
@@ -59,13 +72,22 @@ class MainActivity : ComponentActivity() {
                             readerRepository = container.readerRepository,
                             vocabularyRepository = container.vocabularyRepository,
                             modifier = Modifier.padding(padding),
+                            contentKey = activePackId,
                         )
                         1 -> ReviewRoute(
                             repository = container.srsRepository,
                             seeds = container.srsSeeds,
                             modifier = Modifier.padding(padding),
                         )
-                        else -> LearnRoute(
+                        2 -> LearnRoute(
+                            modifier = Modifier.padding(padding),
+                        )
+                        else -> LibraryRoute(
+                            library = container.packLibrary,
+                            onReadPack = { packId ->
+                                activePackId = packId
+                                tab = 0
+                            },
                             modifier = Modifier.padding(padding),
                         )
                     }

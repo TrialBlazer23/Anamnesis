@@ -13,14 +13,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.anamnesis.core.domain.repository.ReaderRepository
 import com.anamnesis.core.domain.repository.VocabularyRepository
 
-/** Stateful entry point: builds a [ReaderViewModel] and renders the reader. */
+/**
+ * Stateful entry point: builds a [ReaderViewModel] and renders the reader.
+ * Pass a distinct [contentKey] per content pack — the view-model (and its
+ * loaded passages) is scoped to it, so switching packs reloads the text.
+ */
 @Composable
 fun ReaderRoute(
     readerRepository: ReaderRepository,
     vocabularyRepository: VocabularyRepository,
     modifier: Modifier = Modifier,
+    contentKey: String? = null,
 ) {
     val viewModel: ReaderViewModel = viewModel(
+        key = contentKey?.let { "reader-$it" },
         factory = ReaderViewModel.Factory(readerRepository, vocabularyRepository),
     )
     val content by viewModel.content.collectAsStateWithLifecycle()

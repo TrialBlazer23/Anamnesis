@@ -163,8 +163,17 @@ backed by the encrypted DB.
         pack's refs (`1.1`–`1.611`) align 1:1 with `book_1/line_N.mp4`. CI
         builds the Iliad text pack + audio pack (5-line smoke on PRs, full
         ~44 MB Book 1 on main) as downloadable artifacts — not bundled.
+  - [x] **In-app pack downloads (📚 Library tab)**: `PackInstaller` in
+        `:core:domain` (manifest fetch → streamed download hashing SHA-256 →
+        atomic rename; transport-injected, JVM unit-tested) + `PackLibrary` in
+        `:core:data` (filesDir/packs, HttpURLConnection, active-pack prefs).
+        Library tab lists bundled Meditations + the release's Iliad text pack
+        and Book 1 audio pack with download/progress/remove; "Read" switches
+        the Reader (and its dictionary/morphology lookups) to the chosen pack
+        via a per-pack view-model key. Requires the repo (or a future pack
+        host) to serve release assets without auth.
   - [ ] App-side audio playback + read-along highlighting (Media3) consuming
-        the audio pack; download/verify flow shared with text packs.
+        the downloaded audio pack.
   - [x] **Lyceum `morph.db` → tap-to-parse**: maintainer mirrored morph.db as
         the `lyceum-data-v2026.04.09` release; `lyceum_morph.py` extracts
         form→lemma+parse rows filtered to the pack's tokens into a `morphology`
