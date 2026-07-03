@@ -45,6 +45,7 @@ fun ReaderContent(
     query: String,
     results: List<Passage>,
     lookup: WordLookup?,
+    audioPath: String?,
     onQueryChange: (String) -> Unit,
     onClearSearch: () -> Unit,
     onWordTap: (String) -> Unit,
@@ -75,6 +76,7 @@ fun ReaderContent(
                 passage = passages[index.coerceIn(0, passages.lastIndex)],
                 position = index.coerceIn(0, passages.lastIndex) + 1,
                 total = passages.size,
+                audioPath = audioPath,
                 onWordTap = onWordTap,
                 onPrevious = onPrevious,
                 onNext = onNext,
@@ -93,6 +95,7 @@ private fun PassageView(
     passage: Passage,
     position: Int,
     total: Int,
+    audioPath: String?,
     onWordTap: (String) -> Unit,
     onPrevious: () -> Unit,
     onNext: () -> Unit,
@@ -104,6 +107,13 @@ private fun PassageView(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
         )
+        if (audioPath != null) {
+            RecitationBar(
+                audioPath = audioPath,
+                hasNext = position < total,
+                onAdvance = onNext,
+            )
+        }
         Spacer(Modifier.height(12.dp))
 
         Column(modifier = Modifier.weight(1f).verticalScroll(rememberScrollState())) {

@@ -165,7 +165,7 @@ private fun RemotePackCard(
                         AssistChip(onClick = {}, label = { Text("Downloaded") })
                         Spacer(Modifier.weight(1f))
                         Text(
-                            "Playback coming soon",
+                            "Plays in the Iliad reader",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

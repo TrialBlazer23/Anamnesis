@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.anamnesis.core.domain.repository.ReaderRepository
+import com.anamnesis.core.domain.repository.RecitationRepository
 import com.anamnesis.core.domain.repository.VocabularyRepository
 
 /**
@@ -24,16 +25,22 @@ fun ReaderRoute(
     vocabularyRepository: VocabularyRepository,
     modifier: Modifier = Modifier,
     contentKey: String? = null,
+    recitationRepository: RecitationRepository? = null,
 ) {
     val viewModel: ReaderViewModel = viewModel(
         key = contentKey?.let { "reader-$it" },
-        factory = ReaderViewModel.Factory(readerRepository, vocabularyRepository),
+        factory = ReaderViewModel.Factory(
+            readerRepository,
+            vocabularyRepository,
+            recitationRepository,
+        ),
     )
     val content by viewModel.content.collectAsStateWithLifecycle()
     val index by viewModel.index.collectAsStateWithLifecycle()
     val query by viewModel.query.collectAsStateWithLifecycle()
     val results by viewModel.results.collectAsStateWithLifecycle()
     val lookup by viewModel.lookup.collectAsStateWithLifecycle()
+    val audioPath by viewModel.audioPath.collectAsStateWithLifecycle()
 
     when (val state = content) {
         is ReaderUiState.Loading ->
@@ -47,6 +54,7 @@ fun ReaderRoute(
                 query = query,
                 results = results,
                 lookup = lookup,
+                audioPath = audioPath,
                 onQueryChange = viewModel::onQueryChange,
                 onClearSearch = viewModel::clearSearch,
                 onWordTap = viewModel::onWordTap,
