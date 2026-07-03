@@ -6,9 +6,11 @@ import com.anamnesis.core.data.content.ContentPackReaderRepository
 import com.anamnesis.core.data.content.ContentPackSeedSource
 import com.anamnesis.core.data.content.ContentPackVocabularyRepository
 import com.anamnesis.core.data.packs.PackLibrary
+import com.anamnesis.core.data.packs.RecitationLibrary
 import com.anamnesis.core.data.srs.SrsRepositoryFactory
 import com.anamnesis.core.domain.model.Card
 import com.anamnesis.core.domain.repository.ReaderRepository
+import com.anamnesis.core.domain.repository.RecitationRepository
 import com.anamnesis.core.domain.repository.SrsRepository
 import com.anamnesis.core.domain.repository.VocabularyRepository
 import com.anamnesis.feature.learn.data.letterSeedCards
@@ -24,6 +26,11 @@ class AppContainer(context: Context) {
 
     /** Downloaded-pack manager; also decides which text pack the reader opens. */
     val packLibrary by lazy { PackLibrary(appContext) }
+
+    /** Per-line recitation audio from installed audio packs. */
+    val recitationRepository: RecitationRepository by lazy {
+        RecitationLibrary(appContext, packLibrary)
+    }
 
     val readerRepository: ReaderRepository =
         if (hasContentPack) {

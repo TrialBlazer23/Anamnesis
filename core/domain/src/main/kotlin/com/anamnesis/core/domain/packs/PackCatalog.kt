@@ -16,6 +16,8 @@ data class PackDescriptor(
     val fileName: String,
     val manifestFileName: String,
     val approxSizeBytes: Long,
+    /** CTS work id (e.g. "tlg0012.tlg001") an audio pack recites, else null. */
+    val workId: String? = null,
 )
 
 /**
@@ -49,6 +51,7 @@ object PackCatalog {
             fileName = "iliad_book1_audio.zip",
             manifestFileName = "iliad_book1_audio.manifest.json",
             approxSizeBytes = 45_000_000,
+            workId = "tlg0012.tlg001",
         ),
     )
 

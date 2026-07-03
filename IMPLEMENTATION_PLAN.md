@@ -172,8 +172,16 @@ backed by the encrypted DB.
         the Reader (and its dictionary/morphology lookups) to the chosen pack
         via a per-pack view-model key. Requires the repo (or a future pack
         host) to serve release assets without auth.
-  - [ ] App-side audio playback + read-along highlighting (Media3) consuming
-        the downloaded audio pack.
+  - [x] **Recitation playback in the reader**: `recitationEntryPath` (domain,
+        tested) maps verse URNs → `book_B/line_L.mp4`; `RecitationLibrary`
+        extracts lines on demand from the stored zip into `cacheDir`; the
+        reader shows a play bar on lines with audio — "Play line" once, or
+        "Recite" continuous mode that auto-advances line by line (attribution
+        shown in the bar). Uses the platform MediaPlayer — per-line AAC needs
+        none of Media3's streaming machinery; revisit Media3 only if gapless
+        or word-level read-along timing is added.
+  - [ ] Word-level read-along highlighting (needs per-word timings —
+        hypotactic's annotations may provide them; investigate).
   - [x] **Lyceum `morph.db` → tap-to-parse**: maintainer mirrored morph.db as
         the `lyceum-data-v2026.04.09` release; `lyceum_morph.py` extracts
         form→lemma+parse rows filtered to the pack's tokens into a `morphology`

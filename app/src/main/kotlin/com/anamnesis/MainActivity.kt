@@ -73,6 +73,7 @@ class MainActivity : ComponentActivity() {
                             vocabularyRepository = container.vocabularyRepository,
                             modifier = Modifier.padding(padding),
                             contentKey = activePackId,
+                            recitationRepository = container.recitationRepository,
                         )
                         1 -> ReviewRoute(
                             repository = container.srsRepository,
