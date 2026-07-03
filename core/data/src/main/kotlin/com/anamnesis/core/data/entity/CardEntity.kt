@@ -11,10 +11,12 @@ data class CardEntity(
     val gloss: String,
     val partOfSpeech: String,
     @ColumnInfo(defaultValue = "vocab") val deck: String,
+    @ColumnInfo(defaultValue = "0") val position: Int,
     val stability: Double,
     val difficulty: Double,
     val dueEpochDay: Long,
     val lastReviewEpochDay: Long,
+    @ColumnInfo(defaultValue = "-1") val introducedEpochDay: Long,
     val reps: Int,
     val lapses: Int,
 )

@@ -10,8 +10,20 @@ class ContentPackSeedSource(private val context: Context) {
 
     suspend fun seedCards(): List<Card> = withContext(Dispatchers.IO) {
         val path = ContentPackProvisioner.ensure(context)
-        ContentPackDataSource(path).loadVocabularyEntries().map { entry ->
-            Card(lemma = entry.lemma, gloss = entry.gloss, partOfSpeech = entry.partOfSpeech)
+        // Entries arrive ordered by frequency_rank; vocabulary positions start
+        // after the letter deck's so the alphabet is introduced first, then
+        // words from most to least frequent.
+        ContentPackDataSource(path).loadVocabularyEntries().mapIndexed { index, entry ->
+            Card(
+                lemma = entry.lemma,
+                gloss = entry.gloss,
+                partOfSpeech = entry.partOfSpeech,
+                position = VOCAB_POSITION_BASE + (entry.frequencyRank ?: index),
+            )
         }
+    }
+
+    private companion object {
+        const val VOCAB_POSITION_BASE = 1000
     }
 }

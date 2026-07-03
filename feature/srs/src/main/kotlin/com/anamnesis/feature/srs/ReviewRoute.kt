@@ -24,6 +24,7 @@ fun ReviewRoute(
         onReveal = viewModel::reveal,
         onGrade = viewModel::grade,
         onRestart = viewModel::loadDue,
+        onStudyMoreNew = viewModel::studyMoreNew,
         modifier = modifier,
     )
 }

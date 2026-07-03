@@ -24,7 +24,7 @@ object DatabaseFactory {
             "anamnesis.db",
         )
             .openHelperFactory(factory)
-            .addMigrations(AnamnesisDatabase.MIGRATION_1_2)
+            .addMigrations(AnamnesisDatabase.MIGRATION_1_2, AnamnesisDatabase.MIGRATION_2_3)
             .build()
     }
 }

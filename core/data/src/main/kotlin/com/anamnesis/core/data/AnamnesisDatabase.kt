@@ -14,7 +14,7 @@ import com.anamnesis.core.data.entity.CardEntity
  */
 @Database(
     entities = [CardEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = true,
 )
 abstract class AnamnesisDatabase : RoomDatabase() {
@@ -26,6 +26,25 @@ abstract class AnamnesisDatabase : RoomDatabase() {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(
                     "ALTER TABLE cards ADD COLUMN deck TEXT NOT NULL DEFAULT 'vocab'"
+                )
+            }
+        }
+
+        /**
+         * v2 → v3: cards gain `position` (pedagogical introduction order; the
+         * next seed pass fills real values) and `introducedEpochDay` (first-review
+         * day, -1 = never; backfilled from the last review as the best estimate).
+         */
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE cards ADD COLUMN position INTEGER NOT NULL DEFAULT 0"
+                )
+                db.execSQL(
+                    "ALTER TABLE cards ADD COLUMN introducedEpochDay INTEGER NOT NULL DEFAULT -1"
+                )
+                db.execSQL(
+                    "UPDATE cards SET introducedEpochDay = lastReviewEpochDay WHERE reps > 0"
                 )
             }
         }
