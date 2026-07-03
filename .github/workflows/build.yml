@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # release upload on main; harmless for PR builds
     steps:
       - uses: actions/checkout@v4
 
@@ -41,6 +43,17 @@ jobs:
         with:
           name: anamnesis-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Publish APK to the rolling release (main only)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create latest --prerelease \
+            --title "Latest builds (content packs + debug APK)" \
+            --notes "Rolling release refreshed by CI." \
+            || true
+          gh release upload latest app/build/outputs/apk/debug/app-debug.apk --clobber
 
       - name: Upload test reports
         if: always()

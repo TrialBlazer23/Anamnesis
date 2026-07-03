@@ -170,10 +170,10 @@ backed by the encrypted DB.
         form→lemma+parse rows filtered to the pack's tokens into a `morphology`
         table (schema v3); CI downloads + SHA-256-verifies the asset; app lookup
         chain is now DCC → lexicon → morphology (inflected form resolves to its
-        lemma with parse + gloss). Note: the committed bundled asset gains
-        morphology on the next CI pack build (release-asset host is blocked from
-        the dev sandbox) — replace `app/src/main/assets/content/meditations.db`
-        with the CI artifact.
+        lemma with parse + gloss). The pipeline's `publish` job (main only)
+        commits the freshly built `meditations.db` into the app assets and
+        uploads every pack + the debug APK to the rolling `latest` GitHub
+        release — no manual artifact shuffling.
   - [ ] Lyceum `lsj.db` (optional) — full-definition downloadable pack later
         (LSJLogeion is the CI-fetchable alternative).
   - [ ] Lyceum Aesop fables (52, difficulty-tiered CoNLL-U, in-git) — ingest as

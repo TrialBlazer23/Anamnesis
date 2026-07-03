@@ -6,6 +6,7 @@ on:
     branches: [ main ]
     paths:
       - 'pipeline/**'
+      - '.github/workflows/pipeline.yml'
   pull_request:
     paths:
       - 'pipeline/**'
@@ -79,3 +80,45 @@ jobs:
             pipeline/out/*.db
             pipeline/out/*.zip
             pipeline/out/*.manifest.json
+
+  # On main: refresh the bundled starter pack in the app's assets and publish
+  # every pack to the rolling "latest" release, so downloads don't depend on
+  # short-lived Actions artifacts. The asset commit is made with GITHUB_TOKEN,
+  # which deliberately does NOT retrigger workflows — dispatch "Build APK"
+  # afterwards to compile with the fresh asset.
+  publish:
+    needs: content
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: anamnesis-content-packs
+          path: packs
+
+      - name: Refresh bundled starter pack (meditations.db)
+        run: |
+          if ! cmp -s packs/meditations.db app/src/main/assets/content/meditations.db; then
+            cp packs/meditations.db app/src/main/assets/content/meditations.db
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add app/src/main/assets/content/meditations.db
+            git commit -m "Refresh bundled meditations.db from pipeline build"
+            git push
+          else
+            echo "Bundled meditations.db already up to date."
+          fi
+
+      - name: Publish packs to the rolling release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create latest --prerelease \
+            --title "Latest builds (content packs + debug APK)" \
+            --notes "Rolling release refreshed by CI. Content packs are read-only SQLite (+ SHA-256 manifests); the audio pack is CC BY — attribution embedded in its manifest.json." \
+            || true
+          gh release upload latest packs/* --clobber
