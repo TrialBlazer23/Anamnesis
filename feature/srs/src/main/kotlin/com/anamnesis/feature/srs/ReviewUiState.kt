@@ -6,12 +6,29 @@ import com.anamnesis.core.domain.model.Card
 sealed interface ReviewUiState {
     data object Loading : ReviewUiState
 
-    /** Nothing due right now. */
-    data object Done : ReviewUiState
+    /** Session finished (or nothing was due to begin with). */
+    data class Done(
+        /** Cards graded Hard/Good/Easy this session. */
+        val completed: Int = 0,
+        /** Grades of Again this session (retries within the session). */
+        val again: Int = 0,
+        /** Whether unseen cards remain beyond today's new-card budget. */
+        val hasMoreNew: Boolean = false,
+        /** Vocabulary is gated until the Learn tab's alphabet units are complete. */
+        val vocabLocked: Boolean = false,
+    ) : ReviewUiState
 
     data class Reviewing(
         val card: Card,
         val revealed: Boolean,
-        val remaining: Int,
+        /** Cards finished so far this session (excludes pending retries). */
+        val completed: Int,
+        val sessionTotal: Int,
+        /** Unseen cards still waiting in this session's queue. */
+        val newRemaining: Int,
+        /** Review (and retry) cards still waiting in this session's queue. */
+        val reviewRemaining: Int,
+        /** Human-readable next interval per grade, e.g. "today", "3d", "2mo". */
+        val intervalHints: Map<Rating, String>,
     ) : ReviewUiState
 }

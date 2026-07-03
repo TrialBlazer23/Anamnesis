@@ -8,7 +8,7 @@ import com.anamnesis.core.domain.model.Card
  * Train tab's due queue; FSRS naturally schedules the harder false-friend
  * letters more often (spec §7).
  */
-fun letterSeedCards(): List<Card> = ALPHABET.map { letter ->
+fun letterSeedCards(): List<Card> = ALPHABET.mapIndexed { index, letter ->
     Card(
         lemma = "${letter.lower} ${letter.upper}",
         gloss = "${letter.nameTranslit} · ${letter.ipa}" +
@@ -19,5 +19,8 @@ fun letterSeedCards(): List<Card> = ALPHABET.map { letter ->
             },
         partOfSpeech = "letter · batch ${letter.batch}",
         deck = Card.DECK_LETTERS,
+        // Letters occupy the earliest introduction positions (before all vocab),
+        // in alphabet-batch order.
+        position = index,
     )
 }

@@ -18,16 +18,25 @@ class ReviewSchedulerTest {
         assertEquals(2.3065, result.stability, 1e-3) // initial stability for Good
         assertEquals(today + 2, result.dueEpochDay)  // interval ~= round(stability)
         assertEquals(today, result.lastReviewEpochDay)
+        assertEquals(today, result.introducedEpochDay)
         assertEquals(1, result.reps)
         assertEquals(0, result.lapses)
         assertFalse(result.isNew)
     }
 
     @Test
-    fun againCountsAsLapseAndSchedulesSoon() {
+    fun againCountsAsLapseAndStaysDueToday() {
         val result = scheduler.schedule(newCard, Rating.Again, today)
         assertEquals(1, result.lapses)
-        assertEquals(today + 1, result.dueEpochDay)
+        // Relearning: a failed card must come back within the session, not tomorrow.
+        assertEquals(today, result.dueEpochDay)
+    }
+
+    @Test
+    fun introductionDayIsRecordedOnceAndKept() {
+        val introduced = scheduler.schedule(newCard, Rating.Good, today)
+        val later = scheduler.schedule(introduced, Rating.Good, introduced.dueEpochDay)
+        assertEquals(today, later.introducedEpochDay)
     }
 
     @Test
@@ -44,5 +53,23 @@ class ReviewSchedulerTest {
         val again = scheduler.schedule(studied, Rating.Again, studied.dueEpochDay)
         assertTrue("lapse shrinks stability", again.stability < studied.stability)
         assertEquals(2, again.reps)
+    }
+
+    @Test
+    fun sameDayRelearnGrowsStabilityAndSchedulesAhead() {
+        val failed = scheduler.schedule(newCard, Rating.Again, today)
+        val relearned = scheduler.schedule(failed, Rating.Good, today)
+        assertTrue(relearned.stability > failed.stability)
+        assertTrue(relearned.dueEpochDay > today)
+    }
+
+    @Test
+    fun previewMatchesScheduleWithoutMutating() {
+        Rating.entries.forEach { rating ->
+            val preview = scheduler.previewIntervalDays(newCard, rating, today)
+            val actual = scheduler.schedule(newCard, rating, today).dueEpochDay - today
+            assertEquals("preview for $rating", actual, preview)
+        }
+        assertEquals(0L, scheduler.previewIntervalDays(newCard, Rating.Again, today))
     }
 }

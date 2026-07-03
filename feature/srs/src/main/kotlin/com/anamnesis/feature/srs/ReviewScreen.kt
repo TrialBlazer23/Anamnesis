@@ -3,6 +3,7 @@ package com.anamnesis.feature.srs
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,6 +31,8 @@ fun ReviewScreen(
     onReveal: () -> Unit,
     onGrade: (Rating) -> Unit,
     onRestart: () -> Unit,
+    onStudyMoreNew: () -> Unit,
+    onOpenLearn: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when (state) {
@@ -35,16 +40,63 @@ fun ReviewScreen(
             Box(modifier.fillMaxSize(), Alignment.Center) { CircularProgressIndicator() }
 
         is ReviewUiState.Done ->
-            Box(modifier.fillMaxSize(), Alignment.Center) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("All caught up.", style = MaterialTheme.typography.titleLarge)
-                    Spacer(Modifier.height(16.dp))
-                    OutlinedButton(onClick = onRestart) { Text("Check again") }
-                }
-            }
+            DoneContent(state, onRestart, onStudyMoreNew, onOpenLearn, modifier)
 
         is ReviewUiState.Reviewing ->
             ReviewingContent(state, onReveal, onGrade, modifier)
+    }
+}
+
+@Composable
+private fun DoneContent(
+    state: ReviewUiState.Done,
+    onRestart: () -> Unit,
+    onStudyMoreNew: () -> Unit,
+    onOpenLearn: () -> Unit,
+    modifier: Modifier,
+) {
+    Box(modifier.fillMaxSize().padding(24.dp), Alignment.Center) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            if (state.completed > 0) {
+                Text("Session complete!", style = MaterialTheme.typography.titleLarge)
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    "${state.completed} card${if (state.completed == 1) "" else "s"} studied" +
+                        if (state.again > 0) " · ${state.again} needed a retry" else "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                )
+            } else {
+                Text("All caught up.", style = MaterialTheme.typography.titleLarge)
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    "Nothing is due right now. Come back tomorrow —\nspacing out reviews is what makes them stick.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                )
+            }
+            if (state.vocabLocked) {
+                Spacer(Modifier.height(16.dp))
+                Text(
+                    "New vocabulary unlocks once you finish the alphabet units in Learn.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(Modifier.height(8.dp))
+                Button(onClick = onOpenLearn) { Text("Open Learn") }
+            }
+            Spacer(Modifier.height(24.dp))
+            if (state.hasMoreNew) {
+                Button(onClick = onStudyMoreNew) {
+                    Text(if (state.vocabLocked) "Learn more letters" else "Learn more new words")
+                }
+                Spacer(Modifier.height(8.dp))
+            }
+            OutlinedButton(onClick = onRestart) { Text("Check again") }
+        }
     }
 }
 
@@ -59,16 +111,14 @@ private fun ReviewingContent(
         modifier = modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = "${state.remaining} due",
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.End,
-        )
+        SessionHeader(state)
 
         Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                if (state.card.isNew) {
+                    NewWordBadge()
+                    Spacer(Modifier.height(12.dp))
+                }
                 Text(
                     text = state.card.lemma,
                     fontFamily = GentiumPlus,
@@ -101,10 +151,13 @@ private fun ReviewingContent(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                GradeButton("Again", Modifier.weight(1f)) { onGrade(Rating.Again) }
-                GradeButton("Hard", Modifier.weight(1f)) { onGrade(Rating.Hard) }
-                GradeButton("Good", Modifier.weight(1f)) { onGrade(Rating.Good) }
-                GradeButton("Easy", Modifier.weight(1f)) { onGrade(Rating.Easy) }
+                Rating.entries.forEach { rating ->
+                    GradeButton(
+                        label = rating.name,
+                        hint = state.intervalHints[rating].orEmpty(),
+                        modifier = Modifier.weight(1f),
+                    ) { onGrade(rating) }
+                }
             }
         } else {
             Button(onClick = onReveal, modifier = Modifier.fillMaxWidth()) { Text("Show answer") }
@@ -113,6 +166,71 @@ private fun ReviewingContent(
 }
 
 @Composable
-private fun GradeButton(label: String, modifier: Modifier, onClick: () -> Unit) {
-    OutlinedButton(onClick = onClick, modifier = modifier) { Text(label) }
+private fun SessionHeader(state: ReviewUiState.Reviewing) {
+    Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.fillMaxWidth()) {
+            Text(
+                text = buildString {
+                    if (state.newRemaining > 0) append("${state.newRemaining} new")
+                    if (state.newRemaining > 0 && state.reviewRemaining > 0) append(" · ")
+                    if (state.reviewRemaining > 0) append("${state.reviewRemaining} review")
+                },
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f),
+            )
+            Text(
+                text = "${state.completed} / ${state.sessionTotal}",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        Spacer(Modifier.height(6.dp))
+        LinearProgressIndicator(
+            progress = {
+                if (state.sessionTotal == 0) 0f
+                else state.completed.toFloat() / state.sessionTotal
+            },
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Composable
+private fun NewWordBadge() {
+    Surface(
+        shape = MaterialTheme.shapes.small,
+        color = MaterialTheme.colorScheme.tertiaryContainer,
+    ) {
+        Text(
+            text = "NEW",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+        )
+    }
+}
+
+@Composable
+private fun GradeButton(
+    label: String,
+    hint: String,
+    modifier: Modifier,
+    onClick: () -> Unit,
+) {
+    OutlinedButton(
+        onClick = onClick,
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp),
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(label, maxLines = 1)
+            Text(
+                text = hint,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+            )
+        }
+    }
 }
