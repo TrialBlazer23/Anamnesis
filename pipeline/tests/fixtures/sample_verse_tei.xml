@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <text xml:lang="grc">
+    <body>
+      <div type="edition" n="urn:cts:greekLit:tlg0012.tlg001.perseus-grc2" xml:lang="grc">
+        <div type="textpart" subtype="Book" n="1">
+          <milestone ed="p" n="1" unit="card"/>
+          <l n="1">
+            <milestone ed="P" unit="para"/>μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος</l>
+          <l n="2">οὐλομένην, ἣ μυρίʼ Ἀχαιοῖς ἄλγεʼ ἔθηκε,</l>
+          <q>
+            <l n="3">πολλὰς δʼ ἰφθίμους ψυχὰς Ἄϊδι προΐαψεν</l>
+          </q>
+        </div>
+        <div type="textpart" subtype="Book" n="2">
+          <l n="1">ἄλλοι μέν ῥα θεοί τε καὶ ἀνέρες ἱπποκορυσταὶ</l>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

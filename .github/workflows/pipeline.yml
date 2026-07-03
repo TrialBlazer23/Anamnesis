@@ -48,9 +48,34 @@ jobs:
             --middle-liddell \
             --lyceum-morph data/lyceum/morph.db
 
+      - name: Build Iliad content pack (downloadable, not bundled)
+        run: |
+          python build_database.py --work tlg0012.tlg001 --edition perseus-grc2 \
+            --out out/iliad.db --title "Iliad" \
+            --vocab-csv data/dcc_greek_core.csv \
+            --middle-liddell \
+            --lyceum-morph data/lyceum/morph.db
+
+      # Chamberlain recitations (CC BY — see docs/licensing-evidence/).
+      # PRs smoke-test 5 lines; main/dispatch builds the full Book 1 (~44 MB).
+      - name: Build Iliad Book 1 audio pack (smoke)
+        if: github.event_name == 'pull_request'
+        run: |
+          python build_audio_pack.py \
+            --manifest data/audio/iliad_audio_manifest_books1-2.csv \
+            --book 1 --limit 5 --out out/iliad_book1_audio.zip
+
+      - name: Build Iliad Book 1 audio pack (full)
+        if: github.event_name != 'pull_request'
+        run: |
+          python build_audio_pack.py \
+            --manifest data/audio/iliad_audio_manifest_books1-2.csv \
+            --book 1 --out out/iliad_book1_audio.zip
+
       - uses: actions/upload-artifact@v4
         with:
           name: anamnesis-content-packs
           path: |
             pipeline/out/*.db
+            pipeline/out/*.zip
             pipeline/out/*.manifest.json
