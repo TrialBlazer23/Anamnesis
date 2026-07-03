@@ -5,6 +5,7 @@ import com.anamnesis.core.data.content.ContentPackProvisioner
 import com.anamnesis.core.data.content.ContentPackReaderRepository
 import com.anamnesis.core.data.content.ContentPackSeedSource
 import com.anamnesis.core.data.content.ContentPackVocabularyRepository
+import com.anamnesis.core.data.packs.PackLibrary
 import com.anamnesis.core.data.srs.SrsRepositoryFactory
 import com.anamnesis.core.domain.model.Card
 import com.anamnesis.core.domain.repository.ReaderRepository
@@ -19,11 +20,22 @@ class AppContainer(context: Context) {
     private val appContext = context.applicationContext
     private val hasContentPack = ContentPackProvisioner.isBundled(appContext)
 
+    /** Downloaded-pack manager; also decides which text pack the reader opens. */
+    val packLibrary by lazy { PackLibrary(appContext) }
+
     val readerRepository: ReaderRepository =
-        if (hasContentPack) ContentPackReaderRepository(appContext) else SampleReaderRepository()
+        if (hasContentPack) {
+            ContentPackReaderRepository { packLibrary.activeTextDbPath() }
+        } else {
+            SampleReaderRepository()
+        }
 
     val vocabularyRepository: VocabularyRepository =
-        if (hasContentPack) ContentPackVocabularyRepository(appContext) else EmptyVocabularyRepository
+        if (hasContentPack) {
+            ContentPackVocabularyRepository { packLibrary.activeTextDbPath() }
+        } else {
+            EmptyVocabularyRepository
+        }
 
     val srsRepository: SrsRepository by lazy { SrsRepositoryFactory.create(appContext) }
 

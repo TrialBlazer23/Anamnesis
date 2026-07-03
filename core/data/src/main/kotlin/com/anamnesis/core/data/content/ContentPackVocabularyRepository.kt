@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
- * [VocabularyRepository] over the content pack. Lookup chain:
+ * [VocabularyRepository] over a content pack. Lookup chain:
  * 1. DCC core vocabulary — an accent-insensitive in-memory index keyed by each
  *    space-separated part of a headword (e.g. "ὁ ἡ τό" indexes ο/η/το);
  *    frequency-ranked, teaching-oriented glosses.
@@ -16,24 +16,31 @@ import kotlinx.coroutines.withContext
  *    by normalized lemma — for words that ARE headwords.
  * 3. The pack's `morphology` table (form → lemma + parse): resolves inflected
  *    forms to their lemma, then glosses the lemma via 1/2 — tap-to-parse.
+ *
+ * [dbPath] is resolved per lookup so the dictionary follows the active pack
+ * (each pack's morphology table is filtered to its own text's forms); the
+ * in-memory DCC index is rebuilt when the path changes.
  */
 class ContentPackVocabularyRepository(
-    private val context: Context,
+    private val dbPath: () -> String,
 ) : VocabularyRepository {
 
-    @Volatile private var index: Map<String, VocabularyEntry>? = null
+    constructor(context: Context) : this({ ContentPackProvisioner.ensure(context) })
+
+    @Volatile private var cachedIndex: Pair<String, Map<String, VocabularyEntry>>? = null
 
     override suspend fun lookup(token: String): VocabularyEntry? = withContext(Dispatchers.IO) {
         val key = GreekText.wordKey(token)
         if (key.isEmpty()) return@withContext null
 
-        ensureIndex()[key]?.let { return@withContext it }
-        val source = ContentPackDataSource(ContentPackProvisioner.ensure(context))
+        val path = dbPath()
+        val source = ContentPackDataSource(path)
+        ensureIndex(path, source)[key]?.let { return@withContext it }
         source.lookupLexicon(key)?.let { return@withContext it }
 
         val analysis = source.lookupMorphology(key) ?: return@withContext null
         val lemmaKey = GreekText.wordKey(analysis.lemma)
-        val lemmaEntry = ensureIndex()[lemmaKey] ?: source.lookupLexicon(lemmaKey)
+        val lemmaEntry = ensureIndex(path, source)[lemmaKey] ?: source.lookupLexicon(lemmaKey)
         VocabularyEntry(
             lemma = analysis.lemma,
             partOfSpeech = analysis.parse,
@@ -43,9 +50,12 @@ class ContentPackVocabularyRepository(
         )
     }
 
-    private fun ensureIndex(): Map<String, VocabularyEntry> {
-        index?.let { return it }
-        val entries = ContentPackDataSource(ContentPackProvisioner.ensure(context)).loadVocabularyEntries()
+    private fun ensureIndex(
+        path: String,
+        source: ContentPackDataSource,
+    ): Map<String, VocabularyEntry> {
+        cachedIndex?.takeIf { it.first == path }?.let { return it.second }
+        val entries = source.loadVocabularyEntries()
         val built = HashMap<String, VocabularyEntry>(entries.size * 2)
         for (entry in entries) {
             for (part in entry.lemma.split(Regex("\\s+"))) {
@@ -53,7 +63,7 @@ class ContentPackVocabularyRepository(
                 if (key.isNotEmpty()) built.putIfAbsent(key, entry)
             }
         }
-        index = built
+        cachedIndex = path to built
         return built
     }
 }
