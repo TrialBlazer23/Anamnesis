@@ -154,7 +154,17 @@ backed by the encrypted DB.
   - [x] Dodson Koine lexicon (CC0, verified) fetched to `pipeline/data/koine/` +
         loader `koine_lexicon.py` (tested) — Koine glosses for the *Meditations*.
   - [x] Chamberlain Iliad audio manifest (CC BY 4.0) — per-line audio confirmed
-        fetchable from the public GCS mirror; audio packs to build later.
+        fetchable from the public GCS mirror.
+  - [x] **Iliad Book 1 recitation pack**: `build_audio_pack.py` (tested)
+        downloads the 611 per-line MP4/AAC files and zips them (stored, not
+        deflated) with an embedded `manifest.json` (URNs, CC BY, attribution) +
+        outer SHA-256 manifest for hybrid delivery. TEI walker now emits one
+        passage per `<l>` verse line (incl. `<q>`-wrapped), so the Iliad text
+        pack's refs (`1.1`–`1.611`) align 1:1 with `book_1/line_N.mp4`. CI
+        builds the Iliad text pack + audio pack (5-line smoke on PRs, full
+        ~44 MB Book 1 on main) as downloadable artifacts — not bundled.
+  - [ ] App-side audio playback + read-along highlighting (Media3) consuming
+        the audio pack; download/verify flow shared with text packs.
   - [x] **Lyceum `morph.db` → tap-to-parse**: maintainer mirrored morph.db as
         the `lyceum-data-v2026.04.09` release; `lyceum_morph.py` extracts
         form→lemma+parse rows filtered to the pack's tokens into a `morphology`

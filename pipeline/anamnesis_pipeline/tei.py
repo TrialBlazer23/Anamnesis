@@ -1,9 +1,12 @@
 """Fetch and parse Perseus canonical-greekLit TEI into passages.
 
 The CTS textpart walker is generic: it descends nested
-`<div type="textpart">` elements (book / chapter / section / line / …) and
-emits one Passage per leaf, building the reference from the chain of `@n`
-values. This works for any canonical-greekLit work, not just Meditations.
+`<div type="textpart">` elements (book / chapter / section / …) and emits one
+Passage per leaf, building the reference from the chain of `@n` values. Verse
+editions (Homer et al.) put `<l n="…">` line elements — sometimes wrapped in
+`<q>` for quoted speech — inside the deepest textpart div; each line becomes
+its own passage so refs align with CTS URNs like `…:1.611` (and with the
+per-line recitation audio packs).
 """
 
 from __future__ import annotations
@@ -92,6 +95,28 @@ def parse_passages(tei: str | bytes) -> list[Passage]:
             grandchildren = child.findall("t:div[@type='textpart']", _NS)
             if grandchildren:
                 walk(child, chain)
+                continue
+            # Verse leaf: one passage per <l> (descendant axis catches lines
+            # wrapped in <q> quoted speech); prose leaf: the div's whole text.
+            lines = child.findall(".//t:l", _NS)
+            if lines:
+                for line in lines:
+                    line_n = line.get("n")
+                    if line_n is None:
+                        continue
+                    line_chain = chain + [line_n]
+                    ref = ".".join(line_chain)
+                    greek = nfc(_passage_text(line))
+                    if not greek:
+                        continue
+                    passages.append(
+                        Passage(
+                            cts_urn=f"{base_urn}:{ref}",
+                            ref=ref,
+                            levels=line_chain,
+                            greek=greek,
+                        )
+                    )
             else:
                 ref = ".".join(chain)
                 greek = nfc(_passage_text(child))
