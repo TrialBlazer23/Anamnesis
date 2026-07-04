@@ -1,13 +1,15 @@
 package com.anamnesis.feature.learn
 
-import com.anamnesis.feature.learn.data.ALPHABET
-import com.anamnesis.feature.learn.data.ALPHABET_BATCHES
+import com.anamnesis.feature.learn.model.letterBatches
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.random.Random
 
 class AlphabetQuizTest {
+
+    private val ALPHABET = TEST_PACK.letters
+    private val ALPHABET_BATCHES = TEST_PACK.letterBatches()
 
     @Test
     fun alphabetHas24DistinctLetters() {

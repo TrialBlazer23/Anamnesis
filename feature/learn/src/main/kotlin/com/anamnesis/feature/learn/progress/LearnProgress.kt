@@ -18,7 +18,9 @@ import android.content.Context
 object UnitGating {
     const val PASS_THRESHOLD = 0.9
     private val ALWAYS_OPEN = setOf(0, 1)
-    private const val HIGHEST_BUILT_UNIT = 3
+
+    /** Units above this are roadmap-only ("soon"); raised as units are built. */
+    const val HIGHEST_BUILT_UNIT = 3
 
     /** The alphabet on-ramp; completing it unlocks vocabulary cards in Train. */
     val ALPHABET_UNITS = setOf(1, 2, 3)

@@ -49,7 +49,7 @@ class UnitGatingTest {
 
     @Test
     fun letterSeedsCoverTheAlphabetInTheLettersDeck() {
-        val cards = letterSeedCards()
+        val cards = letterSeedCards(TEST_PACK)
         assertEquals(24, cards.size)
         assertTrue(cards.all { it.deck == Card.DECK_LETTERS })
         assertEquals(24, cards.map { it.lemma }.toSet().size)
