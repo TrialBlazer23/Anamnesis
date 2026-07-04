@@ -34,12 +34,31 @@ fun letterSeedCards(pack: LessonPack): List<Card> = pack.letters.mapIndexed { in
     )
 }
 
+/**
+ * The diphthongs as FSRS cards (deck = [Card.DECK_DIPHTHONGS]), unit 4's SRS
+ * feed. Positions sit between the letters (0–23) and vocabulary (1000+), so
+ * they are introduced right after the alphabet once vocabulary unlocks.
+ */
+fun diphthongSeedCards(pack: LessonPack): List<Card> =
+    pack.diphthongs.mapIndexed { index, diphthong ->
+        Card(
+            lemma = diphthong.glyph,
+            gloss = diphthong.ipa +
+                if (diphthong.note.isNotBlank()) " — ${diphthong.note}" else "",
+            partOfSpeech = if (diphthong.improper) "diphthong · improper" else "diphthong",
+            deck = Card.DECK_DIPHTHONGS,
+            position = DIPHTHONG_POSITION_BASE + index,
+        )
+    }
+
+private const val DIPHTHONG_POSITION_BASE = 100
+
 /** Seeds every deck the lessons pack feeds into the Train tab. */
 class LessonSeedSource(context: Context) {
     private val appContext = context.applicationContext
 
     suspend fun seedCards(): List<Card> = withContext(Dispatchers.IO) {
         val pack = LessonPackLoader.load(appContext)
-        letterSeedCards(pack)
+        letterSeedCards(pack) + diphthongSeedCards(pack)
     }
 }

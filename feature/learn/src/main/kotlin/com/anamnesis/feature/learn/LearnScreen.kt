@@ -34,6 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anamnesis.core.ui.GentiumPlus
+import com.anamnesis.feature.learn.drills.DrillCatalog
+import com.anamnesis.feature.learn.drills.DrillScreen
 import com.anamnesis.feature.learn.model.LessonPack
 import com.anamnesis.feature.learn.model.LetterLesson
 import com.anamnesis.feature.learn.model.letterBatches
@@ -47,6 +49,8 @@ private sealed interface LearnNav {
     data object Alphabet : LearnNav
     data class Detail(val letter: LetterLesson) : LearnNav
     data object Practice : LearnNav
+    data class UnitLesson(val number: Int) : LearnNav
+    data class UnitDrill(val number: Int, val drillId: String) : LearnNav
 }
 
 /** The Learn tab: a visual on-ramp (browse the alphabet, practice recognition). */
@@ -62,6 +66,7 @@ fun LearnRoute(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val store = remember { LearnProgressStore(context) }
     var completed by remember { mutableStateOf(store.completedUnits()) }
+    var passedGates by remember { mutableStateOf(store.passedDrillGates()) }
 
     when (val current = nav) {
         LearnNav.Home -> LearnHome(
@@ -70,6 +75,7 @@ fun LearnRoute(modifier: Modifier = Modifier) {
             modifier = modifier,
             onBrowse = { nav = LearnNav.Alphabet },
             onPractice = { nav = LearnNav.Practice },
+            onUnit = { nav = LearnNav.UnitLesson(it) },
         )
         LearnNav.Alphabet -> AlphabetScreen(
             pack = pack,
@@ -93,6 +99,39 @@ fun LearnRoute(modifier: Modifier = Modifier) {
                 }
             },
         )
+        is LearnNav.UnitLesson -> UnitLessonScreen(
+            pack = pack,
+            number = current.number,
+            passedGates = passedGates,
+            completed = current.number in completed,
+            modifier = modifier,
+            onDrill = { drillId -> nav = LearnNav.UnitDrill(current.number, drillId) },
+            onAcknowledge = {
+                store.markCompleted(current.number)
+                completed = store.completedUnits()
+            },
+            onBack = { nav = LearnNav.Home },
+        )
+        is LearnNav.UnitDrill -> {
+            val random = remember(current) { Random(System.currentTimeMillis()) }
+            DrillScreen(
+                title = DrillCatalog.label(current.drillId),
+                passThreshold = UnitGating.drillThreshold(current.drillId),
+                deckFactory = { DrillCatalog.deck(pack, current.drillId, random) },
+                onBack = { nav = LearnNav.UnitLesson(current.number) },
+                onComplete = { score, total ->
+                    UnitGating.drillPassed(current.drillId, score, total)?.let { gate ->
+                        store.markDrillGatePassed(gate)
+                        passedGates = store.passedDrillGates()
+                        if (UnitGating.unitCompleteFromDrills(current.number, passedGates)) {
+                            store.markCompleted(current.number)
+                            completed = store.completedUnits()
+                        }
+                    }
+                },
+                modifier = modifier,
+            )
+        }
     }
 }
 
@@ -103,6 +142,7 @@ private fun LearnHome(
     modifier: Modifier,
     onBrowse: () -> Unit,
     onPractice: () -> Unit,
+    onUnit: (Int) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
@@ -149,22 +189,25 @@ private fun LearnHome(
             val built = unit.number <= UnitGating.HIGHEST_BUILT_UNIT
             val done = unit.number in completed
             val unlocked = UnitGating.isUnlocked(unit.number, completed)
+            // Units 1–3 are driven by the Browse/Practice buttons above; unit 0
+            // and units 4+ open their own lesson page.
+            val opensLesson = built && unlocked && unit.number !in UnitGating.ALPHABET_UNITS
             val status = when {
                 done -> "  ·  ✓ complete"
                 !built -> "  ·  soon"
                 !unlocked -> "  ·  🔒 finish unit ${unit.number - 1} first"
+                opensLesson -> "  ·  ›"
                 else -> ""
             }
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = when {
-                        done -> MaterialTheme.colorScheme.primaryContainer
-                        built && unlocked -> MaterialTheme.colorScheme.secondaryContainer
-                        else -> MaterialTheme.colorScheme.surfaceVariant
-                    },
-                ),
-            ) {
+            val colors = CardDefaults.cardColors(
+                containerColor = when {
+                    done -> MaterialTheme.colorScheme.primaryContainer
+                    built && unlocked -> MaterialTheme.colorScheme.secondaryContainer
+                    else -> MaterialTheme.colorScheme.surfaceVariant
+                },
+            )
+            val cardModifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+            val content: @Composable () -> Unit = {
                 Column(Modifier.padding(12.dp)) {
                     Text(
                         "${unit.number}. ${unit.title}$status",
@@ -176,6 +219,13 @@ private fun LearnHome(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
+            }
+            if (opensLesson) {
+                Card(onClick = { onUnit(unit.number) }, modifier = cardModifier, colors = colors) {
+                    content()
+                }
+            } else {
+                Card(modifier = cardModifier, colors = colors) { content() }
             }
         }
     }
@@ -400,7 +450,7 @@ private fun ScopeChip(label: String, selected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun BackRow(onBack: () -> Unit, title: String) {
+internal fun BackRow(onBack: () -> Unit, title: String) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
