@@ -36,7 +36,18 @@ class UnitGatingTest {
         assertFalse(UnitGating.isUnlocked(3, setOf(1)))
         assertTrue(UnitGating.isUnlocked(3, setOf(1, 2)))
         // Units beyond the built range stay locked even with everything complete.
-        assertFalse(UnitGating.isUnlocked(4, setOf(0, 1, 2, 3)))
+        assertFalse(UnitGating.isUnlocked(7, setOf(0, 1, 2, 3, 4, 5, 6)))
+    }
+
+    @Test
+    fun soundUnitsUnlockInSequence() {
+        assertFalse(UnitGating.isUnlocked(4, setOf(1, 2)))
+        assertTrue(UnitGating.isUnlocked(4, setOf(1, 2, 3)))
+        assertFalse(UnitGating.isUnlocked(5, setOf(1, 2, 3)))
+        assertTrue(UnitGating.isUnlocked(5, setOf(1, 2, 3, 4)))
+        assertTrue(UnitGating.isUnlocked(6, setOf(1, 2, 3, 4, 5)))
+        assertTrue(UnitGating.isBuilt(6))
+        assertFalse(UnitGating.isBuilt(7))
     }
 
     @Test

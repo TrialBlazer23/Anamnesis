@@ -28,3 +28,20 @@ data class LearnUnit(
     val title: String,
     val objective: String,
 )
+
+/** One reference row in a unit lesson: a symbol, what it is, how it sounds. */
+data class LessonRow(
+    val symbol: String,
+    val label: String,
+    val detail: String,
+)
+
+/** Teaching content for a curriculum unit (orientation + the sound units 4–6). */
+data class UnitLesson(
+    val unit: Int,
+    val title: String,
+    val intro: List<String>,
+    val rows: List<LessonRow>,
+    /** False for read-only units (orientation), true when a ≥90% quiz gates completion. */
+    val hasQuiz: Boolean,
+)

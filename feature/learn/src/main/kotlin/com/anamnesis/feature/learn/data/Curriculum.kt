@@ -3,9 +3,10 @@ package com.anamnesis.feature.learn.data
 import com.anamnesis.feature.learn.model.LearnUnit
 
 /**
- * The 9-unit on-ramp (spec §7 / `units.json`), shown as a roadmap. Interactive
- * gating + per-unit drills land as the Learn tab grows; for now units 1–3
- * (the alphabet) are the live, drillable content.
+ * The 9-unit on-ramp (spec §7 / `units.json`), shown as a tappable roadmap.
+ * Units 0–6 are live: 0 is a read-only orientation, 1–3 drill the alphabet
+ * (letter practice), and 4–6 are the sound units (see SoundUnits). 7–8 land
+ * as the Learn tab grows.
  */
 val CURRICULUM: List<LearnUnit> = listOf(
     LearnUnit(0, "Orientation", "What restored Attic is, and how this on-ramp works."),
