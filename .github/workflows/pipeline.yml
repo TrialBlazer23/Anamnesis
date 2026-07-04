@@ -32,6 +32,15 @@ jobs:
       - name: Run pipeline tests
         run: python -m pytest -q
 
+      # The lessons pack is generated from data/lessons/*; the committed copy
+      # in feature/learn assets must match, so a PR that edits the authored
+      # CSVs without regenerating fails here.
+      - name: Build lessons pack
+        run: |
+          python build_lessons.py --data data/lessons \
+            --out out/lessons.json --audio-manifest out/lessons_audio_manifest.json
+          cmp out/lessons.json ../feature/learn/src/main/assets/lessons/lessons.json
+
       - name: Fetch Lyceum morph.db (release asset mirror)
         env:
           GH_TOKEN: ${{ github.token }}
@@ -79,7 +88,7 @@ jobs:
           path: |
             pipeline/out/*.db
             pipeline/out/*.zip
-            pipeline/out/*.manifest.json
+            pipeline/out/*.json
 
   # On main: refresh the bundled starter pack in the app's assets and publish
   # every pack to the rolling "latest" release, so downloads don't depend on
@@ -111,6 +120,19 @@ jobs:
             git push
           else
             echo "Bundled meditations.db already up to date."
+          fi
+
+      - name: Refresh bundled lessons pack (lessons.json)
+        run: |
+          if ! cmp -s packs/lessons.json feature/learn/src/main/assets/lessons/lessons.json; then
+            cp packs/lessons.json feature/learn/src/main/assets/lessons/lessons.json
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add feature/learn/src/main/assets/lessons/lessons.json
+            git commit -m "Refresh bundled lessons.json from pipeline build"
+            git push
+          else
+            echo "Bundled lessons.json already up to date."
           fi
 
       - name: Publish packs to the rolling release

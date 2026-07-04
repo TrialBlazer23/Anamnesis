@@ -1,0 +1,15 @@
+id,a,b,same,audio_a_id,audio_b_id,note
+ap_theos,θεός,θεὸς,true,voc_ap_theos_a,voc_ap_theos_b,Acute→grave before another word: same word
+ap_kalos,καλός,καλὸς,true,voc_ap_kalos_a,voc_ap_kalos_b,Same word — the grave is just the acute in context
+ap_agathos,ἀγαθός,ἀγαθὸς,true,voc_ap_agathos_a,voc_ap_agathos_b,Same word in and out of context
+ap_autos,αὐτός,αὐτὸς,true,voc_ap_autos_a,voc_ap_autos_b,"Same word — acute at pause, grave mid-sentence"
+ap_ten,τήν,τὴν,true,voc_ap_ten_a,voc_ap_ten_b,Same article either way
+ap_nomos,νόμος,νομός,false,voc_ap_nomos_a,voc_ap_nomos_b,Law vs pasture — accent position distinguishes
+ap_oikoi,οἶκοι,οἴκοι,false,voc_ap_oikoi_a,voc_ap_oikoi_b,Houses vs at home — circumflex vs acute
+ap_tis,τίς,τις,false,voc_ap_tis_a,voc_ap_tis_b,Who? (accented) vs someone (enclitic)
+ap_meno,μένω,μενῶ,false,voc_ap_meno_a,voc_ap_meno_b,I stay (present) vs I shall stay (future)
+ap_eimi,εἰμί,εἶμι,false,voc_ap_eimi_a,voc_ap_eimi_b,I am vs I shall go — accent alone distinguishes
+ap_e,ἤ,ἦ,false,voc_ap_e_a,voc_ap_e_b,Or vs truly / he said
+ap_pou,ποῦ,που,false,voc_ap_pou_a,voc_ap_pou_b,Where? vs somewhere (enclitic)
+ap_alla,ἄλλα,ἀλλά,false,voc_ap_alla_a,voc_ap_alla_b,Other things vs but — accent position distinguishes
+ap_demos,δῆμος,δημός,false,voc_ap_demos_a,voc_ap_demos_b,People vs fat — circumflex vs final acute

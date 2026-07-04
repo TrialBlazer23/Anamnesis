@@ -1,0 +1,57 @@
+dcc_rank,greek,translit,ipa,breathing,gloss,pos,audio_id,note
+1,ὁ,ho,[ho],rough,the (masc.),article,voc_1,Rough breathing = a leading [h]
+2,αὐτός,autós,[au̯tós],smooth,self; same; him/her/it,pronoun,voc_2,Smooth breathing on the diphthong αυ adds no sound
+3,καί,kaí,[kai̯],none,"and, also, even",conjunction,voc_3,"αι like English ""eye"""
+4,δέ,dé,[dé],none,and; but,particle,voc_4,
+5,τίς,tís,[tís],none,who? what?,pronoun,voc_5,Accented — the question word
+6,εἰμί,eimí,[eːmí],smooth,"be, exist",verb,voc_6,ει = long [eː] monophthong
+7,οὗτος,hoûtos,[hûːtos],rough,this,pronoun,voc_7,Breathing sits on the second letter of the diphthong
+8,ἤ,ḗ,[ɛ́ː],smooth,or; than,conjunction,voc_8,A whole word of one long open e
+9,ἐν,en,[en],smooth,"in, among (+dat.)",preposition,voc_9,
+11,τις,tis,[tis],none,"someone, something (enclitic)",pronoun,voc_11,"Unaccented — contrast τίς ""who?"""
+12,ὅς,hós,[hós],rough,"who, which, that",pronoun,voc_12,
+13,γάρ,gár,[gár],none,"for, indeed",particle,voc_13,
+14,οὐ,ou,[uː],smooth,not,adverb,voc_14,ου = long [uː] monophthong
+15,λέγω,légō,[légɔː],none,"say, speak",verb,voc_15,
+16,ὡς,hōs,[hɔːs],rough,"as, since; that",conjunction,voc_16,
+17,τε,te,[te],none,and (enclitic),particle,voc_17,
+18,εἰς,eis,[eːs],smooth,"into, to (+acc.)",preposition,voc_18,ει = [eː]
+19,ἐπί,epí,[epí],smooth,"on, at, against",preposition,voc_19,Unaspirated π
+20,κατά,katá,[katá],none,down; according to,preposition,voc_20,Unaspirated κ and τ
+21,ἐγώ,egṓ,[egɔ́ː],smooth,I,pronoun,voc_21,
+22,πρός,prós,[prós],none,"to, towards",preposition,voc_22,
+23,γίγνομαι,gígnomai,[gígnomai̯],none,become; happen,verb,voc_23,
+25,διά,diá,[diá],none,through; because of,preposition,voc_25,
+26,ἀλλά,allá,[allá],smooth,but,conjunction,voc_26,
+27,πᾶς,pâs,[pâːs],none,"every, all",adjective,voc_27,Circumflex reveals the hidden long ᾱ
+28,ἔχω,ékhō,[ékʰɔː],smooth,"have, hold",verb,voc_28,"χ = aspirated [kʰ], not [x]"
+29,ἐκ,ek,[ek],smooth,"from, out of (+gen.)",preposition,voc_29,
+30,πολύς,polús,[polýs],none,"much, many",adjective,voc_30,υ = [y] (French u)
+31,περί,perí,[perí],none,around; concerning,preposition,voc_31,
+32,μή,mḗ,[mɛ́ː],none,not,adverb,voc_32,
+34,ἄν,án,[án],smooth,(potential particle),particle,voc_34,
+35,σύ,sú,[sý],none,you,pronoun,voc_35,υ = [y]
+37,ὅτι,hóti,[hóti],rough,because; that,conjunction,voc_37,
+38,εἰ,ei,[eː],smooth,if,conjunction,voc_38,ει = [eː]
+39,ἄλλος,állos,[álːos],smooth,"other, another",adjective,voc_39,
+40,ἀπό,apó,[apó],smooth,from (+gen.),preposition,voc_40,Unaspirated π
+41,φημί,phēmí,[pʰɛːmí],none,"say, assert",verb,voc_41,"φ = aspirated [pʰ], not [f]"
+42,ὑπό,hupó,[hypó],rough,under; by,preposition,voc_42,Initial υ regularly takes the rough breathing
+43,ποιέω,poiéō,[poi̯éɔː],none,"make, do",verb,voc_43,
+44,οὖν,oûn,[ûːn],smooth,therefore,particle,voc_44,ου = [uː]; breathing on the second letter
+45,λόγος,lógos,[lógos],none,"word, account",noun,voc_45,
+46,παρά,pará,[pará],none,beside; from,preposition,voc_46,
+47,οὕτως,hoútōs,[húːtɔːs],rough,in this way,adverb,voc_47,
+49,θεός,theós,[tʰeós],none,god,noun,voc_49,"θ = aspirated [tʰ], not [θ]"
+50,μετά,metá,[metá],none,with; after,preposition,voc_50,
+51,ἑαυτοῦ,heautoû,[heau̯tûː],rough,"himself, herself, itself",pronoun,voc_51,
+52,μέγας,mégas,[mégas],none,"big, great",adjective,voc_52,
+54,ἐκεῖνος,ekeînos,[ekêːnos],smooth,that (one),pronoun,voc_54,
+56,οὐδείς,oudeís,[uːdéːs],smooth,"no one, nothing",pronoun,voc_56,
+58,ἀγαθός,agathós,[agatʰós],smooth,"good, noble",adjective,voc_58,
+59,γε,ge,[ge],none,at least (enclitic),particle,voc_59,
+65,ἄνθρωπος,ánthrōpos,[ántʰrɔːpos],smooth,human being,noun,voc_65,
+89,ἡμέρα,hēméra,[hɛːméra],rough,day,noun,voc_89,
+117,ψυχή,psukhḗ,[psykʰɛ́ː],none,"breath, life, soul",noun,voc_117,ψ = [ps]
+140,ὕδωρ,húdōr,[hýdɔːr],rough,water,noun,voc_140,Initial υ takes the rough breathing
+309,ῥᾴδιος,rhāidios,[r̥áːdios],rough,easy,adjective,voc_309,Initial ῥ is voiceless [r̥]; the iota subscript is not pronounced

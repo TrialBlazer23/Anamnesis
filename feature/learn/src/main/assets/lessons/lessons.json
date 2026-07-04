@@ -1,0 +1,1575 @@
+{
+  "schema_version": 1,
+  "scheme": "Restored Classical Attic (Allen, Vox Graeca)",
+  "aspirate_default": "aspirate",
+  "units": [
+    {
+      "number": 0,
+      "title": "Orientation",
+      "objective": "Set expectations for restored Attic and the on-ramp.",
+      "taught": "What restored Attic is and why this app teaches it; the 'ancient texts were ALL CAPS with no spaces' reveal; the promise that the reader + tap-to-parse will carry you.",
+      "drills": [],
+      "srs_feed": "none",
+      "advance": "Acknowledge."
+    },
+    {
+      "number": 1,
+      "title": "Familiar letters",
+      "objective": "Read/sound 7 letters; read first real syllables.",
+      "taught": "Letterform + name + restored sound + lowercase handwriting.",
+      "drills": [
+        "letter-to-sound",
+        "sound-to-letter",
+        "letter-name-recall",
+        "spen-tracing"
+      ],
+      "srs_feed": "Each letter becomes a 3-card family (letter→sound, sound→letter, name).",
+      "advance": "≥90% recognition across a session; all 7 cards reach first successful review.",
+      "batch": 1,
+      "letters": [
+        "α",
+        "β",
+        "ε",
+        "ι",
+        "κ",
+        "ο",
+        "τ"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Distinctive Greek letters",
+      "objective": "Add 10 letters incl. aspirates φ/θ and double ψ.",
+      "taught": "Forms, restored sounds, aspirate contrast (audio minimal pairs), the two sigmas, multi-stroke ψ/θ handwriting.",
+      "drills": [
+        "letter-to-sound",
+        "sound-to-letter",
+        "letter-name-recall",
+        "two-sigma-placement",
+        "aspirate-minimal-pair"
+      ],
+      "srs_feed": "New letter cards interleave with Unit 1.",
+      "advance": "≥90% recognition; sigma-placement drill passed.",
+      "batch": 2,
+      "letters": [
+        "δ",
+        "λ",
+        "μ",
+        "π",
+        "σ",
+        "φ",
+        "ψ",
+        "ω",
+        "θ",
+        "γ"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "False friends",
+      "objective": "Defeat the Latin-lookalike trap.",
+      "taught": "Each letter paired against its Latin twin (Η≠h/n, Ν≠v, Ρ≠p, Χ≠x, Υ≠u, Ζ); η=[ɛː], υ=[y], ζ=[zd].",
+      "drills": [
+        "contrastive-discrimination",
+        "mixed-review",
+        "audio-to-letter"
+      ],
+      "srs_feed": "Cards flagged higher-difficulty; FSRS schedules them more often.",
+      "advance": "≥90% on a mixed full-alphabet recognition quiz.",
+      "batch": 3,
+      "letters": [
+        "η",
+        "ν",
+        "ρ",
+        "χ",
+        "υ",
+        "ζ"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Vowel quantity & diphthongs",
+      "objective": "Hear/encode long vs short and the 8 diphthongs.",
+      "taught": "ε/η and ο/ω as length+quality pairs; hidden quantity of α/ι/υ (macron/breve); diphthong values; genuine vs spurious ει/ου = pure long vowels; iota subscript preview.",
+      "drills": [
+        "length-minimal-pair",
+        "diphthong-to-sound",
+        "long-or-short"
+      ],
+      "srs_feed": "Diphthongs as cards; quantity contrasts as listening cards.",
+      "advance": "≥80% length discrimination (genuinely hard) + ≥90% diphthong recognition."
+    },
+    {
+      "number": 5,
+      "title": "Breathings & the sound system in words",
+      "objective": "Read whole short real words aloud.",
+      "taught": "Rough vs smooth breathing; initial ρ/υ rules; breathing on diphthongs/capitals; γ-nasal; ρ trill.",
+      "drills": [
+        "read-the-word",
+        "breathing-identification",
+        "transliteration"
+      ],
+      "srs_feed": "Begin DCC core vocab as lemma cards (form + sound + gloss), highest-frequency ~50 first.",
+      "advance": "Read 10 core words with correct breathings/sounds."
+    },
+    {
+      "number": 6,
+      "title": "Accents (recognition)",
+      "objective": "Recognize the three marks; know they were musical — no production pressure.",
+      "taught": "Acute/grave/circumflex = pitch; circumflex only on long vowel/diphthong; acute→grave in context; one honest slide on reconstruction uncertainty.",
+      "drills": [
+        "identify-the-accent",
+        "same-word-or-different"
+      ],
+      "srs_feed": "Light; accent-recognition cards only.",
+      "advance": "Name the three accents; judge 8/10 'same word?' accent items."
+    },
+    {
+      "number": 7,
+      "title": "How Greek words work",
+      "objective": "Internalize inflection + lemma so tap-to-parse makes sense.",
+      "taught": "Inflection via the λόγος paradigm; the five cases conceptually; lemma vs form; word-order freedom.",
+      "drills": [
+        "guided-reader-micropassage",
+        "form-to-lemma"
+      ],
+      "srs_feed": "Core vocab continues as lemmas; add a few form→lemma cards.",
+      "advance": "Identify lemma vs inflected form for 8/10 tapped words; explain why endings matter."
+    },
+    {
+      "number": 8,
+      "title": "Variation, punctuation & handoff to Euthyphro",
+      "objective": "Not be confused by the three kinds of variation or Greek punctuation; begin reading.",
+      "taught": "The three variation types (inflection / accent-in-context / orthographic-dialectal); punctuation (; = question mark, · raised dot), scriptio continua, iota subscript — each with a Euthyphro example (ἐγᾦμαι, τί φῄς;, ὦ Σώκρατες).",
+      "drills": [
+        "guided-reader-euthyphro-2a"
+      ],
+      "srs_feed": "Euthyphro opening vocabulary seeded into FSRS.",
+      "advance": "Read Euthyphro 2a with parse support and self-rate ≥'mostly understood'."
+    }
+  ],
+  "letters": [
+    {
+      "order": 1,
+      "lower": "α",
+      "upper": "Α",
+      "name_greek": "ἄλφα",
+      "name_translit": "alpha",
+      "ipa": "[a] / [aː]",
+      "batch": 1,
+      "latin_lookalike": "A",
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_alpha",
+      "audio_name_id": "nm_alpha",
+      "teaching_note": "Hidden quantity — length not shown in spelling"
+    },
+    {
+      "order": 2,
+      "lower": "β",
+      "upper": "Β",
+      "name_greek": "βῆτα",
+      "name_translit": "beta",
+      "ipa": "[b]",
+      "batch": 1,
+      "latin_lookalike": "B",
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_beta",
+      "audio_name_id": "nm_beta",
+      "teaching_note": "True voiced stop, NOT [v] of Modern Greek"
+    },
+    {
+      "order": 3,
+      "lower": "γ",
+      "upper": "Γ",
+      "name_greek": "γάμμα",
+      "name_translit": "gamma",
+      "ipa": "[g]; [ŋ] before γ κ χ ξ",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_gamma",
+      "audio_name_id": "nm_gamma",
+      "teaching_note": "Velar nasal [ŋ] in γγ/γκ/γχ (ἄγγελος)"
+    },
+    {
+      "order": 4,
+      "lower": "δ",
+      "upper": "Δ",
+      "name_greek": "δέλτα",
+      "name_translit": "delta",
+      "ipa": "[d]",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_delta",
+      "audio_name_id": "nm_delta",
+      "teaching_note": "True voiced stop, NOT [ð]"
+    },
+    {
+      "order": 5,
+      "lower": "ε",
+      "upper": "Ε",
+      "name_greek": "ἒ ψιλόν",
+      "name_translit": "epsilon",
+      "ipa": "[e] short",
+      "batch": 1,
+      "latin_lookalike": "E",
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_epsilon",
+      "audio_name_id": "nm_epsilon",
+      "teaching_note": "Short e; the length-pair of η. Name ἒ ψιλόν is post-classical"
+    },
+    {
+      "order": 6,
+      "lower": "ζ",
+      "upper": "Ζ",
+      "name_greek": "ζῆτα",
+      "name_translit": "zeta",
+      "ipa": "[zd]",
+      "batch": 3,
+      "latin_lookalike": null,
+      "false_friend": true,
+      "multistroke": false,
+      "audio_sound_id": "snd_zeta",
+      "audio_name_id": "nm_zeta",
+      "teaching_note": "Double consonant; [zd] standard teaching value (minority: [dz])"
+    },
+    {
+      "order": 7,
+      "lower": "η",
+      "upper": "Η",
+      "name_greek": "ἦτα",
+      "name_translit": "eta",
+      "ipa": "[ɛː] long",
+      "batch": 3,
+      "latin_lookalike": "H",
+      "false_friend": true,
+      "multistroke": false,
+      "audio_sound_id": "snd_eta",
+      "audio_name_id": "nm_eta",
+      "teaching_note": "Looks like Latin H but = long open-e; the length-pair of ε"
+    },
+    {
+      "order": 8,
+      "lower": "θ",
+      "upper": "Θ",
+      "name_greek": "θῆτα",
+      "name_translit": "theta",
+      "ipa": "[tʰ] aspirated",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": true,
+      "audio_sound_id": "snd_theta",
+      "audio_name_id": "nm_theta",
+      "teaching_note": "True aspirate [tʰ], NOT [θ] (Erasmian/Modern)"
+    },
+    {
+      "order": 9,
+      "lower": "ι",
+      "upper": "Ι",
+      "name_greek": "ἰῶτα",
+      "name_translit": "iota",
+      "ipa": "[i] / [iː]",
+      "batch": 1,
+      "latin_lookalike": "I",
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_iota",
+      "audio_name_id": "nm_iota",
+      "teaching_note": "Hidden quantity"
+    },
+    {
+      "order": 10,
+      "lower": "κ",
+      "upper": "Κ",
+      "name_greek": "κάππα",
+      "name_translit": "kappa",
+      "ipa": "[k]",
+      "batch": 1,
+      "latin_lookalike": "K",
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_kappa",
+      "audio_name_id": "nm_kappa",
+      "teaching_note": "Unaspirated"
+    },
+    {
+      "order": 11,
+      "lower": "λ",
+      "upper": "Λ",
+      "name_greek": "λάμβδα",
+      "name_translit": "lambda",
+      "ipa": "[l]",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_lambda",
+      "audio_name_id": "nm_lambda",
+      "teaching_note": ""
+    },
+    {
+      "order": 12,
+      "lower": "μ",
+      "upper": "Μ",
+      "name_greek": "μῦ",
+      "name_translit": "mu",
+      "ipa": "[m]",
+      "batch": 2,
+      "latin_lookalike": "M",
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_mu",
+      "audio_name_id": "nm_mu",
+      "teaching_note": ""
+    },
+    {
+      "order": 13,
+      "lower": "ν",
+      "upper": "Ν",
+      "name_greek": "νῦ",
+      "name_translit": "nu",
+      "ipa": "[n]",
+      "batch": 3,
+      "latin_lookalike": "v",
+      "false_friend": true,
+      "multistroke": false,
+      "audio_sound_id": "snd_nu",
+      "audio_name_id": "nm_nu",
+      "teaching_note": "Looks like Latin v but = [n]"
+    },
+    {
+      "order": 14,
+      "lower": "ξ",
+      "upper": "Ξ",
+      "name_greek": "ξεῖ",
+      "name_translit": "xi",
+      "ipa": "[ks]",
+      "batch": 4,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_xi",
+      "audio_name_id": "nm_xi",
+      "teaching_note": "Double consonant"
+    },
+    {
+      "order": 15,
+      "lower": "ο",
+      "upper": "Ο",
+      "name_greek": "ὂ μικρόν",
+      "name_translit": "omicron",
+      "ipa": "[o] short",
+      "batch": 1,
+      "latin_lookalike": "O",
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_omicron",
+      "audio_name_id": "nm_omicron",
+      "teaching_note": "Short o; the length-pair of ω. Name ὂ μικρόν is post-classical"
+    },
+    {
+      "order": 16,
+      "lower": "π",
+      "upper": "Π",
+      "name_greek": "πεῖ",
+      "name_translit": "pi",
+      "ipa": "[p]",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_pi",
+      "audio_name_id": "nm_pi",
+      "teaching_note": "Unaspirated"
+    },
+    {
+      "order": 17,
+      "lower": "ρ",
+      "upper": "Ρ",
+      "name_greek": "ῥῶ",
+      "name_translit": "rho",
+      "ipa": "[r], initial [r̥]",
+      "batch": 3,
+      "latin_lookalike": "p",
+      "false_friend": true,
+      "multistroke": false,
+      "audio_sound_id": "snd_rho",
+      "audio_name_id": "nm_rho",
+      "teaching_note": "Looks like Latin p but = trilled r; initial ῥ is voiceless"
+    },
+    {
+      "order": 18,
+      "lower": "σ",
+      "upper": "Σ",
+      "name_greek": "σῖγμα",
+      "name_translit": "sigma",
+      "ipa": "[s], [z] before voiced",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_sigma",
+      "audio_name_id": "nm_sigma",
+      "teaching_note": "ς word-finally, σ elsewhere"
+    },
+    {
+      "order": 19,
+      "lower": "τ",
+      "upper": "Τ",
+      "name_greek": "ταῦ",
+      "name_translit": "tau",
+      "ipa": "[t]",
+      "batch": 1,
+      "latin_lookalike": "T",
+      "false_friend": false,
+      "multistroke": true,
+      "audio_sound_id": "snd_tau",
+      "audio_name_id": "nm_tau",
+      "teaching_note": "Unaspirated"
+    },
+    {
+      "order": 20,
+      "lower": "υ",
+      "upper": "Υ",
+      "name_greek": "ὖ ψιλόν",
+      "name_translit": "upsilon",
+      "ipa": "[y] / [yː]",
+      "batch": 3,
+      "latin_lookalike": "y",
+      "false_friend": true,
+      "multistroke": false,
+      "audio_sound_id": "snd_upsilon",
+      "audio_name_id": "nm_upsilon",
+      "teaching_note": "French u / German ü, NOT [u]; usually takes rough breathing initially"
+    },
+    {
+      "order": 21,
+      "lower": "φ",
+      "upper": "Φ",
+      "name_greek": "φεῖ",
+      "name_translit": "phi",
+      "ipa": "[pʰ] aspirated",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_phi",
+      "audio_name_id": "nm_phi",
+      "teaching_note": "True aspirate [pʰ], NOT [f]"
+    },
+    {
+      "order": 22,
+      "lower": "χ",
+      "upper": "Χ",
+      "name_greek": "χεῖ",
+      "name_translit": "chi",
+      "ipa": "[kʰ] aspirated",
+      "batch": 3,
+      "latin_lookalike": "x",
+      "false_friend": true,
+      "multistroke": true,
+      "audio_sound_id": "snd_chi",
+      "audio_name_id": "nm_chi",
+      "teaching_note": "Looks like x but = aspirate [kʰ], NOT [x]/[ç]"
+    },
+    {
+      "order": 23,
+      "lower": "ψ",
+      "upper": "Ψ",
+      "name_greek": "ψεῖ",
+      "name_translit": "psi",
+      "ipa": "[ps]",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": true,
+      "audio_sound_id": "snd_psi",
+      "audio_name_id": "nm_psi",
+      "teaching_note": "Double consonant"
+    },
+    {
+      "order": 24,
+      "lower": "ω",
+      "upper": "Ω",
+      "name_greek": "ὦ μέγα",
+      "name_translit": "omega",
+      "ipa": "[ɔː] long",
+      "batch": 2,
+      "latin_lookalike": null,
+      "false_friend": false,
+      "multistroke": false,
+      "audio_sound_id": "snd_omega",
+      "audio_name_id": "nm_omega",
+      "teaching_note": "Long open-o; the length-pair of ο"
+    }
+  ],
+  "diphthongs": [
+    {
+      "order": 1,
+      "glyph": "αι",
+      "ipa": "[ai̯]",
+      "kind": "proper",
+      "audio_id": "snd_dip_ai",
+      "note": "Like English \"eye\""
+    },
+    {
+      "order": 2,
+      "glyph": "ει",
+      "ipa": "[eː]",
+      "kind": "proper",
+      "audio_id": "snd_dip_ei",
+      "note": "Long close-e MONOPHTHONG in Classical Attic (genuine+spurious identical), NOT a glide"
+    },
+    {
+      "order": 3,
+      "glyph": "οι",
+      "ipa": "[oi̯]",
+      "kind": "proper",
+      "audio_id": "snd_dip_oi",
+      "note": "Like \"boy\""
+    },
+    {
+      "order": 4,
+      "glyph": "υι",
+      "ipa": "[yi̯]",
+      "kind": "proper",
+      "audio_id": "snd_dip_ui",
+      "note": "Rare; monophthongized to [yː] in Attic"
+    },
+    {
+      "order": 5,
+      "glyph": "αυ",
+      "ipa": "[au̯]",
+      "kind": "proper",
+      "audio_id": "snd_dip_au",
+      "note": "Like \"ow\""
+    },
+    {
+      "order": 6,
+      "glyph": "ευ",
+      "ipa": "[eu̯]",
+      "kind": "proper",
+      "audio_id": "snd_dip_eu",
+      "note": "\"eh-oo\" glide"
+    },
+    {
+      "order": 7,
+      "glyph": "ηυ",
+      "ipa": "[ɛːu̯]",
+      "kind": "proper",
+      "audio_id": "snd_dip_eu_long",
+      "note": "Long-first-element diphthong"
+    },
+    {
+      "order": 8,
+      "glyph": "ου",
+      "ipa": "[uː]",
+      "kind": "proper",
+      "audio_id": "snd_dip_ou",
+      "note": "Long close-u MONOPHTHONG, NOT a glide"
+    },
+    {
+      "order": 9,
+      "glyph": "ᾳ",
+      "ipa": "[aː]",
+      "kind": "improper",
+      "audio_id": "snd_dip_a_sub",
+      "note": "Long alpha with iota subscript; subscript iota NOT pronounced (dative cue)"
+    },
+    {
+      "order": 10,
+      "glyph": "ῃ",
+      "ipa": "[ɛː]",
+      "kind": "improper",
+      "audio_id": "snd_dip_e_sub",
+      "note": "Eta with iota subscript; subscript iota NOT pronounced (dative cue)"
+    },
+    {
+      "order": 11,
+      "glyph": "ῳ",
+      "ipa": "[ɔː]",
+      "kind": "improper",
+      "audio_id": "snd_dip_o_sub",
+      "note": "Omega with iota subscript; subscript iota NOT pronounced (dative cue)"
+    }
+  ],
+  "minimal_pairs": [
+    {
+      "id": "mp_e_eta",
+      "a": "ε",
+      "b": "η",
+      "contrast": "short [e] vs long [ɛː]",
+      "type": "vowel-length",
+      "audio_a_id": "snd_epsilon",
+      "audio_b_id": "snd_eta",
+      "note": "Length + quality pair"
+    },
+    {
+      "id": "mp_o_omega",
+      "a": "ο",
+      "b": "ω",
+      "contrast": "short [o] vs long [ɔː]",
+      "type": "vowel-length",
+      "audio_a_id": "snd_omicron",
+      "audio_b_id": "snd_omega",
+      "note": "Length + quality pair"
+    },
+    {
+      "id": "mp_pi_phi",
+      "a": "π",
+      "b": "φ",
+      "contrast": "plain [p] vs aspirate [pʰ]",
+      "type": "aspiration",
+      "audio_a_id": "snd_pi",
+      "audio_b_id": "snd_phi",
+      "note": "The defining restored-Attic contrast"
+    },
+    {
+      "id": "mp_tau_theta",
+      "a": "τ",
+      "b": "θ",
+      "contrast": "plain [t] vs aspirate [tʰ]",
+      "type": "aspiration",
+      "audio_a_id": "snd_tau",
+      "audio_b_id": "snd_theta",
+      "note": "Aspirate is a puff of air, not [θ]"
+    },
+    {
+      "id": "mp_kappa_chi",
+      "a": "κ",
+      "b": "χ",
+      "contrast": "plain [k] vs aspirate [kʰ]",
+      "type": "aspiration",
+      "audio_a_id": "snd_kappa",
+      "audio_b_id": "snd_chi",
+      "note": "Aspirate is a puff of air, not [x]"
+    },
+    {
+      "id": "mp_alpha_quantity",
+      "a": "ᾰ",
+      "b": "ᾱ",
+      "contrast": "short [a] vs long [aː]",
+      "type": "hidden-quantity",
+      "audio_a_id": "snd_alpha_short",
+      "audio_b_id": "snd_alpha_long",
+      "note": "Same letter α hides a length difference"
+    },
+    {
+      "id": "mp_iota_quantity",
+      "a": "ῐ",
+      "b": "ῑ",
+      "contrast": "short [i] vs long [iː]",
+      "type": "hidden-quantity",
+      "audio_a_id": "snd_iota_short",
+      "audio_b_id": "snd_iota_long",
+      "note": "Same letter ι hides a length difference"
+    }
+  ],
+  "words": [
+    {
+      "dcc_rank": 1,
+      "greek": "ὁ",
+      "translit": "ho",
+      "ipa": "[ho]",
+      "breathing": "rough",
+      "gloss": "the (masc.)",
+      "pos": "article",
+      "audio_id": "voc_1",
+      "note": "Rough breathing = a leading [h]"
+    },
+    {
+      "dcc_rank": 2,
+      "greek": "αὐτός",
+      "translit": "autós",
+      "ipa": "[au̯tós]",
+      "breathing": "smooth",
+      "gloss": "self; same; him/her/it",
+      "pos": "pronoun",
+      "audio_id": "voc_2",
+      "note": "Smooth breathing on the diphthong αυ adds no sound"
+    },
+    {
+      "dcc_rank": 3,
+      "greek": "καί",
+      "translit": "kaí",
+      "ipa": "[kai̯]",
+      "breathing": "none",
+      "gloss": "and, also, even",
+      "pos": "conjunction",
+      "audio_id": "voc_3",
+      "note": "αι like English \"eye\""
+    },
+    {
+      "dcc_rank": 4,
+      "greek": "δέ",
+      "translit": "dé",
+      "ipa": "[dé]",
+      "breathing": "none",
+      "gloss": "and; but",
+      "pos": "particle",
+      "audio_id": "voc_4",
+      "note": ""
+    },
+    {
+      "dcc_rank": 5,
+      "greek": "τίς",
+      "translit": "tís",
+      "ipa": "[tís]",
+      "breathing": "none",
+      "gloss": "who? what?",
+      "pos": "pronoun",
+      "audio_id": "voc_5",
+      "note": "Accented — the question word"
+    },
+    {
+      "dcc_rank": 6,
+      "greek": "εἰμί",
+      "translit": "eimí",
+      "ipa": "[eːmí]",
+      "breathing": "smooth",
+      "gloss": "be, exist",
+      "pos": "verb",
+      "audio_id": "voc_6",
+      "note": "ει = long [eː] monophthong"
+    },
+    {
+      "dcc_rank": 7,
+      "greek": "οὗτος",
+      "translit": "hoûtos",
+      "ipa": "[hûːtos]",
+      "breathing": "rough",
+      "gloss": "this",
+      "pos": "pronoun",
+      "audio_id": "voc_7",
+      "note": "Breathing sits on the second letter of the diphthong"
+    },
+    {
+      "dcc_rank": 8,
+      "greek": "ἤ",
+      "translit": "ḗ",
+      "ipa": "[ɛ́ː]",
+      "breathing": "smooth",
+      "gloss": "or; than",
+      "pos": "conjunction",
+      "audio_id": "voc_8",
+      "note": "A whole word of one long open e"
+    },
+    {
+      "dcc_rank": 9,
+      "greek": "ἐν",
+      "translit": "en",
+      "ipa": "[en]",
+      "breathing": "smooth",
+      "gloss": "in, among (+dat.)",
+      "pos": "preposition",
+      "audio_id": "voc_9",
+      "note": ""
+    },
+    {
+      "dcc_rank": 11,
+      "greek": "τις",
+      "translit": "tis",
+      "ipa": "[tis]",
+      "breathing": "none",
+      "gloss": "someone, something (enclitic)",
+      "pos": "pronoun",
+      "audio_id": "voc_11",
+      "note": "Unaccented — contrast τίς \"who?\""
+    },
+    {
+      "dcc_rank": 12,
+      "greek": "ὅς",
+      "translit": "hós",
+      "ipa": "[hós]",
+      "breathing": "rough",
+      "gloss": "who, which, that",
+      "pos": "pronoun",
+      "audio_id": "voc_12",
+      "note": ""
+    },
+    {
+      "dcc_rank": 13,
+      "greek": "γάρ",
+      "translit": "gár",
+      "ipa": "[gár]",
+      "breathing": "none",
+      "gloss": "for, indeed",
+      "pos": "particle",
+      "audio_id": "voc_13",
+      "note": ""
+    },
+    {
+      "dcc_rank": 14,
+      "greek": "οὐ",
+      "translit": "ou",
+      "ipa": "[uː]",
+      "breathing": "smooth",
+      "gloss": "not",
+      "pos": "adverb",
+      "audio_id": "voc_14",
+      "note": "ου = long [uː] monophthong"
+    },
+    {
+      "dcc_rank": 15,
+      "greek": "λέγω",
+      "translit": "légō",
+      "ipa": "[légɔː]",
+      "breathing": "none",
+      "gloss": "say, speak",
+      "pos": "verb",
+      "audio_id": "voc_15",
+      "note": ""
+    },
+    {
+      "dcc_rank": 16,
+      "greek": "ὡς",
+      "translit": "hōs",
+      "ipa": "[hɔːs]",
+      "breathing": "rough",
+      "gloss": "as, since; that",
+      "pos": "conjunction",
+      "audio_id": "voc_16",
+      "note": ""
+    },
+    {
+      "dcc_rank": 17,
+      "greek": "τε",
+      "translit": "te",
+      "ipa": "[te]",
+      "breathing": "none",
+      "gloss": "and (enclitic)",
+      "pos": "particle",
+      "audio_id": "voc_17",
+      "note": ""
+    },
+    {
+      "dcc_rank": 18,
+      "greek": "εἰς",
+      "translit": "eis",
+      "ipa": "[eːs]",
+      "breathing": "smooth",
+      "gloss": "into, to (+acc.)",
+      "pos": "preposition",
+      "audio_id": "voc_18",
+      "note": "ει = [eː]"
+    },
+    {
+      "dcc_rank": 19,
+      "greek": "ἐπί",
+      "translit": "epí",
+      "ipa": "[epí]",
+      "breathing": "smooth",
+      "gloss": "on, at, against",
+      "pos": "preposition",
+      "audio_id": "voc_19",
+      "note": "Unaspirated π"
+    },
+    {
+      "dcc_rank": 20,
+      "greek": "κατά",
+      "translit": "katá",
+      "ipa": "[katá]",
+      "breathing": "none",
+      "gloss": "down; according to",
+      "pos": "preposition",
+      "audio_id": "voc_20",
+      "note": "Unaspirated κ and τ"
+    },
+    {
+      "dcc_rank": 21,
+      "greek": "ἐγώ",
+      "translit": "egṓ",
+      "ipa": "[egɔ́ː]",
+      "breathing": "smooth",
+      "gloss": "I",
+      "pos": "pronoun",
+      "audio_id": "voc_21",
+      "note": ""
+    },
+    {
+      "dcc_rank": 22,
+      "greek": "πρός",
+      "translit": "prós",
+      "ipa": "[prós]",
+      "breathing": "none",
+      "gloss": "to, towards",
+      "pos": "preposition",
+      "audio_id": "voc_22",
+      "note": ""
+    },
+    {
+      "dcc_rank": 23,
+      "greek": "γίγνομαι",
+      "translit": "gígnomai",
+      "ipa": "[gígnomai̯]",
+      "breathing": "none",
+      "gloss": "become; happen",
+      "pos": "verb",
+      "audio_id": "voc_23",
+      "note": ""
+    },
+    {
+      "dcc_rank": 25,
+      "greek": "διά",
+      "translit": "diá",
+      "ipa": "[diá]",
+      "breathing": "none",
+      "gloss": "through; because of",
+      "pos": "preposition",
+      "audio_id": "voc_25",
+      "note": ""
+    },
+    {
+      "dcc_rank": 26,
+      "greek": "ἀλλά",
+      "translit": "allá",
+      "ipa": "[allá]",
+      "breathing": "smooth",
+      "gloss": "but",
+      "pos": "conjunction",
+      "audio_id": "voc_26",
+      "note": ""
+    },
+    {
+      "dcc_rank": 27,
+      "greek": "πᾶς",
+      "translit": "pâs",
+      "ipa": "[pâːs]",
+      "breathing": "none",
+      "gloss": "every, all",
+      "pos": "adjective",
+      "audio_id": "voc_27",
+      "note": "Circumflex reveals the hidden long ᾱ"
+    },
+    {
+      "dcc_rank": 28,
+      "greek": "ἔχω",
+      "translit": "ékhō",
+      "ipa": "[ékʰɔː]",
+      "breathing": "smooth",
+      "gloss": "have, hold",
+      "pos": "verb",
+      "audio_id": "voc_28",
+      "note": "χ = aspirated [kʰ], not [x]"
+    },
+    {
+      "dcc_rank": 29,
+      "greek": "ἐκ",
+      "translit": "ek",
+      "ipa": "[ek]",
+      "breathing": "smooth",
+      "gloss": "from, out of (+gen.)",
+      "pos": "preposition",
+      "audio_id": "voc_29",
+      "note": ""
+    },
+    {
+      "dcc_rank": 30,
+      "greek": "πολύς",
+      "translit": "polús",
+      "ipa": "[polýs]",
+      "breathing": "none",
+      "gloss": "much, many",
+      "pos": "adjective",
+      "audio_id": "voc_30",
+      "note": "υ = [y] (French u)"
+    },
+    {
+      "dcc_rank": 31,
+      "greek": "περί",
+      "translit": "perí",
+      "ipa": "[perí]",
+      "breathing": "none",
+      "gloss": "around; concerning",
+      "pos": "preposition",
+      "audio_id": "voc_31",
+      "note": ""
+    },
+    {
+      "dcc_rank": 32,
+      "greek": "μή",
+      "translit": "mḗ",
+      "ipa": "[mɛ́ː]",
+      "breathing": "none",
+      "gloss": "not",
+      "pos": "adverb",
+      "audio_id": "voc_32",
+      "note": ""
+    },
+    {
+      "dcc_rank": 34,
+      "greek": "ἄν",
+      "translit": "án",
+      "ipa": "[án]",
+      "breathing": "smooth",
+      "gloss": "(potential particle)",
+      "pos": "particle",
+      "audio_id": "voc_34",
+      "note": ""
+    },
+    {
+      "dcc_rank": 35,
+      "greek": "σύ",
+      "translit": "sú",
+      "ipa": "[sý]",
+      "breathing": "none",
+      "gloss": "you",
+      "pos": "pronoun",
+      "audio_id": "voc_35",
+      "note": "υ = [y]"
+    },
+    {
+      "dcc_rank": 37,
+      "greek": "ὅτι",
+      "translit": "hóti",
+      "ipa": "[hóti]",
+      "breathing": "rough",
+      "gloss": "because; that",
+      "pos": "conjunction",
+      "audio_id": "voc_37",
+      "note": ""
+    },
+    {
+      "dcc_rank": 38,
+      "greek": "εἰ",
+      "translit": "ei",
+      "ipa": "[eː]",
+      "breathing": "smooth",
+      "gloss": "if",
+      "pos": "conjunction",
+      "audio_id": "voc_38",
+      "note": "ει = [eː]"
+    },
+    {
+      "dcc_rank": 39,
+      "greek": "ἄλλος",
+      "translit": "állos",
+      "ipa": "[álːos]",
+      "breathing": "smooth",
+      "gloss": "other, another",
+      "pos": "adjective",
+      "audio_id": "voc_39",
+      "note": ""
+    },
+    {
+      "dcc_rank": 40,
+      "greek": "ἀπό",
+      "translit": "apó",
+      "ipa": "[apó]",
+      "breathing": "smooth",
+      "gloss": "from (+gen.)",
+      "pos": "preposition",
+      "audio_id": "voc_40",
+      "note": "Unaspirated π"
+    },
+    {
+      "dcc_rank": 41,
+      "greek": "φημί",
+      "translit": "phēmí",
+      "ipa": "[pʰɛːmí]",
+      "breathing": "none",
+      "gloss": "say, assert",
+      "pos": "verb",
+      "audio_id": "voc_41",
+      "note": "φ = aspirated [pʰ], not [f]"
+    },
+    {
+      "dcc_rank": 42,
+      "greek": "ὑπό",
+      "translit": "hupó",
+      "ipa": "[hypó]",
+      "breathing": "rough",
+      "gloss": "under; by",
+      "pos": "preposition",
+      "audio_id": "voc_42",
+      "note": "Initial υ regularly takes the rough breathing"
+    },
+    {
+      "dcc_rank": 43,
+      "greek": "ποιέω",
+      "translit": "poiéō",
+      "ipa": "[poi̯éɔː]",
+      "breathing": "none",
+      "gloss": "make, do",
+      "pos": "verb",
+      "audio_id": "voc_43",
+      "note": ""
+    },
+    {
+      "dcc_rank": 44,
+      "greek": "οὖν",
+      "translit": "oûn",
+      "ipa": "[ûːn]",
+      "breathing": "smooth",
+      "gloss": "therefore",
+      "pos": "particle",
+      "audio_id": "voc_44",
+      "note": "ου = [uː]; breathing on the second letter"
+    },
+    {
+      "dcc_rank": 45,
+      "greek": "λόγος",
+      "translit": "lógos",
+      "ipa": "[lógos]",
+      "breathing": "none",
+      "gloss": "word, account",
+      "pos": "noun",
+      "audio_id": "voc_45",
+      "note": ""
+    },
+    {
+      "dcc_rank": 46,
+      "greek": "παρά",
+      "translit": "pará",
+      "ipa": "[pará]",
+      "breathing": "none",
+      "gloss": "beside; from",
+      "pos": "preposition",
+      "audio_id": "voc_46",
+      "note": ""
+    },
+    {
+      "dcc_rank": 47,
+      "greek": "οὕτως",
+      "translit": "hoútōs",
+      "ipa": "[húːtɔːs]",
+      "breathing": "rough",
+      "gloss": "in this way",
+      "pos": "adverb",
+      "audio_id": "voc_47",
+      "note": ""
+    },
+    {
+      "dcc_rank": 49,
+      "greek": "θεός",
+      "translit": "theós",
+      "ipa": "[tʰeós]",
+      "breathing": "none",
+      "gloss": "god",
+      "pos": "noun",
+      "audio_id": "voc_49",
+      "note": "θ = aspirated [tʰ], not [θ]"
+    },
+    {
+      "dcc_rank": 50,
+      "greek": "μετά",
+      "translit": "metá",
+      "ipa": "[metá]",
+      "breathing": "none",
+      "gloss": "with; after",
+      "pos": "preposition",
+      "audio_id": "voc_50",
+      "note": ""
+    },
+    {
+      "dcc_rank": 51,
+      "greek": "ἑαυτοῦ",
+      "translit": "heautoû",
+      "ipa": "[heau̯tûː]",
+      "breathing": "rough",
+      "gloss": "himself, herself, itself",
+      "pos": "pronoun",
+      "audio_id": "voc_51",
+      "note": ""
+    },
+    {
+      "dcc_rank": 52,
+      "greek": "μέγας",
+      "translit": "mégas",
+      "ipa": "[mégas]",
+      "breathing": "none",
+      "gloss": "big, great",
+      "pos": "adjective",
+      "audio_id": "voc_52",
+      "note": ""
+    },
+    {
+      "dcc_rank": 54,
+      "greek": "ἐκεῖνος",
+      "translit": "ekeînos",
+      "ipa": "[ekêːnos]",
+      "breathing": "smooth",
+      "gloss": "that (one)",
+      "pos": "pronoun",
+      "audio_id": "voc_54",
+      "note": ""
+    },
+    {
+      "dcc_rank": 56,
+      "greek": "οὐδείς",
+      "translit": "oudeís",
+      "ipa": "[uːdéːs]",
+      "breathing": "smooth",
+      "gloss": "no one, nothing",
+      "pos": "pronoun",
+      "audio_id": "voc_56",
+      "note": ""
+    },
+    {
+      "dcc_rank": 58,
+      "greek": "ἀγαθός",
+      "translit": "agathós",
+      "ipa": "[agatʰós]",
+      "breathing": "smooth",
+      "gloss": "good, noble",
+      "pos": "adjective",
+      "audio_id": "voc_58",
+      "note": ""
+    },
+    {
+      "dcc_rank": 59,
+      "greek": "γε",
+      "translit": "ge",
+      "ipa": "[ge]",
+      "breathing": "none",
+      "gloss": "at least (enclitic)",
+      "pos": "particle",
+      "audio_id": "voc_59",
+      "note": ""
+    },
+    {
+      "dcc_rank": 65,
+      "greek": "ἄνθρωπος",
+      "translit": "ánthrōpos",
+      "ipa": "[ántʰrɔːpos]",
+      "breathing": "smooth",
+      "gloss": "human being",
+      "pos": "noun",
+      "audio_id": "voc_65",
+      "note": ""
+    },
+    {
+      "dcc_rank": 89,
+      "greek": "ἡμέρα",
+      "translit": "hēméra",
+      "ipa": "[hɛːméra]",
+      "breathing": "rough",
+      "gloss": "day",
+      "pos": "noun",
+      "audio_id": "voc_89",
+      "note": ""
+    },
+    {
+      "dcc_rank": 117,
+      "greek": "ψυχή",
+      "translit": "psukhḗ",
+      "ipa": "[psykʰɛ́ː]",
+      "breathing": "none",
+      "gloss": "breath, life, soul",
+      "pos": "noun",
+      "audio_id": "voc_117",
+      "note": "ψ = [ps]"
+    },
+    {
+      "dcc_rank": 140,
+      "greek": "ὕδωρ",
+      "translit": "húdōr",
+      "ipa": "[hýdɔːr]",
+      "breathing": "rough",
+      "gloss": "water",
+      "pos": "noun",
+      "audio_id": "voc_140",
+      "note": "Initial υ takes the rough breathing"
+    },
+    {
+      "dcc_rank": 309,
+      "greek": "ῥᾴδιος",
+      "translit": "rhāidios",
+      "ipa": "[r̥áːdios]",
+      "breathing": "rough",
+      "gloss": "easy",
+      "pos": "adjective",
+      "audio_id": "voc_309",
+      "note": "Initial ῥ is voiceless [r̥]; the iota subscript is not pronounced"
+    }
+  ],
+  "accent_items": [
+    {
+      "id": "acc_logos",
+      "word": "λόγος",
+      "accent": "acute",
+      "gloss": "word, account",
+      "audio_id": "voc_acc_logos",
+      "note": ""
+    },
+    {
+      "id": "acc_theos",
+      "word": "θεός",
+      "accent": "acute",
+      "gloss": "god",
+      "audio_id": "voc_acc_theos",
+      "note": "Acute on the final syllable"
+    },
+    {
+      "id": "acc_anthropos",
+      "word": "ἄνθρωπος",
+      "accent": "acute",
+      "gloss": "human being",
+      "audio_id": "voc_acc_anthropos",
+      "note": "Acute can sit three syllables from the end"
+    },
+    {
+      "id": "acc_psyche",
+      "word": "ψυχή",
+      "accent": "acute",
+      "gloss": "soul",
+      "audio_id": "voc_acc_psyche",
+      "note": ""
+    },
+    {
+      "id": "acc_kalos",
+      "word": "καλός",
+      "accent": "acute",
+      "gloss": "beautiful, fine",
+      "audio_id": "voc_acc_kalos",
+      "note": ""
+    },
+    {
+      "id": "acc_sophia",
+      "word": "σοφία",
+      "accent": "acute",
+      "gloss": "wisdom",
+      "audio_id": "voc_acc_sophia",
+      "note": ""
+    },
+    {
+      "id": "acc_theon",
+      "word": "θεὸν",
+      "accent": "grave",
+      "gloss": "god (acc., mid-sentence)",
+      "audio_id": "voc_acc_theon",
+      "note": "An acute becomes grave before another word"
+    },
+    {
+      "id": "acc_kalon",
+      "word": "καλὸν",
+      "accent": "grave",
+      "gloss": "beautiful (mid-sentence)",
+      "audio_id": "voc_acc_kalon",
+      "note": ""
+    },
+    {
+      "id": "acc_agathon",
+      "word": "ἀγαθὸν",
+      "accent": "grave",
+      "gloss": "good (mid-sentence)",
+      "audio_id": "voc_acc_agathon",
+      "note": ""
+    },
+    {
+      "id": "acc_ten",
+      "word": "τὴν",
+      "accent": "grave",
+      "gloss": "the (fem. acc., mid-sentence)",
+      "audio_id": "voc_acc_ten",
+      "note": ""
+    },
+    {
+      "id": "acc_auton",
+      "word": "αὐτὸν",
+      "accent": "grave",
+      "gloss": "him (mid-sentence)",
+      "audio_id": "voc_acc_auton",
+      "note": ""
+    },
+    {
+      "id": "acc_sophon",
+      "word": "σοφὸν",
+      "accent": "grave",
+      "gloss": "wise (mid-sentence)",
+      "audio_id": "voc_acc_sophon",
+      "note": ""
+    },
+    {
+      "id": "acc_doron",
+      "word": "δῶρον",
+      "accent": "circumflex",
+      "gloss": "gift",
+      "audio_id": "voc_acc_doron",
+      "note": "Circumflex needs a long vowel — here ω"
+    },
+    {
+      "id": "acc_ge",
+      "word": "γῆ",
+      "accent": "circumflex",
+      "gloss": "earth",
+      "audio_id": "voc_acc_ge",
+      "note": ""
+    },
+    {
+      "id": "acc_nous",
+      "word": "νοῦς",
+      "accent": "circumflex",
+      "gloss": "mind",
+      "audio_id": "voc_acc_nous",
+      "note": "On the long [uː] spelled ου"
+    },
+    {
+      "id": "acc_soma",
+      "word": "σῶμα",
+      "accent": "circumflex",
+      "gloss": "body",
+      "audio_id": "voc_acc_soma",
+      "note": ""
+    },
+    {
+      "id": "acc_pas",
+      "word": "πᾶς",
+      "accent": "circumflex",
+      "gloss": "all, every",
+      "audio_id": "voc_acc_pas",
+      "note": "Circumflex reveals the hidden long ᾱ"
+    },
+    {
+      "id": "acc_muthos",
+      "word": "μῦθος",
+      "accent": "circumflex",
+      "gloss": "story",
+      "audio_id": "voc_acc_muthos",
+      "note": "Circumflex reveals the hidden long ῡ"
+    },
+    {
+      "id": "acc_phos",
+      "word": "φῶς",
+      "accent": "circumflex",
+      "gloss": "light",
+      "audio_id": "voc_acc_phos",
+      "note": ""
+    }
+  ],
+  "accent_pairs": [
+    {
+      "id": "ap_theos",
+      "a": "θεός",
+      "b": "θεὸς",
+      "same": true,
+      "audio_a_id": "voc_ap_theos_a",
+      "audio_b_id": "voc_ap_theos_b",
+      "note": "Acute→grave before another word: same word"
+    },
+    {
+      "id": "ap_kalos",
+      "a": "καλός",
+      "b": "καλὸς",
+      "same": true,
+      "audio_a_id": "voc_ap_kalos_a",
+      "audio_b_id": "voc_ap_kalos_b",
+      "note": "Same word — the grave is just the acute in context"
+    },
+    {
+      "id": "ap_agathos",
+      "a": "ἀγαθός",
+      "b": "ἀγαθὸς",
+      "same": true,
+      "audio_a_id": "voc_ap_agathos_a",
+      "audio_b_id": "voc_ap_agathos_b",
+      "note": "Same word in and out of context"
+    },
+    {
+      "id": "ap_autos",
+      "a": "αὐτός",
+      "b": "αὐτὸς",
+      "same": true,
+      "audio_a_id": "voc_ap_autos_a",
+      "audio_b_id": "voc_ap_autos_b",
+      "note": "Same word — acute at pause, grave mid-sentence"
+    },
+    {
+      "id": "ap_ten",
+      "a": "τήν",
+      "b": "τὴν",
+      "same": true,
+      "audio_a_id": "voc_ap_ten_a",
+      "audio_b_id": "voc_ap_ten_b",
+      "note": "Same article either way"
+    },
+    {
+      "id": "ap_nomos",
+      "a": "νόμος",
+      "b": "νομός",
+      "same": false,
+      "audio_a_id": "voc_ap_nomos_a",
+      "audio_b_id": "voc_ap_nomos_b",
+      "note": "Law vs pasture — accent position distinguishes"
+    },
+    {
+      "id": "ap_oikoi",
+      "a": "οἶκοι",
+      "b": "οἴκοι",
+      "same": false,
+      "audio_a_id": "voc_ap_oikoi_a",
+      "audio_b_id": "voc_ap_oikoi_b",
+      "note": "Houses vs at home — circumflex vs acute"
+    },
+    {
+      "id": "ap_tis",
+      "a": "τίς",
+      "b": "τις",
+      "same": false,
+      "audio_a_id": "voc_ap_tis_a",
+      "audio_b_id": "voc_ap_tis_b",
+      "note": "Who? (accented) vs someone (enclitic)"
+    },
+    {
+      "id": "ap_meno",
+      "a": "μένω",
+      "b": "μενῶ",
+      "same": false,
+      "audio_a_id": "voc_ap_meno_a",
+      "audio_b_id": "voc_ap_meno_b",
+      "note": "I stay (present) vs I shall stay (future)"
+    },
+    {
+      "id": "ap_eimi",
+      "a": "εἰμί",
+      "b": "εἶμι",
+      "same": false,
+      "audio_a_id": "voc_ap_eimi_a",
+      "audio_b_id": "voc_ap_eimi_b",
+      "note": "I am vs I shall go — accent alone distinguishes"
+    },
+    {
+      "id": "ap_e",
+      "a": "ἤ",
+      "b": "ἦ",
+      "same": false,
+      "audio_a_id": "voc_ap_e_a",
+      "audio_b_id": "voc_ap_e_b",
+      "note": "Or vs truly / he said"
+    },
+    {
+      "id": "ap_pou",
+      "a": "ποῦ",
+      "b": "που",
+      "same": false,
+      "audio_a_id": "voc_ap_pou_a",
+      "audio_b_id": "voc_ap_pou_b",
+      "note": "Where? vs somewhere (enclitic)"
+    },
+    {
+      "id": "ap_alla",
+      "a": "ἄλλα",
+      "b": "ἀλλά",
+      "same": false,
+      "audio_a_id": "voc_ap_alla_a",
+      "audio_b_id": "voc_ap_alla_b",
+      "note": "Other things vs but — accent position distinguishes"
+    },
+    {
+      "id": "ap_demos",
+      "a": "δῆμος",
+      "b": "δημός",
+      "same": false,
+      "audio_a_id": "voc_ap_demos_a",
+      "audio_b_id": "voc_ap_demos_b",
+      "note": "People vs fat — circumflex vs final acute"
+    }
+  ]
+}

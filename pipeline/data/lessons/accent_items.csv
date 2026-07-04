@@ -1,0 +1,20 @@
+id,word,accent,gloss,audio_id,note
+acc_logos,λόγος,acute,"word, account",voc_acc_logos,
+acc_theos,θεός,acute,god,voc_acc_theos,Acute on the final syllable
+acc_anthropos,ἄνθρωπος,acute,human being,voc_acc_anthropos,Acute can sit three syllables from the end
+acc_psyche,ψυχή,acute,soul,voc_acc_psyche,
+acc_kalos,καλός,acute,"beautiful, fine",voc_acc_kalos,
+acc_sophia,σοφία,acute,wisdom,voc_acc_sophia,
+acc_theon,θεὸν,grave,"god (acc., mid-sentence)",voc_acc_theon,An acute becomes grave before another word
+acc_kalon,καλὸν,grave,beautiful (mid-sentence),voc_acc_kalon,
+acc_agathon,ἀγαθὸν,grave,good (mid-sentence),voc_acc_agathon,
+acc_ten,τὴν,grave,"the (fem. acc., mid-sentence)",voc_acc_ten,
+acc_auton,αὐτὸν,grave,him (mid-sentence),voc_acc_auton,
+acc_sophon,σοφὸν,grave,wise (mid-sentence),voc_acc_sophon,
+acc_doron,δῶρον,circumflex,gift,voc_acc_doron,Circumflex needs a long vowel — here ω
+acc_ge,γῆ,circumflex,earth,voc_acc_ge,
+acc_nous,νοῦς,circumflex,mind,voc_acc_nous,On the long [uː] spelled ου
+acc_soma,σῶμα,circumflex,body,voc_acc_soma,
+acc_pas,πᾶς,circumflex,"all, every",voc_acc_pas,Circumflex reveals the hidden long ᾱ
+acc_muthos,μῦθος,circumflex,story,voc_acc_muthos,Circumflex reveals the hidden long ῡ
+acc_phos,φῶς,circumflex,light,voc_acc_phos,
