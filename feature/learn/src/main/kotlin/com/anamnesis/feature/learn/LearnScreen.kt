@@ -46,7 +46,8 @@ private sealed interface LearnNav {
     data object Home : LearnNav
     data object Alphabet : LearnNav
     data class Detail(val letter: LetterLesson) : LearnNav
-    data object Practice : LearnNav
+    data class Practice(val initialBatch: Int? = null) : LearnNav
+    data class Lesson(val unit: Int) : LearnNav
 }
 
 /** The Learn tab: a visual on-ramp (browse the alphabet, practice recognition). */
@@ -62,7 +63,17 @@ fun LearnRoute(modifier: Modifier = Modifier) {
             completed = completed,
             modifier = modifier,
             onBrowse = { nav = LearnNav.Alphabet },
-            onPractice = { nav = LearnNav.Practice },
+            onPractice = { nav = LearnNav.Practice() },
+            onOpenUnit = { unit ->
+                nav = when (unit) {
+                    // The alphabet units are drilled through letter practice,
+                    // pre-scoped to the unit's quiz (batch 1, batch 2, mixed).
+                    1 -> LearnNav.Practice(initialBatch = 1)
+                    2 -> LearnNav.Practice(initialBatch = 2)
+                    3 -> LearnNav.Practice(initialBatch = null)
+                    else -> LearnNav.Lesson(unit)
+                }
+            },
         )
         LearnNav.Alphabet -> AlphabetScreen(
             modifier = modifier,
@@ -74,8 +85,9 @@ fun LearnRoute(modifier: Modifier = Modifier) {
             modifier = modifier,
             onBack = { nav = LearnNav.Alphabet },
         )
-        LearnNav.Practice -> PracticeScreen(
+        is LearnNav.Practice -> PracticeScreen(
             modifier = modifier,
+            initialBatch = current.initialBatch,
             onBack = { nav = LearnNav.Home },
             onSessionComplete = { batch, score, total ->
                 UnitGating.unitForSession(batch, score, total)?.let { unit ->
@@ -83,6 +95,16 @@ fun LearnRoute(modifier: Modifier = Modifier) {
                     completed = store.completedUnits()
                 }
             },
+        )
+        is LearnNav.Lesson -> UnitLessonRoute(
+            unit = current.unit,
+            completed = current.unit in completed,
+            onComplete = { unit ->
+                store.markCompleted(unit)
+                completed = store.completedUnits()
+            },
+            onBack = { nav = LearnNav.Home },
+            modifier = modifier,
         )
     }
 }
@@ -93,6 +115,7 @@ private fun LearnHome(
     modifier: Modifier,
     onBrowse: () -> Unit,
     onPractice: () -> Unit,
+    onOpenUnit: (Int) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
@@ -136,25 +159,25 @@ private fun LearnHome(
         Text("Roadmap", style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))
         CURRICULUM.forEach { unit ->
-            val built = unit.number in 0..3
+            val built = UnitGating.isBuilt(unit.number)
             val done = unit.number in completed
             val unlocked = UnitGating.isUnlocked(unit.number, completed)
+            val openable = built && unlocked
             val status = when {
                 done -> "  ·  ✓ complete"
                 !built -> "  ·  soon"
                 !unlocked -> "  ·  🔒 finish unit ${unit.number - 1} first"
-                else -> ""
+                else -> "  ·  tap to start"
             }
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = when {
-                        done -> MaterialTheme.colorScheme.primaryContainer
-                        built && unlocked -> MaterialTheme.colorScheme.secondaryContainer
-                        else -> MaterialTheme.colorScheme.surfaceVariant
-                    },
-                ),
-            ) {
+            val colors = CardDefaults.cardColors(
+                containerColor = when {
+                    done -> MaterialTheme.colorScheme.primaryContainer
+                    openable -> MaterialTheme.colorScheme.secondaryContainer
+                    else -> MaterialTheme.colorScheme.surfaceVariant
+                },
+            )
+            val cardModifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+            val content: @Composable () -> Unit = {
                 Column(Modifier.padding(12.dp)) {
                     Text(
                         "${unit.number}. ${unit.title}$status",
@@ -166,6 +189,15 @@ private fun LearnHome(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
+            }
+            if (openable) {
+                Card(
+                    onClick = { onOpenUnit(unit.number) },
+                    modifier = cardModifier,
+                    colors = colors,
+                ) { content() }
+            } else {
+                Card(modifier = cardModifier, colors = colors) { content() }
             }
         }
     }
@@ -255,10 +287,11 @@ private fun LetterDetailScreen(letter: LetterLesson, modifier: Modifier, onBack:
 private fun PracticeScreen(
     modifier: Modifier,
     onBack: () -> Unit,
+    initialBatch: Int? = null,
     onSessionComplete: (scopeBatch: Int?, score: Int, total: Int) -> Unit = { _, _, _ -> },
 ) {
     val random = remember { Random(System.currentTimeMillis()) }
-    var scopeBatch by remember { mutableStateOf<Int?>(null) } // null = all letters
+    var scopeBatch by remember { mutableStateOf(initialBatch) } // null = all letters
     val pool = remember(scopeBatch) {
         scopeBatch?.let { b -> ALPHABET.filter { it.batch == b } } ?: ALPHABET
     }
@@ -383,7 +416,7 @@ private fun ScopeChip(label: String, selected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun BackRow(onBack: () -> Unit, title: String) {
+internal fun BackRow(onBack: () -> Unit, title: String) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,

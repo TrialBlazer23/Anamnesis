@@ -6,19 +6,21 @@ import android.content.Context
  * Pure unit-gating rules (spec §7) — separated from storage so they are
  * unit-testable:
  * - Units 0–1 are always open.
- * - Units 2 and 3 unlock when the previous unit is complete.
- * - Units 4+ are not built yet ("soon") and stay locked regardless.
+ * - Units 2–6 unlock when the previous unit is complete.
+ * - Units 7+ are not built yet ("soon") and stay locked regardless.
  *
  * Completion criteria (recognition accuracy, not handwriting):
+ * - Unit 0 ← reading the orientation (no quiz).
  * - Unit 1 ← batch-1 practice session ≥ 90%.
  * - Unit 2 ← batch-2 practice session ≥ 90%.
  * - Unit 3 ← a MIXED full-alphabet session ("All") ≥ 90% (per the spec, the
  *   false-friend unit is passed by a mixed quiz, not a batch-3-only drill).
+ * - Units 4–6 ← the unit's own recognition quiz ≥ 90% (see SoundUnits).
  */
 object UnitGating {
     const val PASS_THRESHOLD = 0.9
     private val ALWAYS_OPEN = setOf(0, 1)
-    private const val HIGHEST_BUILT_UNIT = 3
+    private const val HIGHEST_BUILT_UNIT = 6
 
     /** The alphabet on-ramp; completing it unlocks vocabulary cards in Train. */
     val ALPHABET_UNITS = setOf(1, 2, 3)
@@ -42,6 +44,9 @@ object UnitGating {
         unit > HIGHEST_BUILT_UNIT -> false
         else -> (unit - 1) in completed
     }
+
+    /** Whether the unit has real content/drills (units past this show "soon"). */
+    fun isBuilt(unit: Int): Boolean = unit <= HIGHEST_BUILT_UNIT
 }
 
 /** Persisted per-unit completion (SharedPreferences — no new dependencies). */
