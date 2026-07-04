@@ -23,7 +23,7 @@ object UnitGating {
     private val ALWAYS_OPEN = setOf(0, 1)
 
     /** Units above this are roadmap-only ("soon"); raised as units are built. */
-    const val HIGHEST_BUILT_UNIT = 5
+    const val HIGHEST_BUILT_UNIT = 6
 
     /** The alphabet on-ramp; completing it unlocks vocabulary cards in Train. */
     val ALPHABET_UNITS = setOf(1, 2, 3)
@@ -33,6 +33,8 @@ object UnitGating {
     const val GATE_LENGTH = "4:length"
     const val GATE_DIPHTHONG = "4:diphthong"
     const val GATE_READ_WORD = "5:read-word"
+    const val GATE_IDENTIFY_ACCENT = "6:identify-accent"
+    const val GATE_SAME_DIFFERENT = "6:same-different"
 
     private data class DrillGate(val key: String, val threshold: Double)
 
@@ -43,11 +45,15 @@ object UnitGating {
         "diphthong-to-sound" to DrillGate(GATE_DIPHTHONG, 0.90),
         // "Read 10 core words correctly" ≈ 9/10 on the 10-item reading deck.
         "read-the-word" to DrillGate(GATE_READ_WORD, 0.90),
+        // Spec: judge 8/10 "same word?" items; recognition only, so 80%.
+        "identify-the-accent" to DrillGate(GATE_IDENTIFY_ACCENT, 0.80),
+        "same-word-or-different" to DrillGate(GATE_SAME_DIFFERENT, 0.80),
     )
 
     private val REQUIRED_GATES = mapOf(
         4 to setOf(GATE_LENGTH, GATE_DIPHTHONG),
         5 to setOf(GATE_READ_WORD),
+        6 to setOf(GATE_IDENTIFY_ACCENT, GATE_SAME_DIFFERENT),
     )
 
     fun alphabetComplete(completed: Set<Int>): Boolean =

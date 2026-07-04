@@ -17,6 +17,8 @@ object DrillCatalog {
         "read-the-word" to "Read the word",
         "breathing-identification" to "Rough or smooth?",
         "transliteration" to "Find the Greek",
+        "identify-the-accent" to "Identify the accent",
+        "same-word-or-different" to "Same word or different?",
     )
 
     fun isBuilt(drillId: String): Boolean = drillId in LABELS
@@ -31,6 +33,8 @@ object DrillCatalog {
             "read-the-word" -> WordQuiz.readWordDeck(pack, random)
             "breathing-identification" -> WordQuiz.breathingDeck(pack, random)
             "transliteration" -> WordQuiz.toGreekDeck(pack, random)
+            "identify-the-accent" -> AccentQuiz.identifyDeck(pack, random)
+            "same-word-or-different" -> AccentQuiz.samePairDeck(pack, random)
             else -> emptyList()
         }
 }

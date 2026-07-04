@@ -128,8 +128,14 @@ backed by the encrypted DB.
       `Anamnesis Phase 3 - Ancient Greek On-Ramp Pedagogical Specification.md`
       and the build plan in `docs/PHASE3_LEARN_TAB_PLAN.md`.
   - [x] Authored source data: `pipeline/data/lessons/` (letters, diphthongs,
-        minimal-pairs, 9-unit `units.json`) + restored-Attic `audio_script.md`.
-  - [ ] `build_lessons.py` → bundled lessons pack + audio manifest (+ pytest).
+        minimal-pairs, 9-unit `units.json`) + restored-Attic `audio_script.md`;
+        plus unit-5 `words.csv` (curated DCC top ranks with translit/IPA/breathing)
+        and unit-6 `accent_items.csv`/`accent_pairs.csv`.
+  - [x] `build_lessons.py` → bundled lessons pack + audio manifest (+ pytest);
+        pack committed at `feature/learn/src/main/assets/lessons/lessons.json`,
+        drift-checked and auto-refreshed by `pipeline.yml`. The Learn tab is
+        pack-driven (`LessonPackParser`/`LessonPackLoader`) — the hardcoded
+        Kotlin datasets are gone.
   - [x] **Visual path (audio-optional):** `:feature:learn` module + 🎓 Learn
         bottom-nav tab; roadmap, alphabet browser (24 letters by batch) with
         per-letter detail, and a recognition drill (name/sound → letter). Quiz
@@ -143,6 +149,15 @@ backed by the encrypted DB.
         progress lost); 24 letter cards (glyph → name · IPA, false-friend note)
         seeded alongside vocab and interleaved in the Train due queue; seeding is
         now idempotent-on-every-launch so existing installs gain new decks.
+  - [x] **Units 4–6 (visual-first, audio drops in later):** per-unit lesson
+        pages + drills via a generic `DrillScreen`/`DrillCatalog` — unit 4
+        vowel quantity & diphthongs (long-or-short, minimal pairs, diphthong
+        recognition; diphthongs deck seeded into FSRS at positions 100–110),
+        unit 5 breathings & reading words (read-the-word with perturbation
+        distractors, breathing id, translit→Greek), unit 6 accent recognition
+        (identify-the-accent, same-word-or-different). Per-drill gates in
+        `UnitGating`/`LearnProgressStore` (length 80%, diphthongs 90%,
+        read-word 90%, accents 80%+80%).
   - [ ] S-Pen tracing (valued, not gating); sound→letter audio cards when
         letter audio exists.
   - [ ] **Record restored-Attic audio** (critical path — see `audio_script.md`).

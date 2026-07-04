@@ -38,15 +38,24 @@ The DCC core vocab (`pipeline/data/dcc_greek_core.csv`) is reused for the Unit-5
 ## Build order
 - [ ] **Audio (start now — external dependency):** record the `audio_script.md` set in
       restored Attic (own or licensed reciter); license it CC-BY-SA/CC-BY so it's bundleable.
-- [ ] `build_lessons.py` → lessons pack + audio manifest + pytest (mirror the content pipeline).
-- [ ] `:feature:learn` skeleton: unit-list screen (data-driven), gating off a progress store;
+      `build_lessons.py` already emits the full required-id manifest
+      (`lessons_audio_manifest.json`).
+- [x] `build_lessons.py` → lessons pack + audio manifest + pytest (mirror the content
+      pipeline). Pack bundled at `feature/learn/src/main/assets/lessons/lessons.json`,
+      drift-checked on PRs and refreshed on main by `pipeline.yml`; the app parses it with
+      kotlinx-serialization (`LessonPackParser`).
+- [x] `:feature:learn` skeleton: unit-list screen (data-driven), gating off a progress store;
       add the 🎓 Learn destination to `MainActivity`.
-- [ ] Letter drills (visual-first): letter→sound, sound→letter (distractor grid), name recall;
-      wire to FSRS once the card model gains deck/source + card-type.
-- [ ] Vowel-quantity / diphthong / minimal-pair listening drills (need audio).
-- [ ] Breathings + the "three kinds of variation" (§5) + lemma-vs-form (§4) explainer cards;
-      wire tap-to-parse to surface lemma + form + reason-for-difference (depends on Phase-2
-      lookup, and on morphology — see Phase 3 morphology item).
+- [x] Letter drills (visual-first): recognition (name/sound → letter) with confusion-set
+      distractors; letters deck wired to FSRS (`Card.deck`).
+- [x] Vowel-quantity / diphthong / minimal-pair drills — **visual-first versions** shipped
+      (unit 4: long-or-short, minimal pairs, diphthong↔IPA; diphthongs deck seeded into
+      FSRS). The *listening* variants still need the recorded audio.
+- [x] Breathings (unit 5: explainer cards + read-the-word/breathing/transliteration drills
+      over the curated `words.csv` top-DCC list) and accent recognition (unit 6:
+      identify-the-accent, same-word-or-different from `accent_items.csv`/`accent_pairs.csv`).
+      Still open from this line: the "three kinds of variation" (§5) + lemma-vs-form (§4)
+      explainers — they belong to units 7–8 with tap-to-parse/morphology.
 - [ ] S-Pen tracing overlays (stroke-order arrows, ghost letterforms) — valued, not gating.
 - [ ] **Handoff:** build a *Euthyphro* content pack (Plato `tlg0059.tlg001`) via the existing
       pipeline; seed its opening vocab; Unit 8 reads 2a with full gloss + parse + audio.

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anamnesis.core.ui.GentiumPlus
 import com.anamnesis.feature.learn.drills.DrillCatalog
+import com.anamnesis.feature.learn.model.Accent
 import com.anamnesis.feature.learn.model.LessonPack
 import com.anamnesis.feature.learn.progress.UnitGating
 
@@ -58,6 +59,7 @@ internal fun UnitLessonScreen(
             when (number) {
                 4 -> Unit4Sections(pack)
                 5 -> Unit5Sections(pack)
+                6 -> Unit6Sections(pack)
             }
 
             val drills = unit.drills.filter(DrillCatalog::isBuilt)
@@ -270,6 +272,68 @@ private fun Unit5Sections(pack: LessonPack) {
     }
     Spacer(Modifier.height(16.dp))
 }
+
+@Composable
+private fun Unit6Sections(pack: LessonPack) {
+    SectionTitle("The three marks")
+    AccentCard(
+        symbol = "´  acute",
+        description = "The pitch of the voice rises on this syllable.",
+        example = exampleFor(pack, Accent.ACUTE),
+    )
+    AccentCard(
+        symbol = "`  grave",
+        description = "An acute on a word's last syllable is written grave when " +
+            "another word follows — the rise is suppressed. Same word, same meaning.",
+        example = exampleFor(pack, Accent.GRAVE),
+    )
+    AccentCard(
+        symbol = "῀  circumflex",
+        description = "Rise then fall within one syllable — so it can only sit on " +
+            "a long vowel or diphthong. Seeing one tells you the vowel is long.",
+        example = exampleFor(pack, Accent.CIRCUMFLEX),
+    )
+    Spacer(Modifier.height(8.dp))
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        ),
+    ) {
+        Text(
+            "Honesty note: these were musical pitch, and the reconstruction of exactly " +
+                "how they sounded is uncertain. You only need to recognize the marks — " +
+                "sometimes they alone distinguish two words.",
+            modifier = Modifier.padding(12.dp),
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+    Spacer(Modifier.height(16.dp))
+}
+
+@Composable
+private fun AccentCard(symbol: String, description: String, example: String?) {
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+    ) {
+        Column(Modifier.padding(12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(symbol, style = MaterialTheme.typography.titleSmall)
+                example?.let {
+                    Spacer(Modifier.width(12.dp))
+                    Text(it, fontFamily = GentiumPlus, fontSize = 22.sp)
+                }
+            }
+            Text(description, style = MaterialTheme.typography.bodyMedium)
+        }
+    }
+}
+
+private fun exampleFor(pack: LessonPack, accent: Accent): String? =
+    pack.accentItems.firstOrNull { it.accent == accent }?.word
 
 @Composable
 private fun DiphthongRow(glyph: String, ipa: String, note: String) {

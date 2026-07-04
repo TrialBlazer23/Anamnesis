@@ -80,6 +80,26 @@ class UnitGatingTest {
     }
 
     @Test
+    fun unitSixNeedsBothAccentGatesAtEightyPercent() {
+        assertEquals(
+            UnitGating.GATE_IDENTIFY_ACCENT,
+            UnitGating.drillPassed("identify-the-accent", 8, 10),
+        )
+        assertEquals(
+            UnitGating.GATE_SAME_DIFFERENT,
+            UnitGating.drillPassed("same-word-or-different", 8, 10),
+        )
+        assertNull(UnitGating.drillPassed("same-word-or-different", 7, 10))
+        assertFalse(UnitGating.unitCompleteFromDrills(6, setOf(UnitGating.GATE_IDENTIFY_ACCENT)))
+        assertTrue(
+            UnitGating.unitCompleteFromDrills(
+                6,
+                setOf(UnitGating.GATE_IDENTIFY_ACCENT, UnitGating.GATE_SAME_DIFFERENT),
+            ),
+        )
+    }
+
+    @Test
     fun bothLengthDrillsFeedTheSameGate() {
         assertEquals(
             UnitGating.gateForDrill("long-or-short"),
