@@ -57,6 +57,7 @@ internal fun UnitLessonScreen(
 
             when (number) {
                 4 -> Unit4Sections(pack)
+                5 -> Unit5Sections(pack)
             }
 
             val drills = unit.drills.filter(DrillCatalog::isBuilt)
@@ -175,6 +176,98 @@ private fun Unit4Sections(pack: LessonPack) {
     )
     Spacer(Modifier.height(8.dp))
     improper.forEach { DiphthongRow(it.glyph, it.ipa, it.note) }
+    Spacer(Modifier.height(16.dp))
+}
+
+@Composable
+private fun Unit5Sections(pack: LessonPack) {
+    SectionTitle("The two breathings")
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+    ) {
+        Column(Modifier.padding(12.dp)) {
+            Text("Rough  ῾", style = MaterialTheme.typography.titleSmall)
+            Text(
+                "Say [h] before the vowel: ὁ = ho, ὕδωρ = húdōr.",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+    }
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+    ) {
+        Column(Modifier.padding(12.dp)) {
+            Text("Smooth  ᾿", style = MaterialTheme.typography.titleSmall)
+            Text(
+                "Adds nothing — it just marks the absence of [h]: ἐν = en, αὐτός = autós.",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+    }
+    Spacer(Modifier.height(8.dp))
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        ),
+    ) {
+        Text(
+            "Rules of thumb: every vowel-initial word carries one of the two marks. " +
+                "Initial υ and ρ regularly take the rough breathing (ὑπό, ῥᾴδιος). " +
+                "On a diphthong the mark sits on the second letter (οὗτος = hoûtos); " +
+                "beside a capital it stands in front (Ὅμηρος).",
+            modifier = Modifier.padding(12.dp),
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+    Spacer(Modifier.height(16.dp))
+
+    SectionTitle("Sound reminders in words")
+    Text(
+        "γ before γ/κ/χ/ξ is the nasal [ŋ] (ἄγγελος). ρ is trilled, and voiceless " +
+            "at the start of a word (ῥ). σ is [z] before voiced consonants.",
+        style = MaterialTheme.typography.bodyMedium,
+    )
+    Spacer(Modifier.height(16.dp))
+
+    SectionTitle("The first ${pack.words.size} core words")
+    Text(
+        "The most frequent words of classical Greek (DCC core list) — you will " +
+            "meet them constantly in the reader and in Train.",
+        style = MaterialTheme.typography.bodyMedium,
+    )
+    Spacer(Modifier.height(8.dp))
+    pack.words.forEach { word ->
+        Row(
+            Modifier.fillMaxWidth().padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                word.greek,
+                fontFamily = GentiumPlus,
+                fontSize = 22.sp,
+                modifier = Modifier.width(104.dp),
+            )
+            Column {
+                Text(
+                    "${word.translit}  ·  ${word.ipa}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Text(
+                    word.gloss,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+    }
     Spacer(Modifier.height(16.dp))
 }
 

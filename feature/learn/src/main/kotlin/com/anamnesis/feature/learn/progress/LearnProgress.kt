@@ -23,7 +23,7 @@ object UnitGating {
     private val ALWAYS_OPEN = setOf(0, 1)
 
     /** Units above this are roadmap-only ("soon"); raised as units are built. */
-    const val HIGHEST_BUILT_UNIT = 4
+    const val HIGHEST_BUILT_UNIT = 5
 
     /** The alphabet on-ramp; completing it unlocks vocabulary cards in Train. */
     val ALPHABET_UNITS = setOf(1, 2, 3)
@@ -32,6 +32,7 @@ object UnitGating {
     // independent passes; the two length drills feed a single shared gate.
     const val GATE_LENGTH = "4:length"
     const val GATE_DIPHTHONG = "4:diphthong"
+    const val GATE_READ_WORD = "5:read-word"
 
     private data class DrillGate(val key: String, val threshold: Double)
 
@@ -40,10 +41,13 @@ object UnitGating {
         "long-or-short" to DrillGate(GATE_LENGTH, 0.80),
         "length-minimal-pair" to DrillGate(GATE_LENGTH, 0.80),
         "diphthong-to-sound" to DrillGate(GATE_DIPHTHONG, 0.90),
+        // "Read 10 core words correctly" ≈ 9/10 on the 10-item reading deck.
+        "read-the-word" to DrillGate(GATE_READ_WORD, 0.90),
     )
 
     private val REQUIRED_GATES = mapOf(
         4 to setOf(GATE_LENGTH, GATE_DIPHTHONG),
+        5 to setOf(GATE_READ_WORD),
     )
 
     fun alphabetComplete(completed: Set<Int>): Boolean =

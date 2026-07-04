@@ -69,6 +69,17 @@ class UnitGatingTest {
     }
 
     @Test
+    fun unitFiveIsGatedByTheReadingDrillAlone() {
+        assertNull(UnitGating.drillPassed("read-the-word", 8, 10))
+        assertEquals(UnitGating.GATE_READ_WORD, UnitGating.drillPassed("read-the-word", 9, 10))
+        // The other unit-5 drills are practice, not gates.
+        assertNull(UnitGating.drillPassed("breathing-identification", 12, 12))
+        assertNull(UnitGating.drillPassed("transliteration", 10, 10))
+        assertTrue(UnitGating.unitCompleteFromDrills(5, setOf(UnitGating.GATE_READ_WORD)))
+        assertFalse(UnitGating.unitCompleteFromDrills(5, setOf(UnitGating.GATE_LENGTH)))
+    }
+
+    @Test
     fun bothLengthDrillsFeedTheSameGate() {
         assertEquals(
             UnitGating.gateForDrill("long-or-short"),

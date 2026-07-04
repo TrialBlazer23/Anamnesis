@@ -14,6 +14,9 @@ object DrillCatalog {
         "long-or-short" to "Long or short?",
         "length-minimal-pair" to "Minimal pairs",
         "diphthong-to-sound" to "Diphthong sounds",
+        "read-the-word" to "Read the word",
+        "breathing-identification" to "Rough or smooth?",
+        "transliteration" to "Find the Greek",
     )
 
     fun isBuilt(drillId: String): Boolean = drillId in LABELS
@@ -25,6 +28,9 @@ object DrillCatalog {
             "long-or-short" -> LengthQuiz.longOrShortDeck(pack, random)
             "length-minimal-pair" -> LengthQuiz.minimalPairDeck(pack, random)
             "diphthong-to-sound" -> DiphthongQuiz.deck(pack, random)
+            "read-the-word" -> WordQuiz.readWordDeck(pack, random)
+            "breathing-identification" -> WordQuiz.breathingDeck(pack, random)
+            "transliteration" -> WordQuiz.toGreekDeck(pack, random)
             else -> emptyList()
         }
 }
