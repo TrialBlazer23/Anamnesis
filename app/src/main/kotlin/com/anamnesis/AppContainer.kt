@@ -13,7 +13,7 @@ import com.anamnesis.core.domain.repository.ReaderRepository
 import com.anamnesis.core.domain.repository.RecitationRepository
 import com.anamnesis.core.domain.repository.SrsRepository
 import com.anamnesis.core.domain.repository.VocabularyRepository
-import com.anamnesis.feature.learn.data.letterSeedCards
+import com.anamnesis.feature.learn.data.LessonSeedSource
 import com.anamnesis.feature.learn.progress.LearnProgressStore
 import com.anamnesis.feature.learn.progress.UnitGating
 import com.anamnesis.feature.reader.EmptyVocabularyRepository
@@ -49,7 +49,9 @@ class AppContainer(context: Context) {
     val srsRepository: SrsRepository by lazy { SrsRepositoryFactory.create(appContext) }
 
     private val seedSource by lazy { ContentPackSeedSource(appContext) }
-    val srsSeeds: suspend () -> List<Card> = { letterSeedCards() + seedSource.seedCards() }
+    private val lessonSeedSource by lazy { LessonSeedSource(appContext) }
+    val srsSeeds: suspend () -> List<Card> =
+        { lessonSeedSource.seedCards() + seedSource.seedCards() }
 
     private val learnProgress by lazy { LearnProgressStore(appContext) }
 

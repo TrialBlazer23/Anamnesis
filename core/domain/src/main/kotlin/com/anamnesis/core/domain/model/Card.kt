@@ -5,8 +5,9 @@ package com.anamnesis.core.domain.model
  * has never been reviewed (new). Dates are epoch-days (days since 1970-01-01),
  * which is the granularity FSRS schedules at.
  *
- * [deck] groups cards by source/kind — `"vocab"` (DCC lemmas) or `"letters"`
- * (alphabet drills); all decks interleave in one FSRS due queue.
+ * [deck] groups cards by source/kind — `"vocab"` (DCC lemmas), `"letters"`
+ * (alphabet drills), or `"diphthongs"` (unit-4 sound combinations); all decks
+ * interleave in one FSRS due queue.
  *
  * [position] is the pedagogical introduction order for new cards: letters come
  * first (alphabet batch order), then vocabulary by corpus frequency — so the
@@ -34,6 +35,7 @@ data class Card(
     companion object {
         const val DECK_VOCAB = "vocab"
         const val DECK_LETTERS = "letters"
+        const val DECK_DIPHTHONGS = "diphthongs"
         const val NEVER_INTRODUCED = -1L
     }
 }

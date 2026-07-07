@@ -34,10 +34,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anamnesis.core.ui.GentiumPlus
-import com.anamnesis.feature.learn.data.ALPHABET
-import com.anamnesis.feature.learn.data.ALPHABET_BATCHES
-import com.anamnesis.feature.learn.data.CURRICULUM
+import com.anamnesis.feature.learn.drills.DrillCatalog
+import com.anamnesis.feature.learn.drills.DrillScreen
+import com.anamnesis.feature.learn.model.LessonPack
 import com.anamnesis.feature.learn.model.LetterLesson
+import com.anamnesis.feature.learn.model.letterBatches
+import com.anamnesis.feature.learn.pack.rememberLessonPack
 import com.anamnesis.feature.learn.progress.LearnProgressStore
 import com.anamnesis.feature.learn.progress.UnitGating
 import kotlin.random.Random
@@ -47,35 +49,45 @@ private sealed interface LearnNav {
     data object Alphabet : LearnNav
     data class Detail(val letter: LetterLesson) : LearnNav
     data class Practice(val initialBatch: Int? = null) : LearnNav
-    data class Lesson(val unit: Int) : LearnNav
+    data class UnitLesson(val number: Int) : LearnNav
+    data class UnitDrill(val number: Int, val drillId: String) : LearnNav
 }
 
 /** The Learn tab: a visual on-ramp (browse the alphabet, practice recognition). */
 @Composable
 fun LearnRoute(modifier: Modifier = Modifier) {
+    val pack = rememberLessonPack()
+    if (pack == null) {
+        // Asset parse is near-instant; a blank surface avoids a spinner flash.
+        Column(modifier = modifier.fillMaxSize()) {}
+        return
+    }
     var nav by remember { mutableStateOf<LearnNav>(LearnNav.Home) }
     val context = LocalContext.current
     val store = remember { LearnProgressStore(context) }
     var completed by remember { mutableStateOf(store.completedUnits()) }
+    var passedGates by remember { mutableStateOf(store.passedDrillGates()) }
 
     when (val current = nav) {
         LearnNav.Home -> LearnHome(
+            pack = pack,
             completed = completed,
             modifier = modifier,
             onBrowse = { nav = LearnNav.Alphabet },
             onPractice = { nav = LearnNav.Practice() },
-            onOpenUnit = { unit ->
+            onUnit = { unit ->
                 nav = when (unit) {
                     // The alphabet units are drilled through letter practice,
                     // pre-scoped to the unit's quiz (batch 1, batch 2, mixed).
                     1 -> LearnNav.Practice(initialBatch = 1)
                     2 -> LearnNav.Practice(initialBatch = 2)
                     3 -> LearnNav.Practice(initialBatch = null)
-                    else -> LearnNav.Lesson(unit)
+                    else -> LearnNav.UnitLesson(unit)
                 }
             },
         )
         LearnNav.Alphabet -> AlphabetScreen(
+            pack = pack,
             modifier = modifier,
             onBack = { nav = LearnNav.Home },
             onLetter = { nav = LearnNav.Detail(it) },
@@ -86,6 +98,7 @@ fun LearnRoute(modifier: Modifier = Modifier) {
             onBack = { nav = LearnNav.Alphabet },
         )
         is LearnNav.Practice -> PracticeScreen(
+            letters = pack.letters,
             modifier = modifier,
             initialBatch = current.initialBatch,
             onBack = { nav = LearnNav.Home },
@@ -96,26 +109,50 @@ fun LearnRoute(modifier: Modifier = Modifier) {
                 }
             },
         )
-        is LearnNav.Lesson -> UnitLessonRoute(
-            unit = current.unit,
-            completed = current.unit in completed,
-            onComplete = { unit ->
-                store.markCompleted(unit)
+        is LearnNav.UnitLesson -> UnitLessonScreen(
+            pack = pack,
+            number = current.number,
+            passedGates = passedGates,
+            completed = current.number in completed,
+            modifier = modifier,
+            onDrill = { drillId -> nav = LearnNav.UnitDrill(current.number, drillId) },
+            onAcknowledge = {
+                store.markCompleted(current.number)
                 completed = store.completedUnits()
             },
             onBack = { nav = LearnNav.Home },
-            modifier = modifier,
         )
+        is LearnNav.UnitDrill -> {
+            val random = remember(current) { Random(System.currentTimeMillis()) }
+            DrillScreen(
+                title = DrillCatalog.label(current.drillId),
+                passThreshold = UnitGating.drillThreshold(current.drillId),
+                deckFactory = { DrillCatalog.deck(pack, current.drillId, random) },
+                onBack = { nav = LearnNav.UnitLesson(current.number) },
+                onComplete = { score, total ->
+                    UnitGating.drillPassed(current.drillId, score, total)?.let { gate ->
+                        store.markDrillGatePassed(gate)
+                        passedGates = store.passedDrillGates()
+                        if (UnitGating.unitCompleteFromDrills(current.number, passedGates)) {
+                            store.markCompleted(current.number)
+                            completed = store.completedUnits()
+                        }
+                    }
+                },
+                modifier = modifier,
+            )
+        }
     }
 }
 
 @Composable
 private fun LearnHome(
+    pack: LessonPack,
     completed: Set<Int>,
     modifier: Modifier,
     onBrowse: () -> Unit,
     onPractice: () -> Unit,
-    onOpenUnit: (Int) -> Unit,
+    onUnit: (Int) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
@@ -158,10 +195,12 @@ private fun LearnHome(
         Spacer(Modifier.height(24.dp))
         Text("Roadmap", style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))
-        CURRICULUM.forEach { unit ->
+        pack.units.forEach { unit ->
             val built = UnitGating.isBuilt(unit.number)
             val done = unit.number in completed
             val unlocked = UnitGating.isUnlocked(unit.number, completed)
+            // Units 1–3 deep-link into pre-scoped letter practice; unit 0 and
+            // units 4+ open their own lesson page.
             val openable = built && unlocked
             val status = when {
                 done -> "  ·  ✓ complete"
@@ -191,11 +230,9 @@ private fun LearnHome(
                 }
             }
             if (openable) {
-                Card(
-                    onClick = { onOpenUnit(unit.number) },
-                    modifier = cardModifier,
-                    colors = colors,
-                ) { content() }
+                Card(onClick = { onUnit(unit.number) }, modifier = cardModifier, colors = colors) {
+                    content()
+                }
             } else {
                 Card(modifier = cardModifier, colors = colors) { content() }
             }
@@ -204,11 +241,17 @@ private fun LearnHome(
 }
 
 @Composable
-private fun AlphabetScreen(modifier: Modifier, onBack: () -> Unit, onLetter: (LetterLesson) -> Unit) {
+private fun AlphabetScreen(
+    pack: LessonPack,
+    modifier: Modifier,
+    onBack: () -> Unit,
+    onLetter: (LetterLesson) -> Unit,
+) {
+    val batches = remember(pack) { pack.letterBatches() }
     Column(modifier = modifier.fillMaxSize()) {
         BackRow(onBack, "The Alphabet")
         Column(Modifier.verticalScroll(rememberScrollState()).padding(16.dp)) {
-            ALPHABET_BATCHES.forEach { batch ->
+            batches.forEach { batch ->
                 Text(
                     "${batch.number}. ${batch.title}",
                     style = MaterialTheme.typography.titleSmall,
@@ -285,6 +328,7 @@ private fun LetterDetailScreen(letter: LetterLesson, modifier: Modifier, onBack:
 
 @Composable
 private fun PracticeScreen(
+    letters: List<LetterLesson>,
     modifier: Modifier,
     onBack: () -> Unit,
     initialBatch: Int? = null,
@@ -292,8 +336,8 @@ private fun PracticeScreen(
 ) {
     val random = remember { Random(System.currentTimeMillis()) }
     var scopeBatch by remember { mutableStateOf(initialBatch) } // null = all letters
-    val pool = remember(scopeBatch) {
-        scopeBatch?.let { b -> ALPHABET.filter { it.batch == b } } ?: ALPHABET
+    val pool = remember(scopeBatch, letters) {
+        scopeBatch?.let { b -> letters.filter { it.batch == b } } ?: letters
     }
     var deck by remember(scopeBatch) { mutableStateOf(AlphabetQuiz.deck(pool, random)) }
     var index by remember(scopeBatch) { mutableIntStateOf(0) }
@@ -334,7 +378,7 @@ private fun PracticeScreen(
         }
 
         val question = remember(index, deck) {
-            AlphabetQuiz.question(current, ALPHABET, optionCount = 4, random = random)
+            AlphabetQuiz.question(current, letters, optionCount = 4, random = random)
         }
         Column(Modifier.fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Text("${index + 1} / ${deck.size}", style = MaterialTheme.typography.labelMedium)

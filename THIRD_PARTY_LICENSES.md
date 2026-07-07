@@ -50,6 +50,12 @@ derivative combining the Perseus Greek (CC BY-SA 4.0), the Haines 1916
 translation (public domain), and the DCC Greek Core Vocabulary (CC BY-SA 3.0);
 the ShareAlike + attribution obligations above apply to it.
 
+The bundled lessons pack `feature/learn/src/main/assets/lessons/lessons.json`
+(built by `pipeline/build_lessons.py`) embeds a hand-curated word list whose
+lemmas and glosses derive from the DCC Greek Core Vocabulary
+(`pipeline/data/lessons/words.csv`); the DCC CC BY-SA 3.0 attribution +
+ShareAlike obligations above apply to it as well.
+
 ## Audio (Phase 3 "Learn" tab)
 Restored-Attic pronunciation audio is **recorded for this project** (see
 `pipeline/data/lessons/audio_script.md`); ship it under a bundle-compatible
