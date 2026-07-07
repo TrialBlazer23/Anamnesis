@@ -11,6 +11,7 @@ import android.content.Context
  *   and stay locked regardless.
  *
  * Completion criteria (recognition accuracy, not handwriting):
+ * - Unit 0 ← reading the orientation (no quiz).
  * - Unit 1 ← batch-1 practice session ≥ 90%.
  * - Unit 2 ← batch-2 practice session ≥ 90%.
  * - Unit 3 ← a MIXED full-alphabet session ("All") ≥ 90% (per the spec, the
@@ -75,6 +76,9 @@ object UnitGating {
         unit > HIGHEST_BUILT_UNIT -> false
         else -> (unit - 1) in completed
     }
+
+    /** Whether the unit has real content/drills (units past this show "soon"). */
+    fun isBuilt(unit: Int): Boolean = unit <= HIGHEST_BUILT_UNIT
 
     /** The pass threshold shown/used for a unit-4+ drill. */
     fun drillThreshold(drillId: String): Double =

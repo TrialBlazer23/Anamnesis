@@ -44,6 +44,17 @@ class UnitGatingTest {
     }
 
     @Test
+    fun soundUnitsUnlockInSequence() {
+        assertFalse(UnitGating.isUnlocked(4, setOf(1, 2)))
+        assertTrue(UnitGating.isUnlocked(4, setOf(1, 2, 3)))
+        assertFalse(UnitGating.isUnlocked(5, setOf(1, 2, 3)))
+        assertTrue(UnitGating.isUnlocked(5, setOf(1, 2, 3, 4)))
+        assertTrue(UnitGating.isUnlocked(6, setOf(1, 2, 3, 4, 5)))
+        assertTrue(UnitGating.isBuilt(6))
+        assertFalse(UnitGating.isBuilt(7))
+    }
+
+    @Test
     fun unitFourNeedsBothGatesAtTheirOwnThresholds() {
         // Length passes at 80%: 8/10 is enough…
         assertEquals(UnitGating.GATE_LENGTH, UnitGating.drillPassed("long-or-short", 8, 10))
